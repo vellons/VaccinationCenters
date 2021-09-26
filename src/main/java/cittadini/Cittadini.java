@@ -1,0 +1,8 @@
+package cittadini;
+
+public class Cittadini {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, world!\nDEADLINE 2021-11-30");
+    }
+}
