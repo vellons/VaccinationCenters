@@ -1,12 +1,9 @@
 package serverCV;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -42,43 +39,37 @@ public class Server {
             tfPasswordDB.setText(System.getenv("CV_PASS"));
         }
 
-        btnAccedi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                host = tfHostDB.getText();
-                password = String.valueOf(tfPasswordDB.getPassword());
-                username = tfUsernameDB.getText();
-                System.out.println(host + "\n" + password + "\n" + username);
+        btnAccedi.addActionListener(e -> {
+            host = tfHostDB.getText();
+            password = String.valueOf(tfPasswordDB.getPassword());
+            username = tfUsernameDB.getText();
+            System.out.println(host + "\n" + password + "\n" + username);
 
-                tryConnectionToDB();
+            tryConnectionToDB();
 
-                btnAccedi.setEnabled(false);
-                btnChiudi.setEnabled(true);
-            }
+            btnAccedi.setEnabled(false);
+            btnChiudi.setEnabled(true);
         });
 
-        btnChiudi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (conn != null) {
-                        conn.close();
-                        System.out.println("Connessione chiusa");
-                        textAreaServerStatus.selectAll();
-                        textAreaServerStatus.replaceSelection("");
-                    }
-
-                } catch (SQLException throwables) {
-                    System.out.println(throwables.getMessage());
+        btnChiudi.addActionListener(e -> {
+            try {
+                if (conn != null) {
+                    conn.close();
+                    System.out.println("Connessione chiusa");
+                    textAreaServerStatus.selectAll();
+                    textAreaServerStatus.replaceSelection("");
                 }
-                btnAccedi.setEnabled(true);
-                btnChiudi.setEnabled(false);
+
+            } catch (SQLException throwable) {
+                System.out.println(throwable.getMessage());
             }
+            btnAccedi.setEnabled(true);
+            btnChiudi.setEnabled(false);
         });
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        JFrame mainServer = new JFrame("Server");
+        JFrame mainServer = new JFrame("Centri Vaccinali Server");
 
         mainServer.setContentPane(new Server().panelServer);
         initUI(mainServer);
@@ -90,10 +81,6 @@ public class Server {
     }
 
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        // Queste impostazioni vengo applicate al frame passato
-        /* ImageIcon imageIcon = new ImageIcon("media/EatAdvisorIcon.png");
-        Image image = imageIcon.getImage();
-        frame.setIconImage(image);*/
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Definisce il comportamento della finestra
 
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
@@ -103,7 +90,7 @@ public class Server {
             // set the "About" menu item name
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Centri Vaccinali Server");
             // use smoother fonts
-            System.setProperty("apple.awt.textantialiasing", "true");
+            System.setProperty("apple.awt.antialiasing", "true");
             // ref: http://developer.apple.com/releasenotes/Java/Java142RNTiger/1_NewFeatures/chapter_2_section_3.html
             System.setProperty("apple.awt.graphics.EnableQ2DX", "true");
             // use the system look and feel
@@ -124,10 +111,15 @@ public class Server {
         try {
             conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connessione col DB remoto stabilita");
-            textAreaServerStatus.setText("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss")) + "] " + "Connessione col DB remoto stabilita");
-
+            textAreaServerStatus.setText("[" +
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss")) + "] "
+                    + "Connessione col DB remoto stabilita\n");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
+// Queste impostazioni vengo applicate al frame passato
+        /* ImageIcon imageIcon = new ImageIcon("media/EatAdvisorIcon.png");
+        Image image = imageIcon.getImage();
+        frame.setIconImage(image);*/
