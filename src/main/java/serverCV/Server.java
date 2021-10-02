@@ -106,7 +106,7 @@ public class Server {
 
         try {
             conn = DriverManager.getConnection(url, username, password);
-            logMessage("Connessione con il Database stabilita");
+            logMessage("Connessione con il database stabilita");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,10 +116,10 @@ public class Server {
         try {
             if (conn != null) {
                 conn.close();
-                logMessage("Connessione con il Database chiusa");
+                logMessage("Connessione con il database chiusa");
             }
         } catch (SQLException e) {
-            logMessage("ERROR: Driver mancante: " + e.getMessage());
+            logMessage("ERROR: " + e.getMessage());
         }
     }
 }
