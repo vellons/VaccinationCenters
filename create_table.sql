@@ -4,6 +4,7 @@ CREATE TABLE tipologia_centro_vaccinale
     nome VARCHAR(32) NOT NULL
 );
 
+
 CREATE TABLE centri_vaccinali
 (
     id                        SERIAL PRIMARY KEY,
@@ -17,6 +18,7 @@ CREATE TABLE centri_vaccinali
     indirizzo_sigla_provincia VARCHAR(4),
     indirizzo_cap             VARCHAR(8)
 );
+
 
 CREATE TABLE tipologia_vaccino
 (
