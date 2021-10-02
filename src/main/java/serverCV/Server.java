@@ -13,13 +13,13 @@ public class Server {
     private JLabel lblPassword;
     private JPasswordField tfPasswordDB;
     private JButton btnAccedi;
-    private JButton btnChiudi;
+    private JButton btnDisconnetti;
     private JLabel lbHost;
     private JTextArea textAreaServerStatus;
     private JPanel panelServer;
     private JTextField tfHostDB;
 
-    private final static String DB_TABLE_NAME = "wewhpzry";
+    private final static String DB_NAME = "wewhpzry";
     private String username;
     private String password;
     private String host;
@@ -27,7 +27,7 @@ public class Server {
 
     public Server() {
 
-        btnChiudi.setEnabled(false);
+        btnDisconnetti.setEnabled(false);
 
         if (System.getenv("CV_HOST") != null) {
             tfHostDB.setText(System.getenv("CV_HOST"));
@@ -43,28 +43,18 @@ public class Server {
             host = tfHostDB.getText();
             password = String.valueOf(tfPasswordDB.getPassword());
             username = tfUsernameDB.getText();
-            System.out.println(host + "\n" + password + "\n" + username);
 
-            tryConnectionToDB();
+            connectToDB();
 
             btnAccedi.setEnabled(false);
-            btnChiudi.setEnabled(true);
+            btnDisconnetti.setEnabled(true);
         });
 
-        btnChiudi.addActionListener(e -> {
-            try {
-                if (conn != null) {
-                    conn.close();
-                    System.out.println("Connessione chiusa");
-                    textAreaServerStatus.selectAll();
-                    textAreaServerStatus.replaceSelection("");
-                }
+        btnDisconnetti.addActionListener(e -> {
+            disconnectToDB();
 
-            } catch (SQLException throwable) {
-                System.out.println(throwable.getMessage());
-            }
             btnAccedi.setEnabled(true);
-            btnChiudi.setEnabled(false);
+            btnDisconnetti.setEnabled(false);
         });
     }
 
@@ -73,7 +63,6 @@ public class Server {
 
         mainServer.setContentPane(new Server().panelServer);
         initUI(mainServer);
-        System.out.println(System.getenv("CV_HOST"));
 
         mainServer.pack();
         mainServer.setLocationRelativeTo(null); // Mette la finestra al centro (da richiamare dopo .pack())
@@ -98,28 +87,39 @@ public class Server {
         }
     }
 
-    private void tryConnectionToDB() {
+    private void logMessage(String message) {
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
+        String out = "[" + currentTime + "] " + message + "\n";
+        System.err.print(out);
+        textAreaServerStatus.setText(textAreaServerStatus.getText() + out);
+    }
+
+    private void connectToDB() {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (java.lang.ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            logMessage("ERROR: Driver mancante: " + e.getMessage());
         }
 
-        String url = "jdbc:postgresql://" + host + "/" + DB_TABLE_NAME;
-        System.out.println(url);
+        String url = "jdbc:postgresql://" + host + "/" + DB_NAME;
+        System.out.println("URL: " + url);
 
         try {
             conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Connessione col DB remoto stabilita");
-            textAreaServerStatus.setText("[" +
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss")) + "] "
-                    + "Connessione col DB remoto stabilita\n");
+            logMessage("Connessione con il Database stabilita");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private void disconnectToDB() {
+        try {
+            if (conn != null) {
+                conn.close();
+                logMessage("Connessione con il Database chiusa");
+            }
+        } catch (SQLException e) {
+            logMessage("ERROR: Driver mancante: " + e.getMessage());
+        }
+    }
 }
-// Queste impostazioni vengo applicate al frame passato
-        /* ImageIcon imageIcon = new ImageIcon("media/EatAdvisorIcon.png");
-        Image image = imageIcon.getImage();
-        frame.setIconImage(image);*/
