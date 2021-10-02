@@ -1,6 +1,6 @@
 package models;
 
-public class CVModel {
+public class CentroVaccinale {
     private int id;
     private String nome;
     private int tipologia_id;
@@ -11,9 +11,9 @@ public class CVModel {
     private String indirizzo_sigla_provincia;
     private int indirizzo_cap;
 
-    public CVModel(String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
-                   String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
-                   int indirizzo_cap) {
+    public CentroVaccinale(String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
+                           String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
+                           int indirizzo_cap) {
         this.nome = nome;
         this.tipologia_id = tipologia_id;
         this.stato = stato;
@@ -24,9 +24,9 @@ public class CVModel {
         this.indirizzo_cap = indirizzo_cap;
     }
 
-    public CVModel(int id, String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
-                   String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
-                   int indirizzo_cap) {
+    public CentroVaccinale(int id, String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
+                           String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
+                           int indirizzo_cap) {
         this.id = id;
         this.nome = nome;
         this.tipologia_id = tipologia_id;

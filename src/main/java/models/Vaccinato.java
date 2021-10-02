@@ -2,7 +2,7 @@ package models;
 
 import java.util.Date;
 
-public class Vaccinati {
+public class Vaccinato {
 
     private int id;
     private int id_univoco;
@@ -15,7 +15,7 @@ public class Vaccinati {
     private String email;
     private String pass;
 
-    public Vaccinati(int id, int id_univoco, int centro_vaccinale_id, int tipologia_vaccino_id, String nome, String cognome,
+    public Vaccinato(int id, int id_univoco, int centro_vaccinale_id, int tipologia_vaccino_id, String nome, String cognome,
                      String codice_fiscale, Date data_somministrazione, String email, String pass) {
         this.id = id;
         this.id_univoco = id_univoco;
@@ -27,7 +27,6 @@ public class Vaccinati {
         this.data_somministrazione = data_somministrazione;
         this.email = email;
         this.pass = pass;
-
     }
 
     public int getId() {

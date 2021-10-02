@@ -1,6 +1,6 @@
 package models;
 
-public class EventiAvversi {
+public class EventoAvverso {
 
     private int id;
     private int vaccinato_id;
@@ -8,7 +8,7 @@ public class EventiAvversi {
     private String severita;
     private String note;
 
-    public EventiAvversi(int id, int vaccinato_id, int tipologia_evento_id, String severita, String note) {
+    public EventoAvverso(int id, int vaccinato_id, int tipologia_evento_id, String severita, String note) {
         this.id = id;
         this.vaccinato_id = vaccinato_id;
         this.tipologia_evento_id = tipologia_evento_id;
