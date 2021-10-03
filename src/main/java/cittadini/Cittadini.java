@@ -10,11 +10,12 @@ import java.io.IOException;
 public class Cittadini{
 
     private JPanel panelCittadini;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JPanel panelLogo2;
+    private JButton cercaCentroVaccinaleButton;
+    private JButton registratiPressoUnCButton;
+    private JButton segnalaEventoAvversoButton;
     private JPanel panelLogo;
+    private JPanel panelLogo2;
+    private JPanel panelLogo3;
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         JFrame mainCittadini = new JFrame("Centri Vaccinali Cittadini");
@@ -55,5 +56,9 @@ public class Cittadini{
         BufferedImage myPicture2 = ImageIO.read(new File("media/EatAdvisorLogo.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
+        panelLogo3 = new JPanel();
+        BufferedImage myPicture3 = ImageIO.read(new File("media/Cittadini.png"));
+        JLabel picLabel3 = new JLabel(new ImageIcon(myPicture3));
+        panelLogo3.add(picLabel3);
     }
 }
