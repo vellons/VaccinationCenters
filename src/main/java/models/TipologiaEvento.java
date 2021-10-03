@@ -1,7 +1,9 @@
 package models;
 
-public class TipologiaEvento {
+import java.io.Serializable;
 
+public class TipologiaEvento implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nome;
 

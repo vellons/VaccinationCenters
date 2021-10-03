@@ -1,9 +1,10 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Vaccinato {
-
+public class Vaccinato implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private int id_univoco;
     private int centro_vaccinale_id;

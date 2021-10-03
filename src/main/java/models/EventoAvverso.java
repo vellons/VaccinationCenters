@@ -1,7 +1,9 @@
 package models;
 
-public class EventoAvverso {
+import java.io.Serializable;
 
+public class EventoAvverso implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private int vaccinato_id;
     private int tipologia_evento_id;

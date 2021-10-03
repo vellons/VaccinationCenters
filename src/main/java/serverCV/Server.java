@@ -1,6 +1,9 @@
 package serverCV;
 
 import javax.swing.*;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,27 +11,28 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Server {
-    private JLabel lblUsername;
     private JTextField tfUsernameDB;
-    private JLabel lblPassword;
     private JPasswordField tfPasswordDB;
     private JButton btnAccedi;
     private JButton btnDisconnetti;
-    private JLabel lbHost;
     private JTextArea textAreaServerStatus;
     private JPanel panelServer;
     private JTextField tfHostDB;
 
     private final static String DB_NAME = "wewhpzry";
+    private final static String REGISTRY_NAME = "CVDatabaseServer";
+    private final static int REGISTRY_PORT = 1099;
     private String username;
     private String password;
     private String host;
     private Connection conn;
+    DatabaseCV dbCV;
 
-    public Server() {
+    public Server() throws RemoteException {
 
         btnDisconnetti.setEnabled(false);
 
+        // Se ci sono delle variabili d'ambiente prepopolo i campi
         if (System.getenv("CV_HOST") != null) {
             tfHostDB.setText(System.getenv("CV_HOST"));
         }
@@ -56,12 +60,27 @@ public class Server {
             btnAccedi.setEnabled(true);
             btnDisconnetti.setEnabled(false);
         });
+
+        // Bind del registry per la connessione con RMI
+        try {
+            dbCV = new DatabaseCV(textAreaServerStatus);
+            Registry reg = LocateRegistry.createRegistry(REGISTRY_PORT);
+            reg.rebind(REGISTRY_NAME, dbCV);
+            logMessage("Registry RMI attivo. Porta=" + REGISTRY_PORT + ". Nome=" + REGISTRY_NAME);
+        } catch (Exception e) {
+            logMessage("ERROR registry: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         JFrame mainServer = new JFrame("Centri Vaccinali Server");
 
-        mainServer.setContentPane(new Server().panelServer);
+        try {
+            mainServer.setContentPane(new Server().panelServer);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         initUI(mainServer);
 
         mainServer.pack();
@@ -87,11 +106,11 @@ public class Server {
         }
     }
 
-    private void logMessage(String message) {
+    public void logMessage(String message) {
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
         String out = "[" + currentTime + "] " + message + "\n";
         System.err.print(out);
-        textAreaServerStatus.setText(textAreaServerStatus.getText() + out);
+        textAreaServerStatus.append(out);
     }
 
     private void connectToDB() {
@@ -107,8 +126,9 @@ public class Server {
         try {
             conn = DriverManager.getConnection(url, username, password);
             logMessage("Connessione con il database stabilita");
+            dbCV.setConnection(conn);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logMessage("ERROR: " + e.getMessage());
         }
     }
 
@@ -117,6 +137,7 @@ public class Server {
             if (conn != null) {
                 conn.close();
                 logMessage("Connessione con il database chiusa");
+                dbCV.setConnection(conn);
             }
         } catch (SQLException e) {
             logMessage("ERROR: " + e.getMessage());

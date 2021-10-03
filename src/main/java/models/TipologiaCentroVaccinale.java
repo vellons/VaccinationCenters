@@ -1,7 +1,9 @@
 package models;
 
-public class TipologiaCentroVaccinale {
+import java.io.Serializable;
 
+public class TipologiaCentroVaccinale implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nome;
 

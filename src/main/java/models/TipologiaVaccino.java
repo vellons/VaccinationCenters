@@ -1,10 +1,15 @@
 package models;
 
-public class TipologiaVaccino {
+import java.io.Serializable;
 
+public class TipologiaVaccino implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nome;
     private String produttore;
+
+    public TipologiaVaccino() {
+    }
 
     public TipologiaVaccino(int id, String nome, String produttore) {
         this.id = id;
