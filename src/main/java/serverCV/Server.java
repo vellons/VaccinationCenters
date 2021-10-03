@@ -71,6 +71,11 @@ public class Server {
             logMessage("ERROR registry: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // Se le variabili d'ambiente sono gia' disponibili mi connetto al database
+        if (System.getenv("CV_HOST") != null && System.getenv("CV_USER") != null && System.getenv("CV_PASS") != null) {
+            btnAccedi.doClick();
+        }
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {

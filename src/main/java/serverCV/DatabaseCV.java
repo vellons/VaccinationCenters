@@ -8,7 +8,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,7 +29,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     }
 
     @Override
-    public void logMessage(String message) {
+    public synchronized void logMessage(String message) {
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
         String out = "[" + currentTime + "] DatabaseCV: " + message + "\n";
         System.out.print(out);
@@ -41,18 +40,22 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     public List<TipologiaVaccino> getTipologiaVaccino() throws RemoteException {
         List<TipologiaVaccino> returnList = new ArrayList<>();
         try {
-            TipologiaVaccino obj = new TipologiaVaccino();
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM tipologia_vaccino;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
+                TipologiaVaccino obj = new TipologiaVaccino();
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setProduttore(rs.getString("produttore"));
                 returnList.add(obj);
             }
-        } catch (SQLException e) {
+            rs.close();
+            stmt.close();
+            logMessage(query);
+        } catch (Exception e) {
             logMessage("ERROR: getTipologiaVaccino()");
+            e.printStackTrace();
         }
         return returnList;
     }

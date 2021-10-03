@@ -40,4 +40,8 @@ public class TipologiaVaccino implements Serializable {
     public void setProduttore(String produttore) {
         this.produttore = produttore;
     }
+
+    public String toString() {
+        return "TipologiaVaccino<[" + id + "] " + nome + " - " + produttore + ">";
+    }
 }
