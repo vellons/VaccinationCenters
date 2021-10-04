@@ -57,4 +57,8 @@ public class EventoAvverso implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public String toString() {
+        return id + ", " + vaccinato_id + ", " + tipologia_evento_id + ", " + severita + ", " + note;
+    }
 }

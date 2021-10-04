@@ -109,4 +109,10 @@ public class Vaccinato implements Serializable {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
+    public String toString() {
+        return id + ", " + id_univoco + ", " + centro_vaccinale_id + ", " + tipologia_vaccino_id + ", " +
+                ", " + nome + ", " + cognome + ", " + codice_fiscale + ", " + data_somministrazione + ", " +
+                email + ", " + pass;
+    }
 }

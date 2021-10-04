@@ -108,4 +108,10 @@ public class CentroVaccinale implements Serializable {
     public void setIndirizzo_cap(int indirizzo_cap) {
         this.indirizzo_cap = indirizzo_cap;
     }
+
+    public String toString() {
+        return id + ", " + nome + ", " + tipologia_id + ", " + stato + ", " + indirizzo_qualificatore +
+                ", " + indirizzo_civico + ", " + indirizzo_comune + ", " + indirizzo_sigla_provincia +
+                ", " + indirizzo_cap;
+    }
 }

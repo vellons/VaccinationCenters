@@ -27,4 +27,8 @@ public class TipologiaCentroVaccinale implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String toString() {
+        return id + ", " + nome;
+    }
 }
