@@ -22,7 +22,6 @@ public class Cittadini{
 
         mainCittadini.setContentPane(new Cittadini().panelCittadini);
         initUI(mainCittadini);
-        System.out.println(System.getenv("CV_HOST"));
 
         mainCittadini.pack();
         mainCittadini.setLocationRelativeTo(null); // Mette la finestra al centro (da richiamare dopo .pack())
