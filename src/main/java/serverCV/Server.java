@@ -116,6 +116,7 @@ public class Server {
         String out = "[" + currentTime + "] " + message + "\n";
         System.err.print(out);
         textAreaServerStatus.append(out);
+        textAreaServerStatus.setCaretPosition(textAreaServerStatus.getDocument().getLength()); // autoscroll automatico
     }
 
     private void connectToDB() {

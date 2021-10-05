@@ -7,7 +7,7 @@ public class CentroVaccinale implements Serializable {
     private int id;
     private String nome;
     private int tipologia_id;
-    private String stato;
+    private int stato;
     private String indirizzo_qualificatore;
     private String indirizzo;
     private String indirizzo_civico;
@@ -19,7 +19,7 @@ public class CentroVaccinale implements Serializable {
         this.id = id;
     }
 
-    public CentroVaccinale(String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
+    public CentroVaccinale(String nome, int tipologia_id, int stato, String indirizzo_qualificatore,
                            String indirizzo, String indirizzo_civico, String indirizzo_comune,
                            String indirizzo_sigla_provincia, String indirizzo_cap) {
         this.nome = nome;
@@ -33,7 +33,7 @@ public class CentroVaccinale implements Serializable {
         this.indirizzo_cap = indirizzo_cap;
     }
 
-    public CentroVaccinale(int id, String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
+    public CentroVaccinale(int id, String nome, int tipologia_id, int stato, String indirizzo_qualificatore,
                            String indirizzo, String indirizzo_civico, String indirizzo_comune,
                            String indirizzo_sigla_provincia, String indirizzo_cap) {
         this.id = id;
@@ -52,6 +52,10 @@ public class CentroVaccinale implements Serializable {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -68,11 +72,11 @@ public class CentroVaccinale implements Serializable {
         this.tipologia_id = tipologia_id;
     }
 
-    public String getStato() {
+    public int getStato() {
         return stato;
     }
 
-    public void setStato(String stato) {
+    public void setStato(int stato) {
         this.stato = stato;
     }
 
@@ -122,6 +126,11 @@ public class CentroVaccinale implements Serializable {
 
     public void setIndirizzo_cap(String indirizzo_cap) {
         this.indirizzo_cap = indirizzo_cap;
+    }
+
+    public String getIndirizzoComposto() {
+        return indirizzo_qualificatore + " " + indirizzo + " " + indirizzo_civico + ", " + indirizzo_cap + ", " +
+                indirizzo_comune + ", (" + indirizzo_sigla_provincia + ")";
     }
 
     public String toString() {

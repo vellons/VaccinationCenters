@@ -7,8 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Cittadini{
+public class Cittadini {
 
+    public static JFrame mainCittadini;
     private JPanel panelCittadini;
     private JButton btnCercaCentro;
     private JButton btnRegistrati;
@@ -17,8 +18,14 @@ public class Cittadini{
     private JPanel panelLogo2;
     private JPanel panelLogo3;
 
+    public Cittadini() {
+        cercaCentroVaccinaleButton.addActionListener(e -> {
+            openDashBoardCentriVaccinaliElenco();
+        });
+    }
+
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        JFrame mainCittadini = new JFrame("Centri Vaccinali Cittadini");
+        mainCittadini = new JFrame("Centri Vaccinali Cittadini");
 
         mainCittadini.setContentPane(new Cittadini().panelCittadini);
         initUI(mainCittadini);
@@ -59,5 +66,37 @@ public class Cittadini{
         BufferedImage myPicture3 = ImageIO.read(new File("media/Cittadini.png"));
         JLabel picLabel3 = new JLabel(new ImageIcon(myPicture3));
         panelLogo3.add(picLabel3);
+    }
+
+    private void openDashBoardCentriVaccinaliElenco() {
+        try {
+            mainCittadini.setContentPane(new DashboardCentriVaccinaliElenco("", "", "").panelDashboardCentriVaccinaliElenco);
+            mainCittadini.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            mainCittadini.pack();
+            mainCittadini.setLocationRelativeTo(null);
+            mainCittadini.setVisible(true);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * @param dashboardFrame  &egrave; la dashboard che contiene i filtri
+     * @param filtroNome      &egrave; il filtro per il nome
+     * @param filtroComune    &egrave; il filtro per il comune
+     * @param filtroTipologia &egrave; il filtro per la tipologia
+     * @throws Exception &egrave; utilizzata quando non si sa che tipo di eccezione potrebbe
+     *                   essere sollevata durante l'esecuzione del programma
+     */
+    public static void reloadDashBoardCentriVaccinaliElencoConFiltri(JFrame dashboardFrame, String filtroNome, String filtroComune, String filtroTipologia) throws Exception {
+        dashboardFrame.setVisible(false);
+        dashboardFrame.dispose();
+        dashboardFrame.invalidate();
+        dashboardFrame.setContentPane(new DashboardCentriVaccinaliElenco(filtroNome, filtroComune, filtroTipologia).panelDashboardCentriVaccinaliElenco);
+        initUI(dashboardFrame);
+        dashboardFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        dashboardFrame.pack();
+        dashboardFrame.setLocationRelativeTo(null);
+        dashboardFrame.setVisible(true);
     }
 }
