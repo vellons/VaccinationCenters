@@ -18,6 +18,10 @@ public class EventoAvverso implements Serializable {
         this.note = note;
     }
 
+    public EventoAvverso(int id) {
+        this.id = id; 
+    }
+
     public int getId() {
         return id;
     }

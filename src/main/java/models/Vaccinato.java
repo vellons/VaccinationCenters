@@ -30,6 +30,10 @@ public class Vaccinato implements Serializable {
         this.pass = pass;
     }
 
+    public Vaccinato(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

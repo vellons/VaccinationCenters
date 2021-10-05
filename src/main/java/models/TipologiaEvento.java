@@ -12,6 +12,10 @@ public class TipologiaEvento implements Serializable {
         this.nome = nome;
     }
 
+    public TipologiaEvento(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
