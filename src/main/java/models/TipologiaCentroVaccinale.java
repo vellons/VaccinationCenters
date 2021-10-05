@@ -33,6 +33,6 @@ public class TipologiaCentroVaccinale implements Serializable {
     }
 
     public String toString() {
-        return id + ", " + nome;
+        return "TipologiaCentroVaccinale<[" + id + "] " + nome + ">";
     }
 }

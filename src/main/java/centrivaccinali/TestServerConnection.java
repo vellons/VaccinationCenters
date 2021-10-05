@@ -3,6 +3,7 @@ package centrivaccinali;
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
+import models.TipologiaCentroVaccinale;
 import models.TipologiaVaccino;
 
 import java.rmi.RemoteException;
@@ -23,12 +24,19 @@ public class TestServerConnection {
             System.out.println(tv.toString());
         }
 
-        CentroVaccinale cv = new CentroVaccinale("Premosello", 3, 1, "Via", "Maestri Bocca e Manera", "12", "Premosello", "VB", "28803");
-        System.out.println("Centro vaccinale registrato: " + cv.toString() + "\nEsito inserimento: " + db.inserisciCentroVaccinale(cv));
-
-        List<CentroVaccinale> returnList3 = db.getCentriVaccinali("");
-        for (CentroVaccinale tv : returnList3) {
+        List<TipologiaCentroVaccinale> returnList3 = db.getTipologiaCentroVaccinale();
+        for (TipologiaCentroVaccinale tv : returnList3) {
             System.out.println(tv.toString());
         }
+
+        // togli i commenti se è necessario
+
+/*        CentroVaccinale cv = new CentroVaccinale("Premosello", 3, 1, "Via", "Maestri Bocca e Manera", "12", "Premosello", "VB", "28803");
+        System.out.println("Centro vaccinale registrato: " + cv.toString() + "\nEsito inserimento: " + db.inserisciCentroVaccinale(cv));
+
+        List<CentroVaccinale> returnList4 = db.getCentriVaccinali("");
+        for (CentroVaccinale tv : returnList4) {
+            System.out.println(tv.toString());
+        }*/
     }
 }
