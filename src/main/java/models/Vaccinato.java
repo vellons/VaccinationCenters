@@ -1,24 +1,38 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Vaccinato implements Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
-    private int id_univoco;
+    private String id_univoco;
     private int centro_vaccinale_id;
     private int tipologia_vaccino_id;
     private String nome;
     private String cognome;
     private String codice_fiscale;
-    private Date data_somministrazione;
+    private Timestamp data_somministrazione;
     private String email;
     private String pass;
 
-    public Vaccinato(int id, int id_univoco, int centro_vaccinale_id, int tipologia_vaccino_id, String nome, String cognome,
-                     String codice_fiscale, Date data_somministrazione, String email, String pass) {
+    public Vaccinato(int id, String id_univoco, int centro_vaccinale_id, int tipologia_vaccino_id, String nome, String cognome,
+                     String codice_fiscale, Timestamp data_somministrazione, String email, String pass) {
         this.id = id;
+        this.id_univoco = id_univoco;
+        this.centro_vaccinale_id = centro_vaccinale_id;
+        this.tipologia_vaccino_id = tipologia_vaccino_id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codice_fiscale = codice_fiscale;
+        this.data_somministrazione = data_somministrazione;
+        this.email = email;
+        this.pass = pass;
+    }
+
+    public Vaccinato(String id_univoco, int centro_vaccinale_id, int tipologia_vaccino_id, String nome, String cognome,
+                     String codice_fiscale, Timestamp data_somministrazione, String email, String pass) {
         this.id_univoco = id_univoco;
         this.centro_vaccinale_id = centro_vaccinale_id;
         this.tipologia_vaccino_id = tipologia_vaccino_id;
@@ -38,11 +52,11 @@ public class Vaccinato implements Serializable {
         this.id = id;
     }
 
-    public int getId_univoco() {
+    public String getId_univoco() {
         return id_univoco;
     }
 
-    public void setId_univoco(int id_univoco) {
+    public void setId_univoco(String id_univoco) {
         this.id_univoco = id_univoco;
     }
 
@@ -86,11 +100,11 @@ public class Vaccinato implements Serializable {
         this.codice_fiscale = codice_fiscale;
     }
 
-    public Date getData_somministrazione() {
+    public Timestamp getData_somministrazione() {
         return data_somministrazione;
     }
 
-    public void setData_somministrazione(Date data_somministrazione) {
+    public void setData_somministrazione(Timestamp data_somministrazione) {
         this.data_somministrazione = data_somministrazione;
     }
 
@@ -111,8 +125,8 @@ public class Vaccinato implements Serializable {
     }
 
     public String toString() {
-        return id + ", " + id_univoco + ", " + centro_vaccinale_id + ", " + tipologia_vaccino_id + ", " +
-                ", " + nome + ", " + cognome + ", " + codice_fiscale + ", " + data_somministrazione + ", " +
+        return id + ", " + id_univoco + ", " + centro_vaccinale_id + ", " + tipologia_vaccino_id + ", "
+                + nome + ", " + cognome + ", " + codice_fiscale + ", " + data_somministrazione + ", " +
                 email + ", " + pass;
     }
 }

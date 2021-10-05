@@ -4,6 +4,7 @@ import global.DatabaseCVInterface;
 import models.CentroVaccinale;
 import models.TipologiaCentroVaccinale;
 import models.TipologiaVaccino;
+import models.Vaccinato;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterface {
     private static final long serialVersionUID = 1L;
@@ -147,10 +149,45 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
 
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-
+            pStmt.close();
             return true;
         } catch (SQLException throwables) {
             logMessage("ERROR: inserisciCentroVaccinale()");
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException {
+        String query = "INSERT INTO vaccinati(id_univoco, centro_vaccinale_id, tipologia_vaccino_id," +
+                " nome, cognome, codice_fiscale, data_somministrazione, email, pass) " +
+                "VALUES (?,?,?,?,?,?,?,?,?)";
+        try (PreparedStatement pStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            long startTime = System.nanoTime();
+
+            pStmt.setString(1, vax.getId_univoco());
+            pStmt.setInt(2, vax.getCentro_vaccinale_id());
+            pStmt.setInt(3, vax.getTipologia_vaccino_id());
+            pStmt.setString(4, vax.getNome());
+            pStmt.setString(5, vax.getCognome());
+            pStmt.setString(6, vax.getCodice_fiscale());
+            pStmt.setTimestamp(7, vax.getData_somministrazione());
+            pStmt.setString(8, vax.getEmail());
+            pStmt.setString(9, vax.getPass());
+
+            int affectedRows = pStmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+            pStmt.close();
+            return true;
+        } catch (SQLException throwables) {
+            logMessage("ERROR: inserisciCittadinoVaccinato()");
             throwables.printStackTrace();
             return false;
         }

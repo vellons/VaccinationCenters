@@ -3,6 +3,7 @@ package global;
 import models.CentroVaccinale;
 import models.TipologiaCentroVaccinale;
 import models.TipologiaVaccino;
+import models.Vaccinato;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,5 +17,8 @@ public interface DatabaseCVInterface extends Remote {
     List<TipologiaVaccino> getTipologiaVaccino() throws RemoteException;
 
     List<TipologiaCentroVaccinale> getTipologiaCentroVaccinale() throws RemoteException;
-    boolean inserisciCentroVaccinale(CentroVaccinale cv)throws RemoteException;
+
+    boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException;
+
+    boolean inserisciCittadinoVaccinato(Vaccinato cittVacc) throws RemoteException;
 }
