@@ -128,6 +128,11 @@ public class CentroVaccinale implements Serializable {
         this.indirizzo_cap = indirizzo_cap;
     }
 
+    public String getIndirizzoComposto() {
+        return indirizzo_qualificatore + " " + indirizzo + " " + indirizzo_civico + ", " + indirizzo_cap + ", " +
+                indirizzo_comune + ", (" + indirizzo_sigla_provincia + ")";
+    }
+
     public String toString() {
         return "CentroVaccinale<[" + id + "] " + nome + ", tipo=" + tipologia_id + ", stato=" + stato + ", " +
                 indirizzo_qualificatore + " " + indirizzo + " " + indirizzo_civico + ", " + indirizzo_comune + ", " +
