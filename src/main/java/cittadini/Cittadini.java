@@ -48,11 +48,11 @@ public class Cittadini{
 
     private void createUIComponents() throws IOException {
         panelLogo = new JPanel();
-        BufferedImage myPicture = ImageIO.read(new File("media/PrimulaLogo.png"));
+        BufferedImage myPicture = ImageIO.read(new File("media/ItaliaRinasce.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
         panelLogo2 = new JPanel();
-        BufferedImage myPicture2 = ImageIO.read(new File("media/EatAdvisorLogo.png"));
+        BufferedImage myPicture2 = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
         panelLogo3 = new JPanel();
