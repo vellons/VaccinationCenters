@@ -18,6 +18,10 @@ public class EventoAvverso implements Serializable {
         this.note = note;
     }
 
+    public EventoAvverso(int id) {
+        this.id = id; 
+    }
+
     public int getId() {
         return id;
     }
@@ -59,6 +63,6 @@ public class EventoAvverso implements Serializable {
     }
 
     public String toString() {
-        return id + ", " + vaccinato_id + ", " + tipologia_evento_id + ", " + severita + ", " + note;
+        return "EventoAvverso<[" + id + "], " + vaccinato_id + ", " + tipologia_evento_id + ", " + severita + ", " + note +">";
     }
 }

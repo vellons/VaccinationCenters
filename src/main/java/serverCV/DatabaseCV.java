@@ -1,10 +1,7 @@
 package serverCV;
 
 import global.DatabaseCVInterface;
-import models.CentroVaccinale;
-import models.TipologiaCentroVaccinale;
-import models.TipologiaVaccino;
-import models.Vaccinato;
+import models.*;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -14,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterface {
     private static final long serialVersionUID = 1L;
@@ -37,6 +33,87 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         System.out.print(out);
         textAreaServerStatus.append(out);
         textAreaServerStatus.setCaretPosition(textAreaServerStatus.getDocument().getLength());
+    }
+
+    public List<EventoAvverso> getEventiAvversi() throws RemoteException {
+        List<EventoAvverso> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM eventi_avversi;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
+                obj.setVaccinato_id(rs.getInt("vaccinato_id"));
+                obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
+                obj.setSeverita(rs.getString("severita"));
+                obj.setNote(rs.getString("note"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getEventiAvversi()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    public List<TipologiaEvento> getTipologieEventi() throws RemoteException {
+        List<TipologiaEvento> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM tipologia_evento;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                TipologiaEvento obj = new TipologiaEvento(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getTipologieEventi()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    public List<Vaccinato> getVaccinati() throws RemoteException {
+        List<Vaccinato> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM vaccinati;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Vaccinato obj = new Vaccinato(rs.getInt("id"));
+                obj.setId_univoco(rs.getString("id_univoco"));
+                obj.setCentro_vaccinale_id(rs.getInt("centro_vaccinale_id"));
+                obj.setTipologia_vaccino_id(rs.getInt("tipologia_vaccino_id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setCognome(rs.getString("cognome"));
+                obj.setCodice_fiscale(rs.getString("codice_fiscale"));
+                obj.setData_somministrazione(rs.getTimestamp("data_somministrazione"));
+                obj.setEmail(rs.getString("email"));
+                obj.setPass(rs.getString("pass"));
+
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getVaccinati()");
+            e.printStackTrace();
+        }
+        return returnList;
     }
 
     @Override
