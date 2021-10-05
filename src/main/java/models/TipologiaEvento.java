@@ -33,6 +33,6 @@ public class TipologiaEvento implements Serializable {
     }
 
     public String toString() {
-        return id + ", " + nome;
+        return "TipologiaEvento<["+id + "], " + nome +">";
     }
 }
