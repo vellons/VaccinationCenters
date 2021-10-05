@@ -8,7 +8,8 @@ public class TipologiaVaccino implements Serializable {
     private String nome;
     private String produttore;
 
-    public TipologiaVaccino() {
+    public TipologiaVaccino(int id) {
+        this.id = id;
     }
 
     public TipologiaVaccino(int id, String nome, String produttore) {
@@ -19,10 +20,6 @@ public class TipologiaVaccino implements Serializable {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {

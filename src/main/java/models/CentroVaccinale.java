@@ -9,18 +9,24 @@ public class CentroVaccinale implements Serializable {
     private int tipologia_id;
     private String stato;
     private String indirizzo_qualificatore;
+    private String indirizzo;
     private String indirizzo_civico;
     private String indirizzo_comune;
     private String indirizzo_sigla_provincia;
-    private int indirizzo_cap;
+    private String indirizzo_cap;
+
+    public CentroVaccinale(int id) {
+        this.id = id;
+    }
 
     public CentroVaccinale(String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
-                           String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
-                           int indirizzo_cap) {
+                           String indirizzo, String indirizzo_civico, String indirizzo_comune,
+                           String indirizzo_sigla_provincia, String indirizzo_cap) {
         this.nome = nome;
         this.tipologia_id = tipologia_id;
         this.stato = stato;
         this.indirizzo_qualificatore = indirizzo_qualificatore;
+        this.indirizzo = indirizzo;
         this.indirizzo_civico = indirizzo_civico;
         this.indirizzo_comune = indirizzo_comune;
         this.indirizzo_sigla_provincia = indirizzo_sigla_provincia;
@@ -28,13 +34,14 @@ public class CentroVaccinale implements Serializable {
     }
 
     public CentroVaccinale(int id, String nome, int tipologia_id, String stato, String indirizzo_qualificatore,
-                           String indirizzo_civico, String indirizzo_comune, String indirizzo_sigla_provincia,
-                           int indirizzo_cap) {
+                           String indirizzo, String indirizzo_civico, String indirizzo_comune,
+                           String indirizzo_sigla_provincia, String indirizzo_cap) {
         this.id = id;
         this.nome = nome;
         this.tipologia_id = tipologia_id;
         this.stato = stato;
         this.indirizzo_qualificatore = indirizzo_qualificatore;
+        this.indirizzo = indirizzo;
         this.indirizzo_civico = indirizzo_civico;
         this.indirizzo_comune = indirizzo_comune;
         this.indirizzo_sigla_provincia = indirizzo_sigla_provincia;
@@ -77,6 +84,14 @@ public class CentroVaccinale implements Serializable {
         this.indirizzo_qualificatore = indirizzo_qualificatore;
     }
 
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
     public String getIndirizzo_civico() {
         return indirizzo_civico;
     }
@@ -101,17 +116,17 @@ public class CentroVaccinale implements Serializable {
         this.indirizzo_sigla_provincia = indirizzo_sigla_provincia;
     }
 
-    public int getIndirizzo_cap() {
+    public String getIndirizzo_cap() {
         return indirizzo_cap;
     }
 
-    public void setIndirizzo_cap(int indirizzo_cap) {
+    public void setIndirizzo_cap(String indirizzo_cap) {
         this.indirizzo_cap = indirizzo_cap;
     }
 
     public String toString() {
-        return id + ", " + nome + ", " + tipologia_id + ", " + stato + ", " + indirizzo_qualificatore +
-                ", " + indirizzo_civico + ", " + indirizzo_comune + ", " + indirizzo_sigla_provincia +
-                ", " + indirizzo_cap;
+        return "CentroVaccinale<[" + id + "] " + nome + ", tipo=" + tipologia_id + ", stato=" + stato + ", " +
+                indirizzo_qualificatore + " " + indirizzo + " " + indirizzo_civico + ", " + indirizzo_comune + ", " +
+                indirizzo_sigla_provincia + ", " + indirizzo_cap + ">";
     }
 }
