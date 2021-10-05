@@ -22,5 +22,13 @@ public class TestServerConnection {
         for (CentroVaccinale tv : returnList2) {
             System.out.println(tv.toString());
         }
+
+        CentroVaccinale cv = new CentroVaccinale("Premosello", 3, 1, "Via", "Maestri Bocca e Manera", "12", "Premosello", "VB", "28803");
+        System.out.println("Centro vaccinale registrato: " + cv.toString() + "\nEsito inserimento: " + db.inserisciCentroVaccinale(cv));
+
+        List<CentroVaccinale> returnList3 = db.getCentriVaccinali("");
+        for (CentroVaccinale tv : returnList3) {
+            System.out.println(tv.toString());
+        }
     }
 }

@@ -7,6 +7,10 @@ public class TipologiaCentroVaccinale implements Serializable {
     private int id;
     private String nome;
 
+    public TipologiaCentroVaccinale(int id) {
+        this.id = id;
+    }
+
     public TipologiaCentroVaccinale(int id, String nome) {
         this.id = id;
         this.nome = nome;
