@@ -10,9 +10,9 @@ import java.io.IOException;
 public class Cittadini{
 
     private JPanel panelCittadini;
-    private JButton cercaCentroVaccinaleButton;
-    private JButton registratiPressoUnCButton;
-    private JButton segnalaEventoAvversoButton;
+    private JButton btnCercaCentro;
+    private JButton btnRegistrati;
+    private JButton btnSegnalaEvento;
     private JPanel panelLogo;
     private JPanel panelLogo2;
     private JPanel panelLogo3;

@@ -37,7 +37,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="13d0e" class="javax.swing.JButton" binding="registraCentroVaccinaleButton" default-binding="true">
+          <component id="13d0e" class="javax.swing.JButton" binding="btnRegistraCV">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <maximum-size width="250" height="-1"/>
@@ -55,7 +55,7 @@
               <text value="Registra centro vaccinale"/>
             </properties>
           </component>
-          <component id="7f159" class="javax.swing.JButton" binding="registraNuovoVaccinatoButton" default-binding="true">
+          <component id="7f159" class="javax.swing.JButton" binding="btnRegistraVaccinato">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <maximum-size width="250" height="-1"/>
