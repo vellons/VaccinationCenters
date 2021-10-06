@@ -19,7 +19,7 @@ public class Cittadini {
     private JPanel panelLogo3;
 
     public Cittadini() {
-        cercaCentroVaccinaleButton.addActionListener(e -> {
+        btnCercaCentro.addActionListener(e -> {
             openDashBoardCentriVaccinaliElenco();
         });
     }

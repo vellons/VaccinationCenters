@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class CentriVaccinali {
 
+    public static JFrame registraCVFrame = new JFrame("Centri Vaccinali OPeratori - Registrazione Centro Vaccinale");
     public static JFrame registraVaccinatoFrame = new JFrame("Centri Vaccinali Operatori - Registrazione Vaccinato");
     private JPanel panelCentriVaccinali;
     private JPanel panelLogo;
@@ -29,6 +30,21 @@ public class CentriVaccinali {
                     registraVaccinatoFrame.pack();
                     registraVaccinatoFrame.setLocationRelativeTo(null);
                     registraVaccinatoFrame.setVisible(true);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+        btnRegistraCV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    registraCVFrame.setContentPane(new RegistraCV().panelRegistraCV);
+                    initUI(registraCVFrame);
+                    registraCVFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+                    registraCVFrame.pack();
+                    registraCVFrame.setLocationRelativeTo(null);
+                    registraCVFrame.setVisible(true);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

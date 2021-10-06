@@ -204,7 +204,7 @@
               <enabled value="true"/>
               <foreground color="-1"/>
               <opaque value="true"/>
-              <text value="Registrazione"/>
+              <text value="Registra vaccinato"/>
             </properties>
           </component>
         </children>

@@ -45,10 +45,6 @@ public class RegistraVaccinato{
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo utente?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
-                     /*       ioUtenti = new IOUtenti();
-                            ioUtenti.creaNuovoUtente("RIST", getTfEmail(), getTfEmail(),
-                                    getTfPassword(), getTfNome(), getTfCognome(),
-                                    getTfComune(), getTfSiglaProvincia()); */
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
@@ -59,6 +55,7 @@ public class RegistraVaccinato{
                     }
                 } else {
                     lblErrors.setFont(new Font("Default", Font.BOLD, 14));
+                    lblErrors.setText("Assicurarsi che tutti campi siano stati compilati correttamente");
                     lblErrors.setForeground(Color.RED);
                     lblErrors.setVisible(true);
                 }
@@ -90,6 +87,8 @@ public class RegistraVaccinato{
     public String getTfIDUnivoco() {
         return tfIDUnivoco.getText();
     }
+
+    public String getTipoVaccino() { return Objects.requireNonNull(cboxTipoVaccino.getSelectedItem()).toString();}
 
     private boolean checkAllInputs(){
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
