@@ -2,6 +2,7 @@ package cittadini;
 
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
+import models.TipologiaCentroVaccinale;
 import models.TipologiaVaccino;
 
 import javax.imageio.ImageIO;
@@ -96,7 +97,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaVaccino> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
 
 
     /**
@@ -156,14 +157,14 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
         if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
             try {
                 DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                tipologie = db.getTipologiaVaccino();
+                tipologie = db.getTipologiaCentroVaccinale();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
         List<String> tipologieCombo = new ArrayList<>();
         tipologieCombo.add("TUTTI");
-        for (TipologiaVaccino obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
+        for (TipologiaCentroVaccinale obj : tipologie) {
             tipologieCombo.add(obj.getNome());
         }
 

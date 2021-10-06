@@ -198,6 +198,39 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     }
 
     @Override
+    public List<Vaccinato> getVaccinatiCV(int idCV) throws RemoteException {
+        List<Vaccinato> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM vaccinati WHERE centro_vaccinale_id = "+ idCV +";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Vaccinato obj = new Vaccinato(rs.getInt("id"));
+                obj.setId_univoco(rs.getString("id_univoco"));
+                obj.setCentro_vaccinale_id(rs.getInt("centro_vaccinale_id"));
+                obj.setTipologia_vaccino_id(rs.getInt("tipologia_vaccino_id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setCognome(rs.getString("cognome"));
+                obj.setCodice_fiscale(rs.getString("codice_fiscale"));
+                obj.setData_somministrazione(rs.getTimestamp("data_somministrazione"));
+                obj.setEmail(rs.getString("email"));
+                obj.setPass(rs.getString("pass"));
+
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getVaccinatiCV()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    @Override
     public boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
 
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +

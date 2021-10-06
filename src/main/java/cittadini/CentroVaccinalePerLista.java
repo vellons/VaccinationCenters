@@ -3,7 +3,7 @@ package cittadini;
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
-import models.TipologiaVaccino;
+import models.TipologiaCentroVaccinale;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -82,7 +82,7 @@ public class CentroVaccinalePerLista extends JPanel {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaVaccino> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
 
     /**
      * Costruttore della classe
@@ -93,7 +93,7 @@ public class CentroVaccinalePerLista extends JPanel {
         if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
             try {
                 DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                tipologie = db.getTipologiaVaccino();
+                tipologie = db.getTipologiaCentroVaccinale();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -103,7 +103,7 @@ public class CentroVaccinalePerLista extends JPanel {
         lblVaccinazioni.setText("2 vaccinazioni con eventi avversi su 77 - TODO");  // TODO @vellons
         // Cerco la tipologia di centro vaccinale che combacia
         String tipologia = "";
-        for (TipologiaVaccino obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
+        for (TipologiaCentroVaccinale obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
@@ -116,13 +116,12 @@ public class CentroVaccinalePerLista extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // dettaglioFrame.setContentPane(new DettaglioRistorante(cv).panelDettaglioRistorante);
-                    // clienti.initUI(dettaglioFrame);
-                    // TODO: dettaglio click
-                    // dettaglioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
-                    // dettaglioFrame.pack();
-                    // dettaglioFrame.setLocationRelativeTo(null);
-                    // dettaglioFrame.setVisible(true);
+                     dettaglioFrame.setContentPane(new DettaglioCentroVaccinale(cv).panelDettaglioCV);
+                     Cittadini.initUI(dettaglioFrame);
+                     dettaglioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+                     dettaglioFrame.pack();
+                     dettaglioFrame.setLocationRelativeTo(null);
+                     dettaglioFrame.setVisible(true);
                     System.out.println("TODO: click");
                 } catch (Exception exception) {
                     exception.printStackTrace();
