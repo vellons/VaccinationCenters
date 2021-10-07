@@ -23,7 +23,11 @@ public interface DatabaseCVInterface extends Remote {
 
     List<Vaccinato> getVaccinatiCV(int idCV) throws RemoteException;
 
+    List<EventoAvverso> getEventiAvversiCV(int idCV) throws RemoteException;
+
     boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException;
 
     boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException;
+
+    int rowCounterInTable(String table) throws RemoteException;
 }

@@ -16,6 +16,8 @@ public class TestServerConnection {
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
 
+        System.out.println("Totale di persone vaccinate: " + db.rowCounterInTable("vaccinati"));
+
         List<EventoAvverso> returnList1 = db.getEventiAvversi();
         for (EventoAvverso ea : returnList1) {
             System.out.println(ea.toString());

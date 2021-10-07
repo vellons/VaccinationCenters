@@ -236,6 +236,33 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
+    public List<EventoAvverso> getEventiAvversiCV(int idCV) throws RemoteException {
+        // Restituisce gli eventi avversi di un centro vaccinale
+        List<EventoAvverso> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT ea.* FROM eventi_avversi ea INNER JOIN vaccinati v ON ea.vaccinato_id = v.id INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id WHERE cv.id = " + idCV + ";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
+                obj.setVaccinato_id(rs.getInt("vaccinato_id"));
+                obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
+                obj.setSeverita(rs.getString("severita"));
+                obj.setNote(rs.getString("note"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getEventiAvversiCV()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
     public synchronized boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
 
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +
@@ -301,5 +328,27 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             e.printStackTrace();
             return false;
         }
+    }
+
+    public int rowCounterInTable(String table) throws RemoteException {
+        // Restituisce il conteggio delle righe della tabella passata
+        int rowCounter = 0;
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT COUNT(*) FROM " + table + ";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                rowCounter = rs.getInt("count");
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: rowCounterInTable(" + table + ")");
+            e.printStackTrace();
+        }
+        return rowCounter;
     }
 }
