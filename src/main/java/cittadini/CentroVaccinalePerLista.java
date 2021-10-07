@@ -6,8 +6,6 @@ import models.CentroVaccinale;
 import models.TipologiaCentroVaccinale;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +80,7 @@ public class CentroVaccinalePerLista extends JPanel {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
     /**
      * Costruttore della classe
@@ -103,7 +101,7 @@ public class CentroVaccinalePerLista extends JPanel {
         lblVaccinazioni.setText("2 vaccinazioni con eventi avversi su 77 - TODO");  // TODO @vellons
         // Cerco la tipologia di centro vaccinale che combacia
         String tipologia = "";
-        for (TipologiaCentroVaccinale obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
+        for (TipologiaCentroVaccinale obj : tipologie) {
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
@@ -112,20 +110,16 @@ public class CentroVaccinalePerLista extends JPanel {
             lblTipologia.setText("Tipologia: " + tipologia);
         }
 
-        btnDettaglio.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                     dettaglioFrame.setContentPane(new DettaglioCentroVaccinale(cv).panelDettaglioCV);
-                     Cittadini.initUI(dettaglioFrame);
-                     dettaglioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
-                     dettaglioFrame.pack();
-                     dettaglioFrame.setLocationRelativeTo(null);
-                     dettaglioFrame.setVisible(true);
-                    System.out.println("TODO: click");
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+        btnDettaglio.addActionListener(e -> {
+            try {
+                dettaglioFrame.setContentPane(new DettaglioCentroVaccinale(cv).panelDettaglioCV);
+                Cittadini.initUI(dettaglioFrame);
+                dettaglioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+                dettaglioFrame.pack();
+                dettaglioFrame.setLocationRelativeTo(null);
+                dettaglioFrame.setVisible(true);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
     }

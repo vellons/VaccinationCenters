@@ -1,7 +1,6 @@
 package models;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Vaccinato implements Serializable {
@@ -129,8 +128,8 @@ public class Vaccinato implements Serializable {
     }
 
     public String toString() {
-        return "Vaccinato<[" + id + "], " + id_univoco + ", " + centro_vaccinale_id + ", " + tipologia_vaccino_id + ", "
+        return "Vaccinato<[" + id + "] " + id_univoco + ", " + centro_vaccinale_id + ", " + tipologia_vaccino_id + ", "
                 + nome + ", " + cognome + ", " + codice_fiscale + ", " + data_somministrazione + ", " +
-                email + ", " + pass +">";
+                email + ", " + pass + ">";
     }
 }

@@ -26,13 +26,23 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         this.conn = conn;
     }
 
-    @Override
     public synchronized void logMessage(String message) {
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
         String out = "[" + currentTime + "] DatabaseCV: " + message + "\n";
         System.out.print(out);
         textAreaServerStatus.append(out);
         textAreaServerStatus.setCaretPosition(textAreaServerStatus.getDocument().getLength());
+    }
+
+    private boolean isSafeWhere(String where) {
+        where = where.toLowerCase();
+        String[] toBeChecked = {";", "\"", "drop", "delete"};
+        for (String s : toBeChecked) {
+            if (where.contains(s)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<EventoAvverso> getEventiAvversi() throws RemoteException {
@@ -66,7 +76,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM tipologia_evento;";
+            String query = "SELECT * FROM tipologia_evento ORDER BY id ASC;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 TipologiaEvento obj = new TipologiaEvento(rs.getInt("id"));
@@ -116,13 +126,13 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    @Override
     public List<CentroVaccinale> getCentriVaccinali(String where) throws RemoteException {
         List<CentroVaccinale> returnList = new ArrayList<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM centri_vaccinali;";
+            if (!isSafeWhere(where)) throw new SQLException("Not safe query");
+            String query = "SELECT * FROM centri_vaccinali " + where + "ORDER BY id ASC;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 CentroVaccinale obj = new CentroVaccinale(rs.getInt("id"));
@@ -142,19 +152,18 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
         } catch (Exception e) {
-            logMessage("ERROR: getCentriVaccinali()");
+            logMessage("ERROR: getCentriVaccinali() ");
             e.printStackTrace();
         }
         return returnList;
     }
 
-    @Override
     public List<TipologiaVaccino> getTipologiaVaccino() throws RemoteException {
         List<TipologiaVaccino> returnList = new ArrayList<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM tipologia_vaccino;";
+            String query = "SELECT * FROM tipologia_vaccino ORDER BY id ASC;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 TipologiaVaccino obj = new TipologiaVaccino(rs.getInt("id"));
@@ -173,13 +182,12 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    @Override
-    public List<TipologiaCentroVaccinale> getTipologiaCentroVaccinale() throws RemoteException { // restituisce lista tipologia centro vaccinale
+    public List<TipologiaCentroVaccinale> getTipologiaCentroVaccinale() throws RemoteException {
         List<TipologiaCentroVaccinale> returnList = new ArrayList<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM tipologia_centro_vaccinale;";
+            String query = "SELECT * FROM tipologia_centro_vaccinale ORDER BY id ASC;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 TipologiaCentroVaccinale obj = new TipologiaCentroVaccinale(rs.getInt("id"));
@@ -197,13 +205,12 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    @Override
     public List<Vaccinato> getVaccinatiCV(int idCV) throws RemoteException {
         List<Vaccinato> returnList = new ArrayList<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM vaccinati WHERE centro_vaccinale_id = "+ idCV +";";
+            String query = "SELECT * FROM vaccinati WHERE centro_vaccinale_id = " + idCV + ";";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Vaccinato obj = new Vaccinato(rs.getInt("id"));
@@ -216,7 +223,6 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 obj.setData_somministrazione(rs.getTimestamp("data_somministrazione"));
                 obj.setEmail(rs.getString("email"));
                 obj.setPass(rs.getString("pass"));
-
                 returnList.add(obj);
             }
             rs.close();
@@ -230,8 +236,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    @Override
-    public boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
+    public synchronized boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
 
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +
                 " indirizzo_qualificatore, indirizzo, indirizzo_civico, indirizzo_comune, " +
@@ -252,27 +257,25 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             pStmt.setString(9, cv.getIndirizzo_cap());
 
             int affectedRows = pStmt.executeUpdate();
-
             if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
+                throw new SQLException("Insert failed, no rows affected.");
             }
 
+            pStmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-            pStmt.close();
             return true;
-        } catch (SQLException throwables) {
+        } catch (Exception e) {
             logMessage("ERROR: inserisciCentroVaccinale()");
-            throwables.printStackTrace();
+            e.printStackTrace();
             return false;
         }
     }
 
-    @Override
-    public boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException {
+    public synchronized boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException {
         String query = "INSERT INTO vaccinati(id_univoco, centro_vaccinale_id, tipologia_vaccino_id," +
-                " nome, cognome, codice_fiscale, data_somministrazione, email, pass) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)";
+                " nome, cognome, codice_fiscale, data_somministrazione) " +
+                "VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement pStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             long startTime = System.nanoTime();
 
@@ -283,22 +286,19 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             pStmt.setString(5, vax.getCognome());
             pStmt.setString(6, vax.getCodice_fiscale());
             pStmt.setTimestamp(7, vax.getData_somministrazione());
-            pStmt.setString(8, vax.getEmail());
-            pStmt.setString(9, vax.getPass());
 
             int affectedRows = pStmt.executeUpdate();
-
             if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
+                throw new SQLException("Insert failed, no rows affected.");
             }
 
+            pStmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-            pStmt.close();
             return true;
-        } catch (SQLException throwables) {
+        } catch (Exception e) {
             logMessage("ERROR: inserisciCittadinoVaccinato()");
-            throwables.printStackTrace();
+            e.printStackTrace();
             return false;
         }
     }

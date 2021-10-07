@@ -25,5 +25,5 @@ public interface DatabaseCVInterface extends Remote {
 
     boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException;
 
-    boolean inserisciCittadinoVaccinato(Vaccinato cittVacc) throws RemoteException;
+    boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException;
 }
