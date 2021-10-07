@@ -82,7 +82,7 @@ public class CentroVaccinalePerLista extends JPanel {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
+    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
     /**
      * Costruttore della classe
@@ -103,7 +103,7 @@ public class CentroVaccinalePerLista extends JPanel {
         lblVaccinazioni.setText("2 vaccinazioni con eventi avversi su 77 - TODO");  // TODO @vellons
         // Cerco la tipologia di centro vaccinale che combacia
         String tipologia = "";
-        for (TipologiaCentroVaccinale obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
+        for (TipologiaCentroVaccinale obj : tipologie) {
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
@@ -122,7 +122,7 @@ public class CentroVaccinalePerLista extends JPanel {
                      dettaglioFrame.pack();
                      dettaglioFrame.setLocationRelativeTo(null);
                      dettaglioFrame.setVisible(true);
-                    System.out.println("TODO: click");
+                    System.out.println("Dettaglio su: " + cv);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
