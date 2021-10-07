@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="centrivaccinali.RegistraVaccinato">
+  <grid id="27dc6" binding="panelRegistraVaccinato" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-723724"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="86a0e" binding="panelLogo" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="11bd" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="31530" class="javax.swing.JLabel" binding="lblNomeCentro">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Nome centro vaccinale"/>
+            </properties>
+          </component>
+          <component id="46cba" class="javax.swing.JTextField" binding="tfNomeCentro">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="947c8" class="javax.swing.JLabel" binding="lblNome">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Nome"/>
+            </properties>
+          </component>
+          <component id="1d002" class="javax.swing.JTextField" binding="tfNome">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="84610" class="javax.swing.JLabel" binding="lblCognome">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Cognome"/>
+            </properties>
+          </component>
+          <component id="78060" class="javax.swing.JTextField" binding="tfCognome">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="2eac9" class="javax.swing.JLabel" binding="lblCodiceFiscale">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Codice fiscale"/>
+            </properties>
+          </component>
+          <component id="c45e" class="javax.swing.JTextField" binding="tfCodiceFiscale">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="3b2cd" class="javax.swing.JLabel" binding="lblDataVaccino">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Data somministrazione"/>
+            </properties>
+          </component>
+          <component id="6ae7" class="javax.swing.JTextField" binding="tfDataVaccino">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="yyyy-mm-gg hh:mm:ss"/>
+              <toolTipText value=""/>
+            </properties>
+          </component>
+          <component id="2791e" class="javax.swing.JLabel" binding="lblTipoVaccino">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Tipo vaccino"/>
+            </properties>
+          </component>
+          <component id="7f0b0" class="javax.swing.JLabel" binding="lblIDUnivoco">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+              <foreground color="-3727837"/>
+              <text value="Identificatore univoco"/>
+            </properties>
+          </component>
+          <component id="653d0" class="javax.swing.JTextField" binding="tfIDUnivoco">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="e1c2c" class="javax.swing.JComboBox" binding="cboxTipoVaccino" custom-create="true">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+      <grid id="cdb7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="74964" class="javax.swing.JLabel" binding="lblErrors">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <enabled value="true"/>
+              <focusable value="false"/>
+              <text value="Compila tutti i campi per procedere con la registrazione"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="770a6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="6b86a" class="javax.swing.JButton" binding="btnRegistraVaccinato">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <maximum-size width="250" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3727837"/>
+              <borderPainted value="false"/>
+              <enabled value="true"/>
+              <foreground color="-1"/>
+              <opaque value="true"/>
+              <text value="Registra vaccinato"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="82968" binding="panelLogo2" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>
