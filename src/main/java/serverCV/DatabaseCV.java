@@ -10,7 +10,9 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterface {
     private static final long serialVersionUID = 1L;
@@ -350,5 +352,27 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             e.printStackTrace();
         }
         return rowCounter;
+    }
+
+    public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
+        // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
+        Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT cv.id, count(*) vaccinati FROM vaccinati v INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id GROUP BY cv.id ORDER BY cv.id ASC;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: vaccinatiPerOgniCentroVaccinale()");
+            e.printStackTrace();
+        }
+        return vaccinatiPerCentro;
     }
 }

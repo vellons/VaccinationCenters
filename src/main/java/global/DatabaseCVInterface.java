@@ -5,6 +5,7 @@ import models.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 public interface DatabaseCVInterface extends Remote {
     void logMessage(String message) throws RemoteException;
@@ -30,4 +31,6 @@ public interface DatabaseCVInterface extends Remote {
     boolean inserisciCittadinoVaccinato(Vaccinato vax) throws RemoteException;
 
     int rowCounterInTable(String table) throws RemoteException;
+
+    Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException;
 }
