@@ -1,5 +1,8 @@
 package centrivaccinali;
 
+import models.CentroVaccinale;
+import serverCV.DatabaseCV;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Objects;
 
 public class RegistraCV {
     public JPanel panelRegistraCV;
+    private CentroVaccinale cv;
+    private DatabaseCV dataCV;
     private JPanel panelLogo;
     private JPanel panelLogo2;
     private JButton btnRegistraCV;
@@ -32,24 +38,27 @@ public class RegistraCV {
     private JLabel lblCap;
     private JLabel lblTipoCentro;
     private JLabel lblErrors;
+    private int tipo=0;
     String[] tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
 
-    public RegistraCV() {
+    public RegistraCV() throws RemoteException {
         btnRegistraCV.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setTipo(getTipoCentro());
                 if (checkAllInputs()) {
                     try {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo centro vaccinale?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
+                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getTfQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
+                            dataCV.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, "C'&egrave; stato un problema. Prova a riavviare l'app",
+                        JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
                                 "Attenzione", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
@@ -80,6 +89,20 @@ public class RegistraCV {
 
     public String getTipoCentro() { return Objects.requireNonNull(cboxTipoCentro.getSelectedItem()).toString();}
 
+    public void setTipo(String type){
+
+        if(type.equals("Ospedaliero")){
+            tipo=1;
+        }
+        if(type.equals("Aziendale")){
+            tipo=2;
+        }
+        if(type.equals("Hub")){
+            tipo=3;
+        }
+
+    }
+
     private boolean checkAllInputs(){
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
@@ -87,6 +110,7 @@ public class RegistraCV {
         allFieldsValid &= checkInput(getTfQualificatore(), tfQualificatore);
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
+        allFieldsValid &= isNumeric(getTfCivico());
         allFieldsValid &= checkInput(getTfComune(), tfComune);
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
         allFieldsValid &= getTfSiglaProvincia().length()==2;

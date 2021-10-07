@@ -1,5 +1,8 @@
 package centrivaccinali;
 
+import models.Vaccinato;
+import serverCV.DatabaseCV;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +12,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class RegistraVaccinato{
     public JPanel panelRegistraVaccinato;
+    private Vaccinato vax;
+    private DatabaseCV dataCV;
     private JPanel panelLogo;
     private JPanel panelLogo2;
     private JTextField tfNomeCentro;
@@ -30,7 +37,9 @@ public class RegistraVaccinato{
     private JLabel lblDataVaccino;
     private JLabel lblTipoVaccino;
     private JLabel lblIDUnivoco;
+    private Timestamp dataVaccino= null;
     private JComboBox<String> cboxTipoVaccino;
+    private int tipo=0;
     String[] tipologia = new String[]{"Pfizer", "Moderna", "AstraZeneca", "J&J"};
     private final String CF_REGEX = "/^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i";
 
@@ -39,18 +48,21 @@ public class RegistraVaccinato{
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setTipo(getTipoVaccino());
+                dataVaccino=stringToTimestamp(getTfDataVaccino());
                 if (checkAllInputs()) {
                     try {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo utente?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
+                            vax = new Vaccinato("",0,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
+                            dataCV.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, "C'&egrave; stato un problema. Prova a riavviare l'app",
+                            JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
                                     "Attenzione", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
@@ -96,8 +108,38 @@ public class RegistraVaccinato{
         allFieldsValid = checkInput(getTfNome(), tfNome);
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
+        allFieldsValid &= dataVaccino != null;
 
         return allFieldsValid;
+    }
+
+    public Timestamp stringToTimestamp(String stringa){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(stringa);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            return timestamp;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setTipo(String type){
+
+        if(type.equals("Pfizer")){
+            tipo=1;
+        }
+        if(type.equals("AstraZeneca")){
+            tipo=2;
+        }
+        if(type.equals("Moderna")){
+            tipo=3;
+        }
+        if(type.equals("J&J")){
+            tipo=4;
+        }
+
     }
 
     private boolean checkInput(String input, JTextField textField){
