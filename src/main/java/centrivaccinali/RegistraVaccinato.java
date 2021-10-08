@@ -45,6 +45,7 @@ public class RegistraVaccinato{
     private JButton btnDataCorrente;
     private int tipo=0;
     String[] tipologia = new String[]{"Pfizer", "Moderna", "AstraZeneca", "J&J"};
+    String[] tipologiaCentroVaccinale = new String[]{"Hub", "Aziendale", "Ospedaliero"};
     private final String CF_REGEX = "/^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i";
 
     public RegistraVaccinato() throws Exception {
@@ -177,5 +178,6 @@ public class RegistraVaccinato{
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
         cboxTipoVaccino = new JComboBox<String>(tipologia);
+        cboxNomeCentro = new JComboBox<String>(tipologiaCentroVaccinale);
     }
 }
