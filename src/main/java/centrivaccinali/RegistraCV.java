@@ -22,7 +22,6 @@ public class RegistraCV {
     private JPanel panelLogo2;
     private JButton btnRegistraCV;
     private JTextField tfNomeCentro;
-    private JTextField tfQualificatore;
     private JTextField tfIndirizzo;
     private JTextField tfCivico;
     private JTextField tfComune;
@@ -38,7 +37,9 @@ public class RegistraCV {
     private JLabel lblCap;
     private JLabel lblTipoCentro;
     private JLabel lblErrors;
+    private JComboBox cboxQualificatore;
     private int tipo=0;
+    String[] qualificatore = new String[]{"Via", "Viale", "Piazza", "Corso", "Altro"};
     String[] tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
 
     public RegistraCV() throws RemoteException {
@@ -51,7 +52,7 @@ public class RegistraCV {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo centro vaccinale?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
-                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getTfQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
+                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
                             dataCV.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
@@ -75,7 +76,7 @@ public class RegistraCV {
 
     public String getTfNomeCentro() {return tfNomeCentro.getText();}
 
-    public String getTfQualificatore() { return tfQualificatore.getText();}
+    public String getQualificatore() { return Objects.requireNonNull(cboxQualificatore.getSelectedItem()).toString();}
 
     public String getTfIndirizzo() {return tfIndirizzo.getText();}
 
@@ -107,7 +108,6 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
-        allFieldsValid &= checkInput(getTfQualificatore(), tfQualificatore);
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
         allFieldsValid &= isNumeric(getTfCivico());
@@ -148,6 +148,7 @@ public class RegistraCV {
         BufferedImage myPicture2 = ImageIO.read(new File("media/ItaliaRinasce.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
+        cboxQualificatore = new JComboBox<String>(qualificatore);
         cboxTipoCentro = new JComboBox<String>(tipologia);
     }
 }

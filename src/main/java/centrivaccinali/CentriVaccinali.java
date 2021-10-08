@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class CentriVaccinali {
 
-    public static JFrame registraCVFrame = new JFrame("Centri Vaccinali OPeratori - Registrazione Centro Vaccinale");
+    public static JFrame registraCVFrame = new JFrame("Centri Vaccinali Operatori - Registrazione Centro Vaccinale");
     public static JFrame registraVaccinatoFrame = new JFrame("Centri Vaccinali Operatori - Registrazione Vaccinato");
     private JPanel panelCentriVaccinali;
     private JPanel panelLogo;
