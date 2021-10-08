@@ -3,6 +3,8 @@ package cittadini;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class Cittadini {
         btnCercaCentro.addActionListener(e -> {
             openDashBoardCentriVaccinaliElenco();
         });
+        btnRegistrati.addActionListener(e -> openRegistraCittadinoCV());
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -75,6 +78,19 @@ public class Cittadini {
             mainCittadini.pack();
             mainCittadini.setLocationRelativeTo(null);
             mainCittadini.setVisible(true);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void openRegistraCittadinoCV() {
+        try {
+            registraCittadinoCV = new JFrame("Completa registrazione");
+            registraCittadinoCV.setContentPane(new RegistraCitt().panelCopletaRegistrazione);
+            registraCittadinoCV.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            registraCittadinoCV.pack();
+            registraCittadinoCV.setLocationRelativeTo(null);
+            registraCittadinoCV.setVisible(true);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
