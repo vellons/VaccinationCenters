@@ -128,13 +128,12 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    @Override
     public Vaccinato getVaccinatoByIDUnique(String idUnivoco) throws RemoteException {
         Vaccinato findCitizen = null;
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM vaccinati WHERE id_univoco = "+ idUnivoco +";";
+            String query = "SELECT * FROM vaccinati WHERE id_univoco = '" + idUnivoco + "';";
             ResultSet rs = stmt.executeQuery(query);
             //4c932e2f-5729-4b69-8684-ef8339e1b76b
             if (rs.next()) {

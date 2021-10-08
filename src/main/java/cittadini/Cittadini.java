@@ -1,6 +1,8 @@
 package cittadini;
 
 
+import models.Vaccinato;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +14,7 @@ import java.io.IOException;
 public class Cittadini {
 
     public static JFrame mainCittadini;
+    public static JFrame registraCittadinoCV;
     private JPanel panelCittadini;
     private JButton btnCercaCentro;
     private JButton btnRegistrati;
@@ -114,5 +117,16 @@ public class Cittadini {
         dashboardFrame.pack();
         dashboardFrame.setLocationRelativeTo(null);
         dashboardFrame.setVisible(true);
+    }
+    public static void reloadRegistraCitt(JFrame signUpCitt, String idUnivoco, Vaccinato userVax) throws Exception {
+        signUpCitt.setVisible(false);
+        signUpCitt.dispose();
+        signUpCitt.invalidate();
+        signUpCitt.setContentPane(new RegistraCitt(idUnivoco, userVax).panelCopletaRegistrazione);
+        initUI(signUpCitt);
+        signUpCitt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        signUpCitt.pack();
+        signUpCitt.setLocationRelativeTo(null);
+        signUpCitt.setVisible(true);
     }
 }

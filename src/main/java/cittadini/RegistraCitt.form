@@ -73,7 +73,9 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                </properties>
               </component>
               <component id="571d4" class="javax.swing.JLabel" binding="lblCognome">
                 <constraints>
@@ -91,7 +93,9 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                </properties>
               </component>
               <component id="57a69" class="javax.swing.JLabel" binding="lblCodiceFiscale">
                 <constraints>
@@ -109,7 +113,9 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                </properties>
               </component>
               <component id="2350b" class="javax.swing.JLabel" binding="lblEmail">
                 <constraints>

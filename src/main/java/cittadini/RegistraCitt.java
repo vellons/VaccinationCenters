@@ -52,10 +52,11 @@ public class RegistraCitt {
     private JLabel lblPassword;
     private JPasswordField tfPassword;
     private JButton btnCercaCittadino;
+    private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
 
 
     public RegistraCitt() {
-        DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+        dontShowTextAndLabels();
 
         btnCercaCittadino.addActionListener(new ActionListener() {
             @Override
@@ -64,7 +65,14 @@ public class RegistraCitt {
                     System.out.println(tfIdUnivoco.getText());
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
                     if (userVax != null) {
-                        tfNome.setText(userVax.getNome());
+                        try {
+                            Cittadini.reloadRegistraCitt(Cittadini.registraCittadinoCV, tfIdUnivoco.getText(), userVax);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "L'id inserito non e' prensente.\n" +
+                                "Assicurarsi di aver digitato correttamente l'id\ne riprovare.", "ID non presente", JOptionPane.PLAIN_MESSAGE);
                     }
 
                 } catch (RemoteException ex) {
@@ -74,6 +82,48 @@ public class RegistraCitt {
         });
     }
 
+    public RegistraCitt(String idUnivoco, Vaccinato userVax) {
+        tfIdUnivoco.setText(idUnivoco);
+        tfIdUnivoco.setEditable(false);
+        btnCercaCittadino.setVisible(false);
+
+        ShowTextAndLabels();
+
+        tfNome.setText(userVax.getNome());
+        tfCognome.setText(userVax.getCognome());
+        tfCodiceFiscale.setText(userVax.getCodice_fiscale());
+
+    }
+
+    private void ShowTextAndLabels() {
+        lblNome.setVisible(true);
+        tfNome.setVisible(true);
+        lblCognome.setVisible(true);
+        tfCognome.setVisible(true);
+        lblCodiceFiscale.setVisible(true);
+        tfCodiceFiscale.setVisible(true);
+        lblEmail.setVisible(true);
+        tfEmail.setVisible(true);
+        lblPassword.setVisible(true);
+        tfPassword.setVisible(true);
+        lblErrors.setVisible(true);
+        btnRegistraVaccinato.setVisible(true);
+    }
+
+    private void dontShowTextAndLabels() {
+        lblNome.setVisible(false);
+        tfNome.setVisible(false);
+        lblCognome.setVisible(false);
+        tfCognome.setVisible(false);
+        lblCodiceFiscale.setVisible(false);
+        tfCodiceFiscale.setVisible(false);
+        lblEmail.setVisible(false);
+        tfEmail.setVisible(false);
+        lblPassword.setVisible(false);
+        tfPassword.setVisible(false);
+        lblErrors.setVisible(false);
+        btnRegistraVaccinato.setVisible(false);
+    }
 
     private void createUIComponents() throws IOException {
         panelLogo = new JPanel();
@@ -85,5 +135,4 @@ public class RegistraCitt {
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
     }
-
 }
