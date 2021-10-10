@@ -78,7 +78,7 @@ public class CentroVaccinalePerLista extends JPanel {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
     /**
      * <code>vaccinatiPerCentro</code> &egrave; un HashMap che contiene il numero di vaccinati per ogni centro vaccinale

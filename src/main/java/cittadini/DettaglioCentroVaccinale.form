@@ -76,11 +76,11 @@
                     </constraints>
                     <properties>
                       <font name="Arial" size="24" style="1"/>
-                      <foreground color="-13800"/>
+                      <foreground color="-1631113"/>
                       <text value="Vaccinazioni totali: 0"/>
                     </properties>
                   </component>
-                  <grid id="ed6a9" binding="panelEventiAvversi" custom-create="true" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="ed6a9" binding="panelEventiAvversi" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -90,54 +90,14 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="8c16d" class="javax.swing.JLabel" binding="lb5Stelle" custom-create="true">
+                      <component id="8c16d" class="javax.swing.JLabel" binding="lbEventiAvversi">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <font name="Arial" size="15"/>
-                          <foreground color="-7368817"/>
-                          <text value="Totale mal di testa: 0"/>
-                        </properties>
-                      </component>
-                      <component id="406ec" class="javax.swing.JLabel" binding="lb4Stelle" custom-create="true">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Arial" size="15"/>
-                          <foreground color="-7368817"/>
-                          <text value="Valutazioni 4 stelle: 0"/>
-                        </properties>
-                      </component>
-                      <component id="7e2de" class="javax.swing.JLabel" binding="lb3Stelle" custom-create="true">
-                        <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Arial" size="15"/>
-                          <foreground color="-7368817"/>
-                          <text value="Valutazioni 3 stelle: 0"/>
-                        </properties>
-                      </component>
-                      <component id="e5916" class="javax.swing.JLabel" binding="lb2Stelle" custom-create="true">
-                        <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Arial" size="15"/>
-                          <foreground color="-7368817"/>
-                          <text value="Valutazioni 2 stelle: 0"/>
-                        </properties>
-                      </component>
-                      <component id="9a2e" class="javax.swing.JLabel" binding="lb1Stella" custom-create="true">
-                        <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Arial" size="15"/>
-                          <foreground color="-7368817"/>
-                          <text value="Valutazioni 1 stelle: 0"/>
+                          <foreground color="-16777216"/>
+                          <text value="resoconto eventi"/>
                         </properties>
                       </component>
                     </children>

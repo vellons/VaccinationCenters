@@ -17,7 +17,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DettaglioCentroVaccinale {
 
@@ -27,22 +29,34 @@ public class DettaglioCentroVaccinale {
     private JLabel lbCentroVaccinale;
     private JLabel lbIndirizzo;
     private JLabel lbTotaleVaccinati;
-    private JLabel lb5Stelle;
-    private JLabel lb4Stelle;
-    private JLabel lb3Stelle;
-    private JLabel lb2Stelle;
-    private JLabel lb1Stella;
     private JPanel panelEventiAvversi;
+    private JLabel lbEventiAvversi;
     private JLabel lblTipologia;
     private JPanel panelPieChart;
     private List<Vaccinato> vax = new ArrayList<>();
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+    private List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    private Map<String, Integer> eventiAvversiCV = new HashMap<>();
 
-    public DettaglioCentroVaccinale(CentroVaccinale cv) {
+    public DettaglioCentroVaccinale(CentroVaccinale cv) throws RemoteException {
         this.cv = cv;
-        setLabels(this.cv);
+        setCVLabels(this.cv);
         setTotalVax();
+        setEventiAvversiLabel();
         panelPieChart.add(createPieChartPanel());
+    }
+
+    private void setEventiAvversiLabel() throws RemoteException {
+        eventiAvversiCV = db.getCountEventiCV(cv.getId());
+
+        StringBuilder text = new StringBuilder("<html>Eventi avversi segnalati:<br/>");
+        for (Map.Entry<String, Integer> entry : eventiAvversiCV.entrySet()) {
+            String key = entry.getKey();
+            int value = entry.getValue();
+            text.append("- ").append(key).append(": ").append(value).append("<br/>");
+
+        }
+        lbEventiAvversi.setText(text + "</html>");
     }
 
     private JPanel createPieChartPanel() { // funzione che mi permette la creazione di un Chart sul pannello panelPieChart
@@ -61,15 +75,21 @@ public class DettaglioCentroVaccinale {
         return ChartFactory.createPieChart("Vaccinati", dataset, true, true, false);
     }
 
-    private void setLabels(CentroVaccinale cv) {
+    private void setCVLabels(CentroVaccinale cv) {
         lbCentroVaccinale.setText(cv.getNome());
         lbIndirizzo.setText(cv.getIndirizzoComposto());
         lblTipologia.setText("Tipologia: " + findTipologia());
     }
 
     private String findTipologia() {
+        try {
+            DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
+            tipologie = db.getTipologiaCentroVaccinale();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         String tipologia = "";
-        for (TipologiaCentroVaccinale obj : CentroVaccinalePerLista.tipologie) {
+        for (TipologiaCentroVaccinale obj : tipologie) {
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
@@ -92,13 +112,6 @@ public class DettaglioCentroVaccinale {
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
         panelPieChart = new JPanel();
-
-        panelEventiAvversi = new JPanel();
-        lb2Stelle = new JLabel();
-        lb4Stelle = new JLabel();
-        lb1Stella = new JLabel();
-        lb5Stelle = new JLabel();
-        lb3Stelle = new JLabel();
     }
 }
 

@@ -354,6 +354,31 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return rowCounter;
     }
 
+    public Map<String, Integer> getCountEventiCV(int idCV) throws RemoteException {
+        // restituisce il conteggio gi ogni evento avverso, per tipologia
+        Map<String, Integer> totEventiAvvPerTipologia = new HashMap<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT te_scroll.nome, (SELECT count(*) FROM eventi_avversi ea INNER JOIN vaccinati v ON ea.vaccinato_id = v.id " +
+                    "INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id" +
+                    " WHERE ea.tipologia_evento_id = te_scroll.id AND cv.id = " + idCV + ") total " +
+                    "from tipologia_evento te_scroll ORDER BY te_scroll.id ASC;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                totEventiAvvPerTipologia.put(rs.getString("nome"), rs.getInt("total"));
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: resocontoEventiCV()");
+            e.printStackTrace();
+        }
+        return totEventiAvvPerTipologia;
+    }
+
     public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
         // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
         Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
