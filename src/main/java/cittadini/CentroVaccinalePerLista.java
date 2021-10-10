@@ -126,7 +126,12 @@ public class CentroVaccinalePerLista extends JPanel {
         String eventiAvversiInfoData = "";
         for (DashboardCentroVaccinale obj : dashboardData) {
             if (cv.getId() == obj.getId()) {
-                eventiAvversiInfoData = "Eventi segnalati: " + obj.getSomma_eventi_avversi() + " (" + obj.getVaccinati_con_eventi_avversi() + " persone coinvolte)";
+                eventiAvversiInfoData = "Avversità segnalate: " + obj.getSomma_eventi_avversi();
+                if (obj.getVaccinati_con_eventi_avversi() == 1) {
+                    eventiAvversiInfoData += " (" + obj.getVaccinati_con_eventi_avversi() + " persona coinvolta)";
+                } else if (obj.getVaccinati_con_eventi_avversi() > 1) {
+                    eventiAvversiInfoData += " (" + obj.getVaccinati_con_eventi_avversi() + " persone coinvolte)";
+                }
             }
         }
         lblEventiAvversi.setText(eventiAvversiInfoData);
