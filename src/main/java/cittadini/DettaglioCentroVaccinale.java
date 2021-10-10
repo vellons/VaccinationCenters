@@ -9,15 +9,18 @@ import models.Vaccinato;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DettaglioCentroVaccinale {
@@ -60,13 +63,16 @@ public class DettaglioCentroVaccinale {
 
     private JPanel createPieChartPanel() { // funzione che mi permette la creazione di un Chart sul pannello panelPieChart
         JFreeChart chart = createChart(createDataset());
+        PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setSectionPaint("Totale vaccinati senza eventi avversi", new Color(231, 28, 119));
+        plot.setSectionPaint("Totale vaccinati con almeno un evento avverso", new Color(255,202,24));
         return new ChartPanel(chart);
     }
 
     private PieDataset createDataset() { // Specifica dei parametri che verranno visualizzati sul PieChart
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Totale vaccinati", infoCV.getVaccinati()); // totale vaccinati
-        dataset.setValue("Totale vaccin", infoCV.getVaccinati_con_eventi_avversi()); // totale vaccinati con eventi avversi
+        dataset.setValue("Totale vaccinati senza eventi avversi", (infoCV.getVaccinati() - infoCV.getVaccinati_con_eventi_avversi())); // totale vaccinati
+        dataset.setValue("Totale vaccinati con almeno un evento avverso", infoCV.getVaccinati_con_eventi_avversi()); // totale vaccinati con eventi avversi
         return dataset; // restituisco l'oggetto di tipo DefaultPieDataset
     }
 
