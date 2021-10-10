@@ -5,9 +5,8 @@ import global.ServerConnectionSingleton;
 import models.*;
 
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +15,8 @@ public class TestServerConnection {
     public static void main(String[] args) throws RemoteException {
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
+
+        System.out.println("Totale di persone vaccinate: " + db.rowCounterInTable("vaccinati"));
 
         List<EventoAvverso> returnList1 = db.getEventiAvversi();
         for (EventoAvverso ea : returnList1) {
@@ -37,9 +38,9 @@ public class TestServerConnection {
             System.out.println(tv.toString());
         }
 
-        List<CentroVaccinale> returnList5 = db.getCentriVaccinali("");
-        for (CentroVaccinale tv : returnList5) {
-            System.out.println(tv.toString());
+        List<CentroVaccinale> returnList5 = db.getCentriVaccinali("");  // "WHERE LOWER(nome) LIKE '%vac%' "
+        for (CentroVaccinale cv : returnList5) {
+            System.out.println(cv.toString());
         }
 
         List<TipologiaCentroVaccinale> returnList6 = db.getTipologiaCentroVaccinale();
@@ -53,18 +54,13 @@ public class TestServerConnection {
         //Inserimento di un centro vaccinale
         CentroVaccinale cv = new CentroVaccinale("Premosello", 3, 1, "Via", "Maestri Bocca e Manera", "12", "Premosello", "VB", "28803");
         System.out.println("Centro vaccinale registrato: " + cv.toString() + "\nEsito inserimento: " + db.inserisciCentroVaccinale(cv));
-
-        List<CentroVaccinale> returnList4 = db.getCentriVaccinali("");
-        for (CentroVaccinale tv : returnList4) {
-            System.out.println(tv.toString());
-        }
         */
 
         /*
         //Aggiunta di un nuovo cittadino vaccinato
-        Date date= new Date();
+        Date date = new Date();
         long time = date.getTime();
-        Vaccinato newVax = new Vaccinato(UUID.randomUUID().toString(), 2, 3, "Manuel", "Macaj", "MCJMLN00D13L746R", new Timestamp(time), "", "");
+        Vaccinato newVax = new Vaccinato(UUID.randomUUID().toString(), 2, 3, "Manuel", "Macaj", "CFDEVTEST00C1A00", new Timestamp(time), null, null);
         System.out.println("Utente vaccinato: " + newVax.toString() + "\nEsito registrazione: " + db.inserisciCittadinoVaccinato(newVax));
          */
     }

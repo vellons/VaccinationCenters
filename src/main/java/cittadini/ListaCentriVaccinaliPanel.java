@@ -33,7 +33,7 @@ public class ListaCentriVaccinaliPanel extends JPanel {
      * @param filtroComune    &egrave; il filtro per il comune del centro vaccinale
      * @param filtroTipologia &egrave; il filtro per la tipologia del centro vaccinale
      */
-    public ListaCentriVaccinaliPanel(String filtroNome, String filtroComune, String filtroTipologia) {
+    public ListaCentriVaccinaliPanel(String filtroNome, String filtroComune, int filtroTipologia) {
         setLayout(new BorderLayout());
 
         // Inizializzazione panel
@@ -49,26 +49,28 @@ public class ListaCentriVaccinaliPanel extends JPanel {
         validate();
         repaint();
 
+        String clausolaWhere = "";
+
         // Caricamento centri vaccinali, se i filtri sono presenti li applico
-//        IOEatAdvisor ioEatAdvisor = new IOEatAdvisor();
-//        if (!filtroNome.equals("")) {
-//            System.out.println("Applico filtro per nome: " + filtroNome);
-//            ioEatAdvisor.filtraPerNomeRistorante(filtroNome);
-//        }
-//        if (!filtroComune.equals("")) {
-//            System.out.println("Applico filtro per comune: " + filtroComune);
-//            ioEatAdvisor.filtraPerCitta(filtroComune);
-//        }
-//        if (!filtroTipologia.equals("") && !filtroTipologia.equals("TUTTI")) {
-//            System.out.println("Applico filtro per tipologia: " + filtroTipologia);
-//            ioEatAdvisor.filtraPerTipo(filtroTipologia);
-//        }
-        // TODO: clausola where nella query @vellons
+        if (filtroTipologia != 0) {
+            clausolaWhere += "WHERE tipologia_id = '" + filtroTipologia + "'";
+        }
+        if (!filtroNome.equals("")) {
+            if (clausolaWhere.length() == 0) clausolaWhere = "WHERE ";
+            else clausolaWhere += " AND ";
+            clausolaWhere += "LOWER(nome) LIKE '%" + filtroNome.toLowerCase() + "%'";
+        }
+        if (!filtroComune.equals("")) {
+            if (clausolaWhere.length() == 0) clausolaWhere = "WHERE ";
+            else clausolaWhere += " AND ";
+            clausolaWhere += "LOWER(indirizzo_comune) LIKE '%" + filtroComune.toLowerCase() + "%'";
+        }
+        if (clausolaWhere.length() > 0) clausolaWhere += " ";
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
         List<CentroVaccinale> centriV = new ArrayList<>();
         try {
-            centriV = db.getCentriVaccinali("");
+            centriV = db.getCentriVaccinali(clausolaWhere);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

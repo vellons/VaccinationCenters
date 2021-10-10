@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cittadini.DettaglioCentroVaccinale">
+  <grid id="27dc6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="534" height="522"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="44c1f" binding="panelDettaglioCV" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="15" left="15" bottom="15" right="15"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+          <preferredSize width="1200" height="700"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="152dc" binding="panelLogo" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="eb751" binding="JPanelLeft" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="cc6a3" layout-manager="GridLayoutManager" row-count="8" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-723724"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a14a5" class="javax.swing.JLabel" binding="lbCentroVaccinale">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Arial" size="26" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Centro Vaccinale"/>
+                    </properties>
+                  </component>
+                  <component id="81a79" class="javax.swing.JLabel" binding="lbIndirizzo">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Arial" size="15" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Indirizzo"/>
+                    </properties>
+                  </component>
+                  <component id="82b1" class="javax.swing.JLabel" binding="lbValutazioni" custom-create="true">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Arial" size="24" style="1"/>
+                      <foreground color="-13800"/>
+                      <text value="Vaccinazioni totali: 0"/>
+                    </properties>
+                  </component>
+                  <grid id="ed6a9" binding="panelNumValutazioni" custom-create="true" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-723724"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="8c16d" class="javax.swing.JLabel" binding="lb5Stelle" custom-create="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Arial" size="15"/>
+                          <foreground color="-7368817"/>
+                          <text value="Valutazioni 5 stelle: 0"/>
+                        </properties>
+                      </component>
+                      <component id="406ec" class="javax.swing.JLabel" binding="lb4Stelle" custom-create="true">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Arial" size="15"/>
+                          <foreground color="-7368817"/>
+                          <text value="Valutazioni 4 stelle: 0"/>
+                        </properties>
+                      </component>
+                      <component id="7e2de" class="javax.swing.JLabel" binding="lb3Stelle" custom-create="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Arial" size="15"/>
+                          <foreground color="-7368817"/>
+                          <text value="Valutazioni 3 stelle: 0"/>
+                        </properties>
+                      </component>
+                      <component id="e5916" class="javax.swing.JLabel" binding="lb2Stelle" custom-create="true">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Arial" size="15"/>
+                          <foreground color="-7368817"/>
+                          <text value="Valutazioni 2 stelle: 0"/>
+                        </properties>
+                      </component>
+                      <component id="9a2e" class="javax.swing.JLabel" binding="lb1Stella" custom-create="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Arial" size="15"/>
+                          <foreground color="-7368817"/>
+                          <text value="Valutazioni 1 stelle: 0"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <component id="fe294" class="javax.swing.JLabel" binding="lbNumeroRecensioni" custom-create="true">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Arial" size="15"/>
+                      <foreground color="-7368817"/>
+                      <text value="Totale valutazioni: 0"/>
+                    </properties>
+                  </component>
+                  <component id="eea82" class="javax.swing.JLabel" binding="lblTipologia">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Arial" size="15" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Tipologia"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

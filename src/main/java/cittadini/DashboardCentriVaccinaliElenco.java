@@ -2,22 +2,21 @@ package cittadini;
 
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
-import models.TipologiaVaccino;
+import models.TipologiaCentroVaccinale;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * La classe DashboardCentriVaccinaliElenco permette l'utilizzo di visualizzare l'elenco dei centri vaccinali
  * con la possibilit&agrave; di filtrarli.
+ * *
+ * * @author Vellons
  */
 public class DashboardCentriVaccinaliElenco extends JFrame {
     /**
@@ -74,21 +73,21 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
-    private String initialFiltroNome = "";
+    private final String initialFiltroNome;
 
     /**
      * <code>initialFiltroComune</code> rappresenta il filtro per il comune del centro vaccinale.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
-    private String initialFiltroComune = "";
+    private final String initialFiltroComune;
 
     /**
      * <code>initialFiltroTipologia</code> rappresenta il filtro per la tipologia del centro vaccinale.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
-    private String initialFiltroTipologia = "";
+    private final int initialFiltroTipologia;
 
     /**
      * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di centro vaccinale
@@ -96,7 +95,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaVaccino> tipologie = new ArrayList<>(); // TODO: change to TipologiaCentroVaccinale
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
 
     /**
@@ -106,27 +105,24 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * @param filtroComune    &egrave; il filtro che viene applicato al comune di un centro vaccinale, escludendo gli altri
      * @param filtroTipologia &egrave; il filtro che viene applicato alla tipologia di un centro vaccinale, escludendo gli altri
      */
-    public DashboardCentriVaccinaliElenco(String filtroNome, String filtroComune, String filtroTipologia) {
+    public DashboardCentriVaccinaliElenco(String filtroNome, String filtroComune, int filtroTipologia) {
         // Prendo i valori dei filtri precedenti e popolo i filtri
         // Questo succede perch&egrave; faccio il reload di questo oggetto
         initialFiltroNome = filtroNome;
         initialFiltroComune = filtroComune;
         initialFiltroTipologia = filtroTipologia;
 
-        btnApplicaFiltri.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Ricarico la dashboard dei centri vaccinali passando i filtri
-                try {
-                    Cittadini.reloadDashBoardCentriVaccinaliElencoConFiltri(
-                            Cittadini.mainCittadini,
-                            tfFiltroNomeCentroVaccinale.getText(),
-                            tfFiltroComune.getText(),
-                            Objects.requireNonNull(cboxTipologia.getSelectedItem()).toString()
-                    );
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+        btnApplicaFiltri.addActionListener(e -> {
+            // Ricarico la dashboard dei centri vaccinali passando i filtri
+            try {
+                Cittadini.reloadDashBoardCentriVaccinaliElencoConFiltri(
+                        Cittadini.mainCittadini,
+                        tfFiltroNomeCentroVaccinale.getText(),
+                        tfFiltroComune.getText(),
+                        cboxTipologia.getSelectedIndex()
+                );
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
     }
@@ -156,18 +152,18 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
         if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
             try {
                 DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                tipologie = db.getTipologiaVaccino();
+                tipologie = db.getTipologiaCentroVaccinale();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
         List<String> tipologieCombo = new ArrayList<>();
         tipologieCombo.add("TUTTI");
-        for (TipologiaVaccino obj : tipologie) { // TODO: change to TipologiaCentroVaccinale
+        for (TipologiaCentroVaccinale obj : tipologie) {
             tipologieCombo.add(obj.getNome());
         }
 
         cboxTipologia = new JComboBox(tipologieCombo.toArray());
-        cboxTipologia.setSelectedItem(initialFiltroTipologia);
+        cboxTipologia.setSelectedIndex(initialFiltroTipologia);
     }
 }

@@ -15,13 +15,14 @@ public class ServerConnectionSingleton {
             database = (DatabaseCVInterface) reg.lookup("CVDatabaseServer");
             database.logMessage("Nuovo client connesso");
         } catch (RemoteException | NotBoundException e) {
-            System.err.println("ERROR: creazione singleton con il server: ");
+            System.err.println("ERROR: creazione singleton con il server");
+            database = null;
             e.printStackTrace();
         }
     }
 
     public static DatabaseCVInterface getDatabaseInstance() {
-        if (singleton_instance == null) {
+        if (singleton_instance == null || database == null) {
             singleton_instance = new ServerConnectionSingleton();
         }
         return database;

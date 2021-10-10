@@ -70,7 +70,7 @@ public class Cittadini {
 
     private void openDashBoardCentriVaccinaliElenco() {
         try {
-            mainCittadini.setContentPane(new DashboardCentriVaccinaliElenco("", "", "").panelDashboardCentriVaccinaliElenco);
+            mainCittadini.setContentPane(new DashboardCentriVaccinaliElenco("", "", 0).panelDashboardCentriVaccinaliElenco);
             mainCittadini.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
             mainCittadini.pack();
             mainCittadini.setLocationRelativeTo(null);
@@ -88,7 +88,7 @@ public class Cittadini {
      * @throws Exception &egrave; utilizzata quando non si sa che tipo di eccezione potrebbe
      *                   essere sollevata durante l'esecuzione del programma
      */
-    public static void reloadDashBoardCentriVaccinaliElencoConFiltri(JFrame dashboardFrame, String filtroNome, String filtroComune, String filtroTipologia) throws Exception {
+    public static void reloadDashBoardCentriVaccinaliElencoConFiltri(JFrame dashboardFrame, String filtroNome, String filtroComune, int filtroTipologia) throws Exception {
         dashboardFrame.setVisible(false);
         dashboardFrame.dispose();
         dashboardFrame.invalidate();
