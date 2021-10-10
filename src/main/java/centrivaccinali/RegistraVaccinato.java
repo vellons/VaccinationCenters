@@ -1,5 +1,10 @@
 package centrivaccinali;
 
+import global.DatabaseCVInterface;
+import global.ServerConnectionSingleton;
+import models.CentroVaccinale;
+import models.TipologiaCentroVaccinale;
+import models.TipologiaVaccino;
 import models.Vaccinato;
 import serverCV.DatabaseCV;
 
@@ -11,11 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.List;
 
 public class RegistraVaccinato{
     public JPanel panelRegistraVaccinato;
@@ -44,7 +49,9 @@ public class RegistraVaccinato{
     private JButton btnGeneraID;
     private JButton btnDataCorrente;
     private int tipo=0;
-    String[] tipologia = new String[]{"Pfizer", "Moderna", "AstraZeneca", "J&J"};
+    private int centro_id=0;
+    private static List<CentroVaccinale> nomi = new ArrayList<>();
+    private static List<TipologiaVaccino> tipologie = new ArrayList<>();
     private final String CF_REGEX = "/^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i";
 
     public RegistraVaccinato() throws Exception {
@@ -53,14 +60,16 @@ public class RegistraVaccinato{
             @Override
             public void actionPerformed(ActionEvent e) {
                 setTipo(getTipoVaccino());
+                setID(getNomeCentro());
                 dataVaccino=stringToTimestamp(getTfDataVaccino());
                 if (checkAllInputs()) {
                     try {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo utente?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
-                            vax = new Vaccinato("",0,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
-                            dataCV.inserisciCittadinoVaccinato(vax);
+                            DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
+                            vax = new Vaccinato(getTfIDUnivoco(),centro_id,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
+                            db.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
@@ -81,7 +90,7 @@ public class RegistraVaccinato{
         btnDataCorrente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
                 Date date = new Date();
                 tfDataVaccino.setText(formatter.format(date));
             }
@@ -144,7 +153,7 @@ public class RegistraVaccinato{
 
     public Timestamp stringToTimestamp(String stringa){
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
             Date parsedDate = dateFormat.parse(stringa);
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             return timestamp;
@@ -165,17 +174,20 @@ public class RegistraVaccinato{
 
     public void setTipo(String type){
 
-        if(type.equals("Pfizer")){
-            tipo=1;
+        for (TipologiaVaccino obj : tipologie) {
+            if(Objects.equals(obj.getNome(), type)){
+                tipo=obj.getId();
+            }
         }
-        if(type.equals("AstraZeneca")){
-            tipo=2;
-        }
-        if(type.equals("Moderna")){
-            tipo=3;
-        }
-        if(type.equals("J&J")){
-            tipo=4;
+
+    }
+
+    public void setID(String name){
+
+        for (CentroVaccinale obj : nomi) {
+            if(Objects.equals(obj.getNome(), name)){
+                centro_id=obj.getId();
+            }
         }
 
     }
@@ -198,6 +210,35 @@ public class RegistraVaccinato{
         BufferedImage myPicture2 = ImageIO.read(new File("media/ItaliaRinasce.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
-        cboxTipoVaccino = new JComboBox<String>(tipologia);
+        // Prendo le tipologie di centro vaccinale
+        if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
+            try {
+                DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
+                tipologie = db.getTipologiaVaccino();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        List<String> tipologieCombo = new ArrayList<>();
+        for (TipologiaVaccino obj : tipologie) {
+            tipologieCombo.add(obj.getNome());
+        }
+
+        cboxTipoVaccino = new JComboBox(tipologieCombo.toArray());
+        if (nomi.size() == 0) {
+            try {
+                DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+                nomi = db.getCentriVaccinali("");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        List<String> nomiCombo = new ArrayList<>();
+        for (CentroVaccinale obj : nomi) {
+            nomiCombo.add(obj.getNome());
+        }
+
+        cboxNomeCentro = new JComboBox(nomiCombo.toArray());
+
     }
 }

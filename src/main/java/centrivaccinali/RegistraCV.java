@@ -1,6 +1,9 @@
 package centrivaccinali;
 
+import global.DatabaseCVInterface;
+import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
+import models.TipologiaCentroVaccinale;
 import serverCV.DatabaseCV;
 
 import javax.imageio.ImageIO;
@@ -12,12 +15,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class RegistraCV {
     public JPanel panelRegistraCV;
     private CentroVaccinale cv;
-    private DatabaseCV dataCV;
     private JPanel panelLogo;
     private JPanel panelLogo2;
     private JButton btnRegistraCV;
@@ -39,8 +43,8 @@ public class RegistraCV {
     private JLabel lblErrors;
     private JComboBox cboxQualificatore;
     private int tipo=0;
+    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
     String[] qualificatore = new String[]{"Via", "Viale", "Piazza", "Corso", "Vicolo"};
-    String[] tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
 
     public RegistraCV() throws RemoteException {
         btnRegistraCV.addActionListener(new ActionListener() {
@@ -52,15 +56,17 @@ public class RegistraCV {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo centro vaccinale?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
+                            DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
                             cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
-                            dataCV.inserisciCentroVaccinale(cv);
+                            db.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
+                        JOptionPane.showMessageDialog(null, "C'e' stato un problema. Prova a riavviare l'app",
                                 "Attenzione", JOptionPane.PLAIN_MESSAGE);
+                        exception.printStackTrace();
                     }
                 } else {
                     lblErrors.setFont(new Font("Default", Font.BOLD, 14));
@@ -92,14 +98,10 @@ public class RegistraCV {
 
     public void setTipo(String type){
 
-        if(type.equals("Ospedaliero")){
-            tipo=1;
-        }
-        if(type.equals("Aziendale")){
-            tipo=2;
-        }
-        if(type.equals("Hub")){
-            tipo=3;
+        for (TipologiaCentroVaccinale obj : tipologie) {
+            if(Objects.equals(obj.getNome(), type)){
+                tipo=obj.getId();
+            }
         }
 
     }
@@ -108,7 +110,6 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
-        allFieldsValid &= isAlphabetic(getTfNomeCentro());
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
         allFieldsValid &= isAlphabetic(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
@@ -163,6 +164,19 @@ public class RegistraCV {
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
         cboxQualificatore = new JComboBox<String>(qualificatore);
-        cboxTipoCentro = new JComboBox<String>(tipologia);
+        if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
+            try {
+                DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
+                tipologie = db.getTipologiaCentroVaccinale();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        List<String> tipologieCombo = new ArrayList<>();
+        for (TipologiaCentroVaccinale obj : tipologie) {
+            tipologieCombo.add(obj.getNome());
+        }
+
+        cboxTipoCentro = new JComboBox(tipologieCombo.toArray());
     }
 }
