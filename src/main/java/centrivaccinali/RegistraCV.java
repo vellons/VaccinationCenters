@@ -39,7 +39,7 @@ public class RegistraCV {
     private JLabel lblErrors;
     private JComboBox cboxQualificatore;
     private int tipo=0;
-    String[] qualificatore = new String[]{"Via", "Viale", "Piazza", "Corso", "Altro"};
+    String[] qualificatore = new String[]{"Via", "Viale", "Piazza", "Corso", "Vicolo"};
     String[] tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
 
     public RegistraCV() throws RemoteException {
@@ -108,11 +108,15 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
+        allFieldsValid &= isAlphabetic(getTfNomeCentro());
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
+        allFieldsValid &= isAlphabetic(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
         allFieldsValid &= isNumeric(getTfCivico());
         allFieldsValid &= checkInput(getTfComune(), tfComune);
+        allFieldsValid &= isAlphabetic(getTfComune());
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
+        allFieldsValid &= isAlphabetic(getTfSiglaProvincia());
         allFieldsValid &= getTfSiglaProvincia().length()==2;
         allFieldsValid &= checkInput(getTfCap(), tfCap);
         allFieldsValid &= getTfCap().length()==5;
@@ -128,6 +132,16 @@ public class RegistraCV {
         } catch(NumberFormatException e){
             return false;
         }
+    }
+
+    public static boolean isAlphabetic(String input) {
+        for (int i = 0; i != input.length(); ++i) {
+            if (!Character.isLetter(input.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean checkInput(String input, JTextField textField){
