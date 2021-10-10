@@ -265,6 +265,33 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
+    public List<DashboardCentroVaccinale> getDashboardCVInfo() throws RemoteException {
+        // Restituisce gli eventi avversi di un centro vaccinale
+        List<DashboardCentroVaccinale> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM dashboard_centri_vaccinali;"; // Definizione vista in create_table.sql
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                DashboardCentroVaccinale obj = new DashboardCentroVaccinale(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setVaccinati_con_eventi_avversi(rs.getInt("vaccinati_con_ea"));
+                obj.setSomma_eventi_avversi(rs.getInt("somma_ea"));
+                obj.setVaccinati(rs.getInt("vaccinati"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getDashboardCVInfo()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
     public synchronized boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
 
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +
@@ -360,7 +387,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT cv.id, count(*) vaccinati FROM vaccinati v INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id GROUP BY cv.id ORDER BY cv.id ASC;";
+            String query = "SELECT id, vaccinati FROM dashboard_centri_vaccinali;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));

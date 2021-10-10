@@ -95,7 +95,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
 
     /**
