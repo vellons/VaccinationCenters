@@ -3,6 +3,7 @@ package cittadini;
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
+import models.DashboardCentroVaccinale;
 import models.TipologiaCentroVaccinale;
 import models.Vaccinato;
 import org.jfree.chart.ChartFactory;
@@ -16,10 +17,8 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DettaglioCentroVaccinale {
 
@@ -34,6 +33,7 @@ public class DettaglioCentroVaccinale {
     private JLabel lblTipologia;
     private JPanel panelPieChart;
     private List<Vaccinato> vax = new ArrayList<>();
+    private DashboardCentroVaccinale infoCV;
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
     private List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
     private Map<String, Integer> eventiAvversiCV = new HashMap<>();
@@ -54,7 +54,6 @@ public class DettaglioCentroVaccinale {
             String key = entry.getKey();
             int value = entry.getValue();
             text.append("- ").append(key).append(": ").append(value).append("<br/>");
-
         }
         lbEventiAvversi.setText(text + "</html>");
     }
@@ -66,8 +65,8 @@ public class DettaglioCentroVaccinale {
 
     private PieDataset createDataset() { // Specifica dei parametri che verranno visualizzati sul PieChart
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Vaccinati", vax.size()); // totale vaccinati
-        dataset.setValue("Vaccinati con eventi avversi", 0); // totale vaccinati con eventi avversi
+        dataset.setValue("Totale vaccinati", infoCV.getVaccinati()); // totale vaccinati
+        dataset.setValue("Totale vaccin", infoCV.getVaccinati_con_eventi_avversi()); // totale vaccinati con eventi avversi
         return dataset; // restituisco l'oggetto di tipo DefaultPieDataset
     }
 
@@ -100,7 +99,16 @@ public class DettaglioCentroVaccinale {
     private void setTotalVax() {
         try {
             vax = db.getVaccinatiCV(cv.getId());
-            lbTotaleVaccinati.setText("Vaccinazioni totali: " + vax.size());
+            List<DashboardCentroVaccinale> info = new ArrayList<>();
+            info = db.getDashboardCVInfo();
+
+            for(DashboardCentroVaccinale list: info){
+                if (list.getId() == cv.getId()){
+                    infoCV = list;
+                    break;
+                }
+            }
+            lbTotaleVaccinati.setText("Vaccinazioni totali: " + infoCV.getVaccinati());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

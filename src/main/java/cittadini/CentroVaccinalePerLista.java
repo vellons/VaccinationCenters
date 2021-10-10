@@ -3,11 +3,13 @@ package cittadini;
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
+import models.DashboardCentroVaccinale;
 import models.TipologiaCentroVaccinale;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La classe CentroVaccinalePerLista permette il caricamento dei singoli centri vaccinali
@@ -73,20 +75,19 @@ public class CentroVaccinalePerLista extends JPanel {
     private JLabel lblTipologia;
 
     /**
-     * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di centro vaccinale
+     * <code>lblEventiAvversi</code> &egrave; un'etichetta Swing dedicata al campo degli eventi avversi
      * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
-     * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    private JLabel lblEventiAvversi;
 
     /**
-     * <code>vaccinatiPerCentro</code> &egrave; un HashMap che contiene il numero di vaccinati per ogni centro vaccinale
+     * <code>dashboardData</code> &egrave; un ArrayList che contiene il numero di vaccinati per ogni centro vaccinale,
+     * il numero di eventi avversi totale e il numero di persone che hanno avuto eventi avversi.
      * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
+    private static List<DashboardCentroVaccinale> dashboardData = new ArrayList<>();
 
     /**
      * Costruttore della classe
@@ -94,29 +95,45 @@ public class CentroVaccinalePerLista extends JPanel {
      * @param cv insieme di dati relativi al centro vaccinale da visualizzare
      */
     public CentroVaccinalePerLista(CentroVaccinale cv) {
-        if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
+        if (dashboardData.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
             try {
                 DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                tipologie = db.getTipologiaCentroVaccinale();
-                vaccinatiPerCentro = db.vaccinatiPerOgniCentroVaccinale();
+                dashboardData = db.getDashboardCVInfo();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
-        lblNome.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 30)));
-        lblIndirizzo.setText(cv.getIndirizzoComposto().substring(0, Math.min(cv.getIndirizzoComposto().length(), 60)));
-        lblVaccinazioni.setText("Vaccinazioni totali: " + vaccinatiPerCentro.getOrDefault(cv.getId(), 0)
-                + " - Eventi avversi: TODO");  // TODO @vellons
+
         // Cerco la tipologia di centro vaccinale che combacia
         String tipologia = "";
-        for (TipologiaCentroVaccinale obj : tipologie) {
+        for (TipologiaCentroVaccinale obj : DashboardCentriVaccinaliElenco.tipologie) {
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
         }
-        if (!Objects.equals(tipologia, "")) {
-            lblTipologia.setText("Tipologia: " + tipologia);
+        lblTipologia.setText("Tipologia: " + tipologia);
+
+        // Cerco le informazioni in dashboardData riferite al numero di vaccini
+        String vaccinazioniInfoData = "";
+        for (DashboardCentroVaccinale obj : dashboardData) {
+            if (cv.getId() == obj.getId()) {
+                vaccinazioniInfoData = "Vaccinazioni: " + obj.getVaccinati();
+            }
         }
+        lblVaccinazioni.setText(vaccinazioniInfoData);
+
+        // Cerco le informazioni in dashboardData riferite al numero di eventi avversi
+        String eventiAvversiInfoData = "";
+        for (DashboardCentroVaccinale obj : dashboardData) {
+            if (cv.getId() == obj.getId()) {
+                eventiAvversiInfoData = "Eventi segnalati: " + obj.getSomma_eventi_avversi() + " (" + obj.getVaccinati_con_eventi_avversi() + " persone coinvolte)";
+            }
+        }
+        lblEventiAvversi.setText(eventiAvversiInfoData);
+
+        // Completo le informazioni del centro vaccinale
+        lblNome.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 30)));
+        lblIndirizzo.setText(cv.getIndirizzoComposto().substring(0, Math.min(cv.getIndirizzoComposto().length(), 60)));
 
         btnDettaglio.addActionListener(e -> {
             try {
