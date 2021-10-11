@@ -129,4 +129,9 @@ public class Cittadini {
         signUpCitt.setLocationRelativeTo(null);
         signUpCitt.setVisible(true);
     }
+
+    public static void closePreviousWindow(JFrame finestra) {
+        finestra.setVisible(false);
+        finestra.dispose();
+    }
 }

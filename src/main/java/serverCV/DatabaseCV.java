@@ -409,4 +409,23 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         }
         return vaccinatiPerCentro;
     }
+
+    public boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
+
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + password + "' WHERE id_univoco = '" + idUnivoco + "';";
+            stmt.executeUpdate(query);
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+            return true;
+
+        } catch (SQLException e) {
+            logMessage("ERROR: updateRegistraVaccinato()");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
