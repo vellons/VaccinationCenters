@@ -1,24 +1,5 @@
 package cittadini;
 
-
-/*
-Registra cittadino presso un centro vaccinale.
-
-1) costruire la gui
-    - simile all'interfaccia che ha fatto mahdi
-    - aggiungiamo il bottone a fianco al campo id univoco (custom in seguito)
-
-
-2) come fa il programma a capire se c'è l'utente nella tabella dei vaccinati?
-Operazione di select sulla tabella dei vaccinati. Where idUnivoco = ID inserito
-    - se c'è match allora continuo con la registrazione; altrimenti se non c'è nella tabella: id inserito in modo sbagliato o id inesistente (JoptionPanel)
-
-3)Compilare gli altri campi vuoti: email e password)
-
-4) effettuare una query di aggiornamento sulla tabella dei vaccinati -> tupla dell'utente corrente
-
- */
-
 import global.DatabaseCVInterface;
 import global.ServerConnectionSingleton;
 import models.Vaccinato;
@@ -61,6 +42,7 @@ public class RegistraCitt {
         btnCercaCittadino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //controlli sulle stringhe (idUnivoco)
                 try {
                     System.out.println(tfIdUnivoco.getText());
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
@@ -87,27 +69,28 @@ public class RegistraCitt {
         tfIdUnivoco.setEditable(false);
         btnCercaCittadino.setVisible(false);
 
-        ShowTextAndLabels();
-
         tfNome.setText(userVax.getNome());
         tfCognome.setText(userVax.getCognome());
         tfCodiceFiscale.setText(userVax.getCodice_fiscale());
 
-    }
+        btnRegistraVaccinato.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //String email = tfEmail.getText();
+                //controlli sulle stringhe (email e password)
 
-    private void ShowTextAndLabels() {
-        lblNome.setVisible(true);
-        tfNome.setVisible(true);
-        lblCognome.setVisible(true);
-        tfCognome.setVisible(true);
-        lblCodiceFiscale.setVisible(true);
-        tfCodiceFiscale.setVisible(true);
-        lblEmail.setVisible(true);
-        tfEmail.setVisible(true);
-        lblPassword.setVisible(true);
-        tfPassword.setVisible(true);
-        lblErrors.setVisible(true);
-        btnRegistraVaccinato.setVisible(true);
+                try {
+                    if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText())) {
+                        JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo", "Registrazione completata", JOptionPane.PLAIN_MESSAGE);
+                        Cittadini.closePreviousWindow(Cittadini.registraCittadinoCV);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Registrazione non avvenuta con successo.\n", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     private void dontShowTextAndLabels() {
