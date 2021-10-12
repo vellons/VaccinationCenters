@@ -1,6 +1,8 @@
 package cittadini;
 
 
+import models.Vaccinato;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.io.IOException;
 public class Cittadini {
 
     public static JFrame mainCittadini;
+    public static JFrame registraCittadinoCV;
     private JPanel panelCittadini;
     private JButton btnCercaCentro;
     private JButton btnRegistrati;
@@ -23,6 +26,7 @@ public class Cittadini {
         btnCercaCentro.addActionListener(e -> {
             openDashBoardCentriVaccinaliElenco();
         });
+        btnRegistrati.addActionListener(e -> openRegistraCittadinoCV());
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -85,6 +89,19 @@ public class Cittadini {
         }
     }
 
+    private void openRegistraCittadinoCV() {
+        try {
+            registraCittadinoCV = new JFrame("Completa registrazione");
+            registraCittadinoCV.setContentPane(new RegistraCitt().panelCopletaRegistrazione);
+            registraCittadinoCV.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            registraCittadinoCV.pack();
+            registraCittadinoCV.setLocationRelativeTo(null);
+            registraCittadinoCV.setVisible(true);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     /**
      * @param dashboardFrame  &egrave; la dashboard che contiene i filtri
      * @param filtroNome      &egrave; il filtro per il nome
@@ -103,5 +120,21 @@ public class Cittadini {
         dashboardFrame.pack();
         dashboardFrame.setLocationRelativeTo(null);
         dashboardFrame.setVisible(true);
+    }
+    public static void reloadRegistraCitt(JFrame signUpCitt, String idUnivoco, Vaccinato userVax) throws Exception {
+        signUpCitt.setVisible(false);
+        signUpCitt.dispose();
+        signUpCitt.invalidate();
+        signUpCitt.setContentPane(new RegistraCitt(idUnivoco, userVax).panelCopletaRegistrazione);
+        initUI(signUpCitt);
+        signUpCitt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        signUpCitt.pack();
+        signUpCitt.setLocationRelativeTo(null);
+        signUpCitt.setVisible(true);
+    }
+
+    public static void closePreviousWindow(JFrame finestra) {
+        finestra.setVisible(false);
+        finestra.dispose();
     }
 }

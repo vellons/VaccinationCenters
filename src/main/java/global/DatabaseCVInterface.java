@@ -24,6 +24,8 @@ public interface DatabaseCVInterface extends Remote {
 
     List<Vaccinato> getVaccinatiCV(int idCV) throws RemoteException;
 
+    Vaccinato getVaccinatoByIDUnique(String idUnivoco) throws RemoteException;
+
     List<EventoAvverso> getEventiAvversiCV(int idCV) throws RemoteException;
 
     List<DashboardCentroVaccinale> getDashboardCVInfo() throws RemoteException;
@@ -37,4 +39,6 @@ public interface DatabaseCVInterface extends Remote {
     Map<String, Integer> getCountEventiCV(int idCV) throws RemoteException;
 
     Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException;
+
+    boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException;
 }
