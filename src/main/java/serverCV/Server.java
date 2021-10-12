@@ -1,6 +1,9 @@
 package serverCV;
 
 import javax.swing.*;
+import java.awt.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -49,17 +52,20 @@ public class Server {
             username = tfUsernameDB.getText();
 
             connectToDB();
-
-            btnAccedi.setEnabled(false);
-            btnDisconnetti.setEnabled(true);
         });
 
         btnDisconnetti.addActionListener(e -> {
             disconnectToDB();
-
-            btnAccedi.setEnabled(true);
-            btnDisconnetti.setEnabled(false);
         });
+
+        // Print the server IP
+        try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("1.1.1.1", 80));
+            logMessage("Server IP: " + socket.getLocalAddress().toString().replace("/", ""));
+            socket.close();
+        } catch (Exception ignored) {
+        }
 
         // Bind del registry per la connessione con RMI
         try {
@@ -95,6 +101,9 @@ public class Server {
 
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Definisce il comportamento della finestra
+        ImageIcon imageIcon = new ImageIcon("media/IconServer.png");
+        Image image = imageIcon.getImage();
+        frame.setIconImage(image);
 
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
             System.setProperty("apple.awt.brushMetalLook", "true");
@@ -132,6 +141,11 @@ public class Server {
         try {
             conn = DriverManager.getConnection(url, username, password);
             logMessage("Connessione con il database stabilita");
+            btnAccedi.setEnabled(false);
+            btnDisconnetti.setEnabled(true);
+            tfHostDB.setEditable(false);
+            tfUsernameDB.setEditable(false);
+            tfPasswordDB.setEditable(false);
             dbCV.setConnection(conn);
         } catch (SQLException e) {
             logMessage("ERROR: " + e.getMessage());
@@ -143,6 +157,11 @@ public class Server {
             if (conn != null) {
                 conn.close();
                 logMessage("Connessione con il database chiusa");
+                btnAccedi.setEnabled(true);
+                btnDisconnetti.setEnabled(false);
+                tfHostDB.setEditable(true);
+                tfUsernameDB.setEditable(true);
+                tfPasswordDB.setEditable(true);
                 dbCV.setConnection(conn);
             }
         } catch (SQLException e) {
