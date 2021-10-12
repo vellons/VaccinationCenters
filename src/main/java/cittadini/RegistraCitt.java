@@ -6,12 +6,15 @@ import models.Vaccinato;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistraCitt {
 
@@ -42,7 +45,15 @@ public class RegistraCitt {
         btnCercaCittadino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                lblErrors.setVisible(false);
                 //controlli sulle stringhe (idUnivoco)
+                if(!checkId()){
+                    lblErrors.setFont(new Font("Default", Font.BOLD, 14));
+                    lblErrors.setText("Assicurarsi che il campo non sia vuoto");
+                    lblErrors.setForeground(Color.RED);
+                    lblErrors.setVisible(true);
+                    return;
+                }
                 try {
                     System.out.println(tfIdUnivoco.getText());
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
@@ -76,8 +87,18 @@ public class RegistraCitt {
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String email = tfEmail.getText();
+                String email = tfEmail.getText();
+                checkEmail(email);
                 //controlli sulle stringhe (email e password)
+                if(!checkEmail(email)){
+                    JOptionPane.showMessageDialog(null, "L'email da te inserita non rispetta la sintassi adeguata.\n", "Email non valida", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String pwd = String.valueOf(tfPassword.getPassword());
+                if(!checkPassword(pwd)){
+                    JOptionPane.showMessageDialog(null, "La password da te inserita non rispetta la sintassi adeguata.\n", "Password non valida", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 try {
                     if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText())) {
@@ -106,6 +127,45 @@ public class RegistraCitt {
         tfPassword.setVisible(false);
         lblErrors.setVisible(false);
         btnRegistraVaccinato.setVisible(false);
+    }
+
+    private boolean checkId(){
+        boolean res = false;
+        String idUnivoco = tfIdUnivoco.getText();
+        if(!idUnivoco.equals("")){
+            res = true;
+        }
+        return res;
+    }
+
+    private boolean checkEmail(String email) {
+        boolean res = false;
+        String espressione = "^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4}$";
+        Pattern p = Pattern.compile(espressione);
+
+        Matcher m = p.matcher(email);
+
+        boolean matchFound = m.matches();
+
+        if (matchFound) {
+            res = true;
+        }
+        return res;
+    }
+
+    private boolean checkPassword(String pwd){
+        boolean res = false;
+        String espressione = ("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
+        Pattern p = Pattern.compile(espressione);
+
+        Matcher m = p.matcher(pwd);
+
+        boolean matchFound = m.matches();
+
+        if (matchFound) {
+            res = true;
+        }
+        return res;
     }
 
     private void createUIComponents() throws IOException {
