@@ -96,7 +96,9 @@ public class RegistraCitt {
                 }
                 String pwd = String.valueOf(tfPassword.getPassword());
                 if(!checkPassword(pwd)){
-                    JOptionPane.showMessageDialog(null, "La password da te inserita non rispetta la sintassi adeguata.\n", "Password non valida", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "La password da te inserita non rispetta la sintassi adeguata.\n" +
+                            "La password deve contenere una lettera maiuscola, una minuscola e almeno una lettera. \n" +
+                            "La lunghezza deve essere compresa tra 8 e 20 caratteri", "Password non valida", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
