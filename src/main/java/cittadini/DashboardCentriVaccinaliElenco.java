@@ -27,11 +27,18 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
     public JPanel panelDashboardCentriVaccinaliElenco;
 
     /**
-     * <code>panelLogo</code> rappresenta un pannello.
+     * <code>panelLogo</code> rappresenta un pannello per inserire il logo
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JPanel panelLogo;
+
+    /**
+     * <code>panelTitle</code> rappresenta un pannello per inserire il titolo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+    private JPanel panelTitle;
 
     /**
      * <code>panelListaCentriVaccinali</code> rappresenta un pannello.
@@ -69,6 +76,13 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
     private JTextField tfFiltroComune;
 
     /**
+     * <code>lblVaccinazioniTotale</code> rappresenta una label per inserire il totale di vaccinati.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+    private JLabel lblVaccinazioniTotale;
+
+    /**
      * <code>initialFiltroNome</code> rappresenta il filtro per il nome del centro vaccinale.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
@@ -95,7 +109,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
 
     /**
@@ -125,6 +139,12 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
                 exception.printStackTrace();
             }
         });
+        try {
+            lblVaccinazioniTotale.setText("Totale vaccinati: " +
+                    ServerConnectionSingleton.getDatabaseInstance().rowCounterInTable("vaccinati"));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -136,17 +156,10 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
         BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
-
-        // Creo la lista dei centri vaccinali passando i filtri
-        panelListaCentriVaccinali = new JPanel();
-        panelListaCentriVaccinali.add(new ListaCentriVaccinaliPanel(initialFiltroNome, initialFiltroComune, initialFiltroTipologia));
-
-        // Inizializzo e popolo i valori dei filtri
-        tfFiltroNomeCentroVaccinale = new JTextField();
-        tfFiltroComune = new JTextField();
-
-        tfFiltroNomeCentroVaccinale.setText(initialFiltroNome);
-        tfFiltroComune.setText(initialFiltroComune);
+        panelTitle = new JPanel();
+        BufferedImage myPicture2 = ImageIO.read(new File("media/Cittadini.png"));
+        JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
+        panelTitle.add(picLabel2);
 
         // Prendo le tipologie di centro vaccinale
         if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
@@ -165,5 +178,17 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
 
         cboxTipologia = new JComboBox(tipologieCombo.toArray());
         cboxTipologia.setSelectedIndex(initialFiltroTipologia);
+
+
+        // Creo la lista dei centri vaccinali passando i filtri
+        panelListaCentriVaccinali = new JPanel();
+        panelListaCentriVaccinali.add(new ListaCentriVaccinaliPanel(initialFiltroNome, initialFiltroComune, initialFiltroTipologia));
+
+        // Inizializzo e popolo i valori dei filtri
+        tfFiltroNomeCentroVaccinale = new JTextField();
+        tfFiltroComune = new JTextField();
+
+        tfFiltroNomeCentroVaccinale.setText(initialFiltroNome);
+        tfFiltroComune.setText(initialFiltroComune);
     }
 }

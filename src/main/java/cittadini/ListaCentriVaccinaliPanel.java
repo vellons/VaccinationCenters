@@ -44,6 +44,7 @@ public class ListaCentriVaccinaliPanel extends JPanel {
         gridBagConstraints.weighty = 1;
         mainList.add(new JPanel(), gridBagConstraints);
         JScrollPane jScrollPane = new JScrollPane(mainList);
+        jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.setBorder(createEmptyBorder());
         add(jScrollPane);
         validate();
@@ -100,7 +101,7 @@ public class ListaCentriVaccinaliPanel extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(800, 500);
+        return new Dimension(800, 490);
     }
 
     /**

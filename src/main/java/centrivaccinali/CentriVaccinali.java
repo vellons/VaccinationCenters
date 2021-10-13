@@ -8,16 +8,94 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * La classe CentriVaccinali serve per inizializzare il loto dell'applicazione dal lato degli operatori
+ *
+ * @author Mahdi Said
+ */
+
 public class CentriVaccinali {
 
-    public static JFrame registraCVFrame = new JFrame("Centri Vaccinali OPeratori - Registrazione Centro Vaccinale");
+    /**
+     * <code>registraCVFrame</code> &egrave; una cornice Swing attivata nel momento nel
+     * quale si vuole registrare un centro vaccinale
+     *
+     * @see RegistraCV
+     * <p>
+     * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
+     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     */
+
+    public static JFrame registraCVFrame = new JFrame("Centri Vaccinali Operatori - Registrazione Centro Vaccinale");
+
+    /**
+     * <code>registraVaccinatoFrame</code> &egrave; una cornice Swing attivata nel momento nel
+     * quale si vuole registrare un centro vaccinale
+     *
+     * @see RegistraVaccinato
+     * <p>
+     * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
+     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     */
+
     public static JFrame registraVaccinatoFrame = new JFrame("Centri Vaccinali Operatori - Registrazione Vaccinato");
+
+    /**
+     * <code>panelCentriVaccinali</code> &egrave; un pannello Swing che compone
+     * l'interfaccia grafica, nella fattispecie la parte che si occupa dell'interfaccia
+     * di benvenuto degli operatori
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JPanel panelCentriVaccinali;
+
+    /**
+     * <code>panelLogo</code> &egrave; un pannello Swing che compone
+     * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JPanel panelLogo;
+
+    /**
+     * <code>panelLogo3</code> &egrave; un pannello Swing che compone
+     * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JPanel panelLogo3;
+
+    /**
+     * <code>panelLogo2</code> &egrave; un pannello Swing che compone
+     * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JPanel panelLogo2;
+
+    /**
+     * <code>btnRegistraCV</code> &egrave; un bottone Swing che attiva la procedura
+     * di registrazione di un centro vaccinale
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JButton btnRegistraCV;
+
+    /**
+     * <code>btnRegistraVaccinato</code> &egrave; un bottone Swing che attiva la procedura
+     * di registrazione di un nuovo utente vaccinato
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
     private JButton btnRegistraVaccinato;
+
+    /**
+     * Costruttore della classe
+     */
 
     public CentriVaccinali() {
         btnRegistraVaccinato.addActionListener(new ActionListener() {
@@ -52,6 +130,15 @@ public class CentriVaccinali {
         });
     }
 
+    /**
+     * Main della classe
+     *
+     * @throws UnsupportedLookAndFeelException &egrave; utilizzata quando le richieste di tipo "Look and Feel" non vanno a buon fine
+     * @throws ClassNotFoundException &egrave; utilizzata quando i caricamenti delle classi non vanno a buon fine
+     * @throws InstantiationException &egrave; utilizzata quando una classe non riesce ad essere istanziata
+     * @throws IllegalAccessException &egrave; utilizzata quando non si dispongono degli accessi per fare operazioni
+     */
+
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         JFrame mainCentriVaccinali = new JFrame("Centri Vaccinali Operatori");
 
@@ -62,6 +149,19 @@ public class CentriVaccinali {
         mainCentriVaccinali.setLocationRelativeTo(null); // Mette la finestra al centro (da richiamare dopo .pack())
         mainCentriVaccinali.setVisible(true);
     }
+
+    /**
+     * <code>initUI</code> &egrave; una procedura per inizializzare l'interfaccia
+     * utente su una finestra e per finalizzarne le impostazioni
+     *
+     * @param frame &egrave; il frame sul quale applicare le impostazioni
+     *              &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     *              &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * @throws ClassNotFoundException          se non trova la classe da caricare
+     * @throws UnsupportedLookAndFeelException e le classi look and feel richieste non sono presenti sul sistema
+     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws IllegalAccessException          quando si cerca di effettuare l'accesso ad un campo laddove non &egrave; possibile
+     */
 
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,10 +181,27 @@ public class CentriVaccinali {
         }
     }
 
+    /**
+     * <code>closePreviousWindow</code> &egrave; una procedura per chiudere una
+     * finestra non più utilizzata
+     *
+     * @param finestra &egrave; la finestra da chiudere
+     *                 &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     *                 &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     */
+
     public static void closePreviousWindow(JFrame finestra) {
         finestra.setVisible(false);
         finestra.dispose();
     }
+
+    /**
+     * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
+     * quando viene caricato il frame
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     *
+     * @throws IOException &egrave; utilizzata quando si verificano errori nelle fasi di input e di output
+     */
 
     private void createUIComponents() throws IOException {
         panelLogo = new JPanel();

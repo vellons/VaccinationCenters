@@ -299,6 +299,33 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
+    public List<DashboardCentroVaccinale> getDashboardCVInfo() throws RemoteException {
+        // Restituisce gli eventi avversi di un centro vaccinale
+        List<DashboardCentroVaccinale> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM dashboard_centri_vaccinali;"; // Definizione vista in create_table.sql
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                DashboardCentroVaccinale obj = new DashboardCentroVaccinale(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setVaccinati_con_eventi_avversi(rs.getInt("vaccinati_con_ea"));
+                obj.setSomma_eventi_avversi(rs.getInt("somma_ea"));
+                obj.setVaccinati(rs.getInt("vaccinati"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getDashboardCVInfo()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
     public synchronized boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
 
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +
@@ -388,13 +415,38 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return rowCounter;
     }
 
+    public Map<String, Integer> getCountEventiCV(int idCV) throws RemoteException {
+        // restituisce il conteggio gi ogni evento avverso, per tipologia
+        Map<String, Integer> totEventiAvvPerTipologia = new HashMap<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT te_scroll.nome, (SELECT count(*) FROM eventi_avversi ea INNER JOIN vaccinati v ON ea.vaccinato_id = v.id " +
+                    "INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id" +
+                    " WHERE ea.tipologia_evento_id = te_scroll.id AND cv.id = " + idCV + ") total " +
+                    "from tipologia_evento te_scroll ORDER BY te_scroll.id ASC;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                totEventiAvvPerTipologia.put(rs.getString("nome"), rs.getInt("total"));
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: resocontoEventiCV()");
+            e.printStackTrace();
+        }
+        return totEventiAvvPerTipologia;
+    }
+
     public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
         // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
         Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT cv.id, count(*) vaccinati FROM vaccinati v INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id GROUP BY cv.id ORDER BY cv.id ASC;";
+            String query = "SELECT id, vaccinati FROM dashboard_centri_vaccinali;";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));
@@ -415,11 +467,11 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + password + "' WHERE id_univoco = '" + idUnivoco + "';";
+            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
             stmt.executeUpdate(query);
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage(query + " in: " + duration + "mS");
+            logMessage("Aggiornamento utente completato in: " + duration + "mS");
             return true;
 
         } catch (SQLException e) {
