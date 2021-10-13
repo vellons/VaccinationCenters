@@ -105,8 +105,7 @@ public class DettaglioCentroVaccinale {
     private void setTotalVax() {
         try {
             vax = db.getVaccinatiCV(cv.getId());
-            List<DashboardCentroVaccinale> info = new ArrayList<>();
-            info = db.getDashboardCVInfo();
+            List<DashboardCentroVaccinale> info = db.getDashboardCVInfo("WHERE id = " + cv.getId());
 
             for(DashboardCentroVaccinale list: info){
                 if (list.getId() == cv.getId()){

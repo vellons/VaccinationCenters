@@ -98,7 +98,7 @@ public class CentroVaccinalePerLista extends JPanel {
         if (dashboardData.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta
             try {
                 DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                dashboardData = db.getDashboardCVInfo();
+                dashboardData = db.getDashboardCVInfo("");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

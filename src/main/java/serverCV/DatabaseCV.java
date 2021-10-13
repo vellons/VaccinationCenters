@@ -299,13 +299,14 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    public List<DashboardCentroVaccinale> getDashboardCVInfo() throws RemoteException {
+    public List<DashboardCentroVaccinale> getDashboardCVInfo(String where) throws RemoteException {
         // Restituisce gli eventi avversi di un centro vaccinale
         List<DashboardCentroVaccinale> returnList = new ArrayList<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM dashboard_centri_vaccinali;"; // Definizione vista in create_table.sql
+            if (!isSafeWhere(where)) throw new SQLException("Not safe query");
+            String query = "SELECT * FROM dashboard_centri_vaccinali " + where + ";"; // Definizione vista in create_table.sql
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 DashboardCentroVaccinale obj = new DashboardCentroVaccinale(rs.getInt("id"));
@@ -474,7 +475,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             logMessage(query + " in: " + duration + "mS");
             return true;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
             return false;
