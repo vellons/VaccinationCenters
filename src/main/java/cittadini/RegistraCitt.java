@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,7 @@ public class RegistraCitt {
     private JPasswordField tfPassword;
     private JButton btnCercaCittadino;
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+    private boolean showJOptionPane = true;
 
 
     public RegistraCitt() {
@@ -83,6 +86,20 @@ public class RegistraCitt {
         tfNome.setText(userVax.getNome());
         tfCognome.setText(userVax.getCognome());
         tfCodiceFiscale.setText(userVax.getCodice_fiscale());
+
+        tfPassword.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                if (showJOptionPane) {
+                    JOptionPane.showMessageDialog(null,
+                            "Inserisci una password con un minimo di 8 caratteri (massimo di 20), una lettera minuscola, una lettera " +
+                                    "maiuscola e un numero.", "Regole inserimento della password", JOptionPane.PLAIN_MESSAGE);
+                    showJOptionPane = false;
+                }
+
+            }
+        });
 
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
@@ -179,5 +196,14 @@ public class RegistraCitt {
         BufferedImage myPicture2 = ImageIO.read(new File("media/ItaliaRinasce.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
+
+        tfIdUnivoco = new JTextField();
+        tfEmail = new JTextField();
+        tfPassword = new JPasswordField();
+
+        tfIdUnivoco.setDocument(new JTextFieldCharLimit(36));
+        tfEmail.setDocument(new JTextFieldCharLimit(40));
+        tfPassword.setDocument(new JTextFieldCharLimit(20));
+
     }
 }
