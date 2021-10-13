@@ -1,5 +1,7 @@
 package centrivaccinali;
 
+import global.ServerConnectionSingleton;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -148,6 +150,7 @@ public class CentriVaccinali {
         mainCentriVaccinali.pack();
         mainCentriVaccinali.setLocationRelativeTo(null); // Mette la finestra al centro (da richiamare dopo .pack())
         mainCentriVaccinali.setVisible(true);
+        ServerConnectionSingleton.getDatabaseInstance();  // Creo la prima istanza della connessione al DB e recupero l'indirizzo del server
     }
 
     /**

@@ -1,6 +1,7 @@
 package cittadini;
 
 
+import global.ServerConnectionSingleton;
 import models.Vaccinato;
 
 import javax.imageio.ImageIO;
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class Cittadini {
 
     public static JFrame mainCittadini;
+    public static JFrame elencoCentriVaccinali;
     public static JFrame registraCittadinoCV;
     private JPanel panelCittadini;
     private JButton btnCercaCentro;
@@ -23,14 +25,12 @@ public class Cittadini {
     private JPanel panelLogo3;
 
     public Cittadini() {
-        btnCercaCentro.addActionListener(e -> {
-            openDashBoardCentriVaccinaliElenco();
-        });
+        btnCercaCentro.addActionListener(e -> openDashBoardCentriVaccinaliElenco());
         btnRegistrati.addActionListener(e -> openRegistraCittadinoCV());
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        mainCittadini = new JFrame("Centri Vaccinali Cittadini");
+        mainCittadini = new JFrame("Centri Vaccinali Cittadini - Home");
 
         mainCittadini.setContentPane(new Cittadini().panelCittadini);
         initUI(mainCittadini);
@@ -38,10 +38,10 @@ public class Cittadini {
         mainCittadini.pack();
         mainCittadini.setLocationRelativeTo(null); // Mette la finestra al centro (da richiamare dopo .pack())
         mainCittadini.setVisible(true);
+        ServerConnectionSingleton.getDatabaseInstance();  // Creo la prima istanza della connessione al DB e recupero l'indirizzo del server
     }
 
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon imageIcon = new ImageIcon("media/CVLogo.png");
         Image image = imageIcon.getImage();
         frame.setIconImage(image);
@@ -79,11 +79,14 @@ public class Cittadini {
 
     private void openDashBoardCentriVaccinaliElenco() {
         try {
-            mainCittadini.setContentPane(new DashboardCentriVaccinaliElenco("", "", 0).panelDashboardCentriVaccinaliElenco);
-            mainCittadini.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
-            mainCittadini.pack();
-            mainCittadini.setLocationRelativeTo(null);
-            mainCittadini.setVisible(true);
+            elencoCentriVaccinali = new JFrame("Centri Vaccinali Cittadini - Elenco");
+            elencoCentriVaccinali.setContentPane(new DashboardCentriVaccinaliElenco("", "", 0).panelDashboardCentriVaccinaliElenco);
+            //elencoCentriVaccinali.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            initUI(elencoCentriVaccinali);
+            elencoCentriVaccinali.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            elencoCentriVaccinali.pack();
+            elencoCentriVaccinali.setLocationRelativeTo(null);
+            elencoCentriVaccinali.setVisible(true);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -91,8 +94,9 @@ public class Cittadini {
 
     private void openRegistraCittadinoCV() {
         try {
-            registraCittadinoCV = new JFrame("Completa registrazione");
+            registraCittadinoCV = new JFrame("Centri Vaccinali Cittadini - Completa registrazione");
             registraCittadinoCV.setContentPane(new RegistraCitt().panelCopletaRegistrazione);
+            initUI(registraCittadinoCV);
             registraCittadinoCV.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
             registraCittadinoCV.pack();
             registraCittadinoCV.setLocationRelativeTo(null);
@@ -121,6 +125,7 @@ public class Cittadini {
         dashboardFrame.setLocationRelativeTo(null);
         dashboardFrame.setVisible(true);
     }
+
     public static void reloadRegistraCitt(JFrame signUpCitt, String idUnivoco, Vaccinato userVax) throws Exception {
         signUpCitt.setVisible(false);
         signUpCitt.dispose();

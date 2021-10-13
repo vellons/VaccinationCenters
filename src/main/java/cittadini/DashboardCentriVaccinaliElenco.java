@@ -130,7 +130,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
             // Ricarico la dashboard dei centri vaccinali passando i filtri
             try {
                 Cittadini.reloadDashBoardCentriVaccinaliElencoConFiltri(
-                        Cittadini.mainCittadini,
+                        Cittadini.elencoCentriVaccinali,
                         tfFiltroNomeCentroVaccinale.getText(),
                         tfFiltroComune.getText(),
                         cboxTipologia.getSelectedIndex()

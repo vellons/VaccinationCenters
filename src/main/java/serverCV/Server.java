@@ -85,7 +85,7 @@ public class Server {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        JFrame mainServer = new JFrame("Centri Vaccinali Server");
+        JFrame mainServer = new JFrame("Centri Vaccinali - Server");
 
         try {
             mainServer.setContentPane(new Server().panelServer);
@@ -136,7 +136,6 @@ public class Server {
         }
 
         String url = "jdbc:postgresql://" + host + "/" + DB_NAME;
-        System.out.println("URL: " + url);
 
         try {
             conn = DriverManager.getConnection(url, username, password);
