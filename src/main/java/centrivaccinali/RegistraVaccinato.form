@@ -230,6 +230,7 @@
               <background color="-3727837"/>
               <borderPainted value="false"/>
               <enabled value="true"/>
+              <font style="1"/>
               <foreground color="-1"/>
               <opaque value="true"/>
               <text value="Registra vaccinato"/>

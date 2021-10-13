@@ -49,7 +49,8 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
+              <font style="1"/>
               <foreground color="-1"/>
               <opaque value="true"/>
               <text value="Registra centro vaccinale"/>
@@ -67,8 +68,9 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
               <focusable value="true"/>
+              <font style="1"/>
               <foreground color="-1"/>
               <opaque value="true"/>
               <text value="Registra nuovo vaccinato"/>

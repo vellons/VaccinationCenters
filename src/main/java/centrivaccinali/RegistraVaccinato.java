@@ -268,6 +268,12 @@ public class RegistraVaccinato{
             public void actionPerformed(ActionEvent e) {
                 setTipo(getTipoVaccino());
                 setID(getNomeCentro());
+                if(!checkInput(getTfDataVaccino(),tfDataVaccino)){
+                    generaData();
+                }
+                if(!checkInput(getTfIDUnivoco(),tfIDUnivoco)){
+                    generaID();
+                }
                 dataVaccino=stringToTimestamp(getTfDataVaccino());
                 if (checkAllInputs()) {
                     try {
@@ -279,7 +285,7 @@ public class RegistraVaccinato{
                             db.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione e'" +
-                                    "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
+                                    "andata a buon fine! Ecco il tuo codice identificativo, attento a non perderlo: "+ tfIDUnivoco.getText(), "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
                             JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
@@ -297,7 +303,7 @@ public class RegistraVaccinato{
         btnDataCorrente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date = new Date();
                 tfDataVaccino.setText(formatter.format(date));
             }
@@ -398,8 +404,9 @@ public class RegistraVaccinato{
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
         allFieldsValid &= isAlphabetic(getTfCognome());
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
-        allFieldsValid &= dataVaccino != null;
-        allFieldsValid &= checkInput(getTfIDUnivoco(), tfIDUnivoco);
+        allFieldsValid &= getTfNome().length()<=64;
+        allFieldsValid &= getTfCognome().length()<=64;
+        allFieldsValid &= getTfCodiceFiscale().length()<=24;
 
         return allFieldsValid;
     }
@@ -412,7 +419,7 @@ public class RegistraVaccinato{
      * @return valore booleano che indica se il dato &egrave; di tipo alfabetico
      */
 
-    private static boolean isAlphabetic(String input) {
+    private boolean isAlphabetic(String input) {
         for (int i = 0; i != input.length(); ++i) {
             if (!Character.isLetter(input.charAt(i))) {
                 return false;
@@ -433,7 +440,7 @@ public class RegistraVaccinato{
 
     private Timestamp stringToTimestamp(String stringa){
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date parsedDate = dateFormat.parse(stringa);
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             return timestamp;
@@ -495,6 +502,29 @@ public class RegistraVaccinato{
         }
 
     }
+
+    /**
+     * <code>generaData</code> &egrave; un metodo per scrivere la data di somministrazione nel caso in cui l'utente non lo avesse gi&agrave; fatto
+     * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe*
+     * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
+     */
+
+    private void generaData(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        tfDataVaccino.setText(formatter.format(date));
+    }
+
+    /**
+     * <code>generaID</code> &egrave; un metodo per generare un identiicativo nel caso l'utente non ne avesse uno
+     * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe*
+     * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
+     */
+
+    private void generaID(){
+        tfIDUnivoco.setText(UUID.randomUUID().toString());
+    }
+
 
     /**
      * <code>checkInput</code> &egrave; un metodo per controllare l'input di un textfield
