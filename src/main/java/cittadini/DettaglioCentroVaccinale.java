@@ -102,8 +102,8 @@ public class DettaglioCentroVaccinale {
                 panelPieChart.add(createPieChartPanel());
             else {
                 JLabel labelAvviso = new JLabel();
-                labelAvviso.setText("<html>Grafico a torta non disponibile<br/>" +
-                        "per questo centro vaccinale.</html>");
+                labelAvviso.setText("<html>Nessuno si è ancora vaccinato in questo centro<br/>" +
+                        "</html>");
                 panelPieChart.add(labelAvviso);
             }
         } catch (RemoteException e) {
