@@ -468,11 +468,11 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + password + "' WHERE id_univoco = '" + idUnivoco + "';";
+            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
             stmt.executeUpdate(query);
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage(query + " in: " + duration + "mS");
+            logMessage("Aggiornamento utente completato in: " + duration + "mS");
             return true;
 
         } catch (Exception e) {

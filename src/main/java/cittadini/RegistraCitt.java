@@ -1,6 +1,7 @@
 package cittadini;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.Vaccinato;
 
@@ -9,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class RegistraCitt {
     private JPasswordField tfPassword;
     private JButton btnCercaCittadino;
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+    private boolean showJOptionPane = true;
 
 
     public RegistraCitt() {
@@ -58,16 +62,22 @@ public class RegistraCitt {
                     System.out.println(tfIdUnivoco.getText());
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
                     if (userVax != null) {
-                        try {
-                            Cittadini.reloadRegistraCitt(Cittadini.registraCittadinoCV, tfIdUnivoco.getText(), userVax);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                        if (userVax.getEmail() != null) {
+                            JOptionPane.showMessageDialog(null, "Hai già completata la registrazione.\n" +
+                                            "La pagina verrà automaticamente chiusa.",
+                                    "Registrazione già effettuata", JOptionPane.PLAIN_MESSAGE);
+                            Cittadini.closePreviousWindow(Cittadini.registraCittadinoCV);
+                        } else {
+                            try {
+                                Cittadini.reloadRegistraCitt(Cittadini.registraCittadinoCV, tfIdUnivoco.getText(), userVax);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "L'id inserito non e' prensente.\n" +
                                 "Assicurarsi di aver digitato correttamente l'id\ne riprovare.", "ID non presente", JOptionPane.PLAIN_MESSAGE);
                     }
-
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
                 }
@@ -83,6 +93,20 @@ public class RegistraCitt {
         tfNome.setText(userVax.getNome());
         tfCognome.setText(userVax.getCognome());
         tfCodiceFiscale.setText(userVax.getCodice_fiscale());
+
+        tfPassword.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                if (showJOptionPane) {
+                    JOptionPane.showMessageDialog(null,
+                            "Inserisci una password con un minimo di 8 caratteri (massimo di 20), una lettera minuscola, una lettera " +
+                                    "maiuscola e un numero.", "Regole inserimento della password", JOptionPane.PLAIN_MESSAGE);
+                    showJOptionPane = false;
+                }
+
+            }
+        });
 
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
@@ -101,7 +125,6 @@ public class RegistraCitt {
                             "La lunghezza deve essere compresa tra 8 e 20 caratteri", "Password non valida", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 try {
                     if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText())) {
                         JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo", "Registrazione completata", JOptionPane.PLAIN_MESSAGE);
@@ -127,7 +150,8 @@ public class RegistraCitt {
         tfEmail.setVisible(false);
         lblPassword.setVisible(false);
         tfPassword.setVisible(false);
-        lblErrors.setVisible(false);
+        lblErrors.setVisible(true);
+        lblErrors.setText("Compila il campo per proseguire con la registrazione");
         btnRegistraVaccinato.setVisible(false);
     }
 
@@ -179,5 +203,14 @@ public class RegistraCitt {
         BufferedImage myPicture2 = ImageIO.read(new File("media/ItaliaRinasce.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
+
+        tfIdUnivoco = new JTextField();
+        tfEmail = new JTextField();
+        tfPassword = new JPasswordField();
+
+        tfIdUnivoco.setDocument(new JTextFieldCharLimit(36));
+        tfEmail.setDocument(new JTextFieldCharLimit(40));
+        tfPassword.setDocument(new JTextFieldCharLimit(20));
+
     }
 }
