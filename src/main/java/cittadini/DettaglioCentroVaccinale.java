@@ -5,7 +5,6 @@ import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
 import models.DashboardCentroVaccinale;
 import models.TipologiaCentroVaccinale;
-import models.Vaccinato;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,9 +18,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
-import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class DettaglioCentroVaccinale {
 
@@ -35,25 +32,20 @@ public class DettaglioCentroVaccinale {
     private JLabel lbEventiAvversi;
     private JLabel lblTipologia;
     private JPanel panelPieChart;
-    private List<Vaccinato> vax = new ArrayList<>();
+    private JLabel lbTitoloEventi;
     private DashboardCentroVaccinale infoCV;
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
-    private List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
-    private Map<String, Integer> eventiAvversiCV = new HashMap<>();
 
     public DettaglioCentroVaccinale(CentroVaccinale cv) throws RemoteException {
         this.cv = cv;
         setCVLabels(this.cv);
         setTotalVax();
         setEventiAvversiLabel();
-        panelPieChart.add(createPieChartPanel());
     }
 
     private void setEventiAvversiLabel() throws RemoteException {
-        eventiAvversiCV = db.getCountEventiCV(cv.getId());
-
-        StringBuilder text = new StringBuilder("<html>Eventi avversi segnalati:<br/>");
-        for (Map.Entry<String, Integer> entry : eventiAvversiCV.entrySet()) {
+        StringBuilder text = new StringBuilder("<html>");
+        for (Map.Entry<String, Integer> entry : db.getCountEventiCV(cv.getId()).entrySet()) {
             String key = entry.getKey();
             int value = entry.getValue();
             text.append("- ").append(key).append(": ").append(value).append("<br/>");
@@ -64,37 +56,31 @@ public class DettaglioCentroVaccinale {
     private JPanel createPieChartPanel() { // funzione che mi permette la creazione di un Chart sul pannello panelPieChart
         JFreeChart chart = createChart(createDataset());
         PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setSectionPaint("Totale vaccinati senza eventi avversi", new Color(231, 28, 119));
-        plot.setSectionPaint("Totale vaccinati con almeno un evento avverso", new Color(255,202,24));
+        plot.setSectionPaint("Vaccinati senza eventi avversi", new Color(231, 28, 119));
+        plot.setSectionPaint("Vaccinati con almeno un evento avverso", new Color(255, 202, 24));
         return new ChartPanel(chart);
     }
 
     private PieDataset createDataset() { // Specifica dei parametri che verranno visualizzati sul PieChart
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Totale vaccinati senza eventi avversi", (infoCV.getVaccinati() - infoCV.getVaccinati_con_eventi_avversi())); // totale vaccinati
-        dataset.setValue("Totale vaccinati con almeno un evento avverso", infoCV.getVaccinati_con_eventi_avversi()); // totale vaccinati con eventi avversi
+        dataset.setValue("Vaccinati senza eventi avversi", (infoCV.getVaccinati() - infoCV.getVaccinati_con_eventi_avversi())); // totale vaccinati
+        dataset.setValue("Vaccinati con almeno un evento avverso", infoCV.getVaccinati_con_eventi_avversi()); // totale vaccinati con eventi avversi
         return dataset; // restituisco l'oggetto di tipo DefaultPieDataset
     }
 
     private JFreeChart createChart(PieDataset dataset) { // funzione che permette la creazioe di un PieChart (diagramma a torta)
-        return ChartFactory.createPieChart("Vaccinati", dataset, true, true, false);
+        return ChartFactory.createPieChart("Vaccinati", dataset, false, true, false);
     }
 
-    private void setCVLabels(CentroVaccinale cv) {
+    private void setCVLabels(CentroVaccinale cv) throws RemoteException {
         lbCentroVaccinale.setText(cv.getNome());
         lbIndirizzo.setText(cv.getIndirizzoComposto());
         lblTipologia.setText("Tipologia: " + findTipologia());
     }
 
-    private String findTipologia() {
-        try {
-            DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-            tipologie = db.getTipologiaCentroVaccinale();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    private String findTipologia() throws RemoteException {
         String tipologia = "";
-        for (TipologiaCentroVaccinale obj : tipologie) {
+        for (TipologiaCentroVaccinale obj : db.getTipologiaCentroVaccinale()) {
             if (cv.getTipologia_id() == obj.getId()) {
                 tipologia = obj.getNome();
             }
@@ -104,16 +90,22 @@ public class DettaglioCentroVaccinale {
 
     private void setTotalVax() {
         try {
-            vax = db.getVaccinatiCV(cv.getId());
-            List<DashboardCentroVaccinale> info = db.getDashboardCVInfo("WHERE id = " + cv.getId());
-
-            for(DashboardCentroVaccinale list: info){
-                if (list.getId() == cv.getId()){
+            for (DashboardCentroVaccinale list : db.getDashboardCVInfo("WHERE id = " + cv.getId())) {
+                if (list.getId() == cv.getId()) {
                     infoCV = list;
                     break;
                 }
             }
             lbTotaleVaccinati.setText("Vaccinazioni totali: " + infoCV.getVaccinati());
+
+            if (infoCV.getVaccinati() > 0)
+                panelPieChart.add(createPieChartPanel());
+            else {
+                JLabel labelAvviso = new JLabel();
+                labelAvviso.setText("<html>Nessuno si è ancora vaccinato in questo centro<br/>" +
+                        "</html>");
+                panelPieChart.add(labelAvviso);
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -127,4 +119,3 @@ public class DettaglioCentroVaccinale {
         panelPieChart = new JPanel();
     }
 }
-
