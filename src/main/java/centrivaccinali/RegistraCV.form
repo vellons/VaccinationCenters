@@ -156,6 +156,7 @@
             </constraints>
             <properties>
               <background color="-723724"/>
+              <font/>
               <foreground color="-3727837"/>
               <text value="Tipo centro"/>
             </properties>
@@ -218,6 +219,7 @@
               <enabled value="true"/>
               <focusPainted value="true"/>
               <focusable value="true"/>
+              <font style="1"/>
               <foreground color="-1"/>
               <opaque value="true"/>
               <text value="Registra centro"/>

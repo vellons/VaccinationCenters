@@ -360,11 +360,15 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
+        allFieldsValid &= getTfNomeCentro().length()<=128;
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
+        allFieldsValid &= getTfIndirizzo().length()<=128;
         allFieldsValid &= isAlphabetic(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
+        allFieldsValid &= getTfCivico().length()<=8;
         allFieldsValid &= isNumeric(getTfCivico());
         allFieldsValid &= checkInput(getTfComune(), tfComune);
+        allFieldsValid &= getTfComune().length()<=64;
         allFieldsValid &= isAlphabetic(getTfComune());
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
         allFieldsValid &= isAlphabetic(getTfSiglaProvincia());
@@ -401,7 +405,7 @@ public class RegistraCV {
      * @return valore booleano che indica se il dato &egrave; di tipo alfabetico
      */
 
-    private static boolean isAlphabetic(String input) {
+    private boolean isAlphabetic(String input) {
         for (int i = 0; i != input.length(); ++i) {
             if (!Character.isLetter(input.charAt(i))) {
                 return false;

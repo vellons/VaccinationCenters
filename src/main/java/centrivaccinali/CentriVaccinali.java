@@ -4,6 +4,7 @@ import global.ServerConnectionSingleton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -168,6 +169,9 @@ public class CentriVaccinali {
 
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon imageIcon = new ImageIcon("media/CVLogo.png");
+        Image image = imageIcon.getImage();
+        frame.setIconImage(image);
 
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
             System.setProperty("apple.awt.brushMetalLook", "true");
