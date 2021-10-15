@@ -239,11 +239,11 @@ public class RegistraCV {
                             cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
                             db.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
-                            JOptionPane.showMessageDialog(null, "La registrazione e'" +
+                            JOptionPane.showMessageDialog(null, "La registrazione è " +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, "C'e' stato un problema. Prova a riavviare l'app",
+                        JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
                                 "Attenzione", JOptionPane.PLAIN_MESSAGE);
                         exception.printStackTrace();
                     }
@@ -406,12 +406,14 @@ public class RegistraCV {
      */
 
     private boolean isAlphabetic(String input) {
+        if(Character.isSpaceChar(input.charAt(0))){
+            return false;
+        }
         for (int i = 0; i != input.length(); ++i) {
-            if (!Character.isLetter(input.charAt(i))) {
+            if (!Character.isLetter(input.charAt(i)) && !Character.isSpaceChar(input.charAt(i))) {
                 return false;
             }
         }
-
         return true;
     }
 

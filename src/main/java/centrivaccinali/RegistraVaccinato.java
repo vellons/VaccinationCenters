@@ -284,11 +284,11 @@ public class RegistraVaccinato{
                             vax = new Vaccinato(getTfIDUnivoco(),centro_id,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
                             db.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
-                            JOptionPane.showMessageDialog(null, "La registrazione e'" +
-                                    "andata a buon fine! Ecco il tuo codice identificativo, attento a non perderlo: "+ tfIDUnivoco.getText(), "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showInputDialog(null, "La registrazione è " +
+                                    "andata a buon fine! Ecco il tuo codice identificativo. Attento a non perderlo!!!", getTfIDUnivoco());
                         }
                     } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
+                            JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
                                     "Attenzione", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
@@ -420,12 +420,14 @@ public class RegistraVaccinato{
      */
 
     private boolean isAlphabetic(String input) {
+        if(Character.isSpaceChar(input.charAt(0))){
+            return false;
+        }
         for (int i = 0; i != input.length(); ++i) {
-            if (!Character.isLetter(input.charAt(i))) {
+            if (!Character.isLetter(input.charAt(i)) && !Character.isSpaceChar(input.charAt(i))) {
                 return false;
             }
         }
-
         return true;
     }
 
