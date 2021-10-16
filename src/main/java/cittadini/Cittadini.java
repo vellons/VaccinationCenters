@@ -1,6 +1,5 @@
 package cittadini;
 
-
 import global.ServerConnectionSingleton;
 import models.Vaccinato;
 
@@ -16,6 +15,7 @@ public class Cittadini {
     public static JFrame mainCittadini;
     public static JFrame elencoCentriVaccinali;
     public static JFrame registraCittadinoCV;
+    public static JFrame login;
     private JPanel panelCittadini;
     private JButton btnCercaCentro;
     private JButton btnRegistrati;
@@ -27,6 +27,7 @@ public class Cittadini {
     public Cittadini() {
         btnCercaCentro.addActionListener(e -> openDashBoardCentriVaccinaliElenco());
         btnRegistrati.addActionListener(e -> openRegistraCittadinoCV());
+        btnSegnalaEvento.addActionListener(e -> openLogin());
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -101,6 +102,20 @@ public class Cittadini {
             registraCittadinoCV.pack();
             registraCittadinoCV.setLocationRelativeTo(null);
             registraCittadinoCV.setVisible(true);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void openLogin() {
+        try {
+            login = new JFrame("Centri Vaccinali Cittadini - Login");
+            login.setContentPane(new Login().panelLogin);
+            initUI(login);
+            login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            login.pack();
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
