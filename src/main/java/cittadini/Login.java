@@ -24,6 +24,13 @@ import java.rmi.RemoteException;
 public class Login {
 
     /**
+     * <code>panelLogin</code> &egrave; un pannello frame Swing che contiene un'altra scheda
+     * <p>
+     * &egrave; dichiarato <strong>static</strong> cos&igrave; da poterla utlizzare senza istanziare l'oggetto
+     */
+    public static JFrame elencoEventiAvversi;
+
+    /**
      * <code>panelLogin</code> &egrave; un pannello Swing che compone
      * l'interfaccia grafica, nella fattispecie la parte che si occupa del login nell'area riservata
      * <p>
@@ -71,12 +78,22 @@ public class Login {
      */
     private JButton btnLogin;
 
+    /**
+     * <code>utenteLoggato</code> se l'utente &egrave; loggato nell'applicazione all'interno di questa variabile
+     * saranno presenti le sue informazioni
+     * <p>
+     * &egrave; dichiarato <strong>public</strong> in quanto l'attributo &egrave; utilizzabile ovunque
+     * &egrave; dichiarato <strong>static</strong> cos&igrave; da poterla utlizzare senza istanziare l'oggetto
+     */
+    protected static Vaccinato utenteLoggato = null;
+
     public Login() {
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lblErrors.setText("");
+                utenteLoggato = null;
                 if (tfEmail.getText() == null || tfEmail.getText().length() < 3 || tfPassword.getText() == null || tfPassword.getText().length() < 3) {
                     lblErrors.setFont(new Font("Default", Font.BOLD, 14));
                     lblErrors.setText("Completare i campi correttamente");
@@ -91,7 +108,11 @@ public class Login {
                         lblErrors.setText("Email o password errata");
                         lblErrors.setForeground(Color.RED);
                     } else {
-                        System.out.println(v);
+                        utenteLoggato = v;
+                        tfEmail.setText("");
+                        tfPassword.setText("");
+                        System.out.println(utenteLoggato);
+                        openDashElencoEventiAvversi();
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
@@ -100,6 +121,32 @@ public class Login {
         });
     }
 
+    /**
+     * <code>openDashElencoEventiAvversi</code> &egrave; una procedura aprire un altro frame dell'applicazione
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     */
+    private void openDashElencoEventiAvversi() {
+        try {
+            elencoEventiAvversi = new JFrame("Centri Vaccinali Cittadini - Area riservata");
+            elencoEventiAvversi.setContentPane(new DashboardEventiAvversiElenco().panelDashboardCentriVaccinaliElenco);
+            Cittadini.initUI(elencoEventiAvversi);
+            elencoEventiAvversi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+            elencoEventiAvversi.pack();
+            elencoEventiAvversi.setLocationRelativeTo(null);
+            elencoEventiAvversi.setVisible(true);
+            Cittadini.closePreviousWindow(Cittadini.login);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
+     * quando viene caricato il frame
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     *
+     * @throws IOException &egrave; utilizzata quando si verificano errori nelle fasi di input o di output
+     */
     private void createUIComponents() throws IOException {
         panelLoginLogo = new JPanel();
         BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));

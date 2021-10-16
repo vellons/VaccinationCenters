@@ -82,7 +82,6 @@ public class Cittadini {
         try {
             elencoCentriVaccinali = new JFrame("Centri Vaccinali Cittadini - Elenco");
             elencoCentriVaccinali.setContentPane(new DashboardCentriVaccinaliElenco("", "", 0).panelDashboardCentriVaccinaliElenco);
-            //elencoCentriVaccinali.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
             initUI(elencoCentriVaccinali);
             elencoCentriVaccinali.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
             elencoCentriVaccinali.pack();
