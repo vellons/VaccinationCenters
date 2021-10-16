@@ -135,7 +135,6 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM vaccinati WHERE id_univoco = '" + idUnivoco + "';";
             ResultSet rs = stmt.executeQuery(query);
-            //4c932e2f-5729-4b69-8684-ef8339e1b76b
             if (rs.next()) {
                 findCitizen = new Vaccinato(rs.getInt("id"));
                 findCitizen.setId_univoco(rs.getString("id_univoco"));
@@ -148,17 +147,46 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 findCitizen.setEmail(rs.getString("email"));
                 findCitizen.setPass(rs.getString("pass"));
             }
-
             rs.close();
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-
         } catch (SQLException throwables) {
             logMessage("ERROR: getVaccinatoByIDUnique()");
             throwables.printStackTrace();
         }
 
+        return findCitizen;
+    }
+
+    public Vaccinato getVaccinatoByEmailAndPasswordSha(String email, String password) throws RemoteException {
+        Vaccinato findCitizen = null;
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            if (email == null || password == null) return null;
+            String query = "SELECT * FROM vaccinati WHERE email = '" + email + "' AND pass = '" + Sha1.sha1(password) + "';";
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                findCitizen = new Vaccinato(rs.getInt("id"));
+                findCitizen.setId_univoco(rs.getString("id_univoco"));
+                findCitizen.setCentro_vaccinale_id(rs.getInt("centro_vaccinale_id"));
+                findCitizen.setTipologia_vaccino_id(rs.getInt("tipologia_vaccino_id"));
+                findCitizen.setNome(rs.getString("nome"));
+                findCitizen.setCognome(rs.getString("cognome"));
+                findCitizen.setCodice_fiscale(rs.getString("codice_fiscale"));
+                findCitizen.setData_somministrazione(rs.getTimestamp("data_somministrazione"));
+                findCitizen.setEmail(rs.getString("email"));
+                findCitizen.setPass(rs.getString("pass"));
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage("SELECT * FROM vaccinati WHERE email = 'XXX' AND password = 'XXX'; in: " + duration + "mS");
+        } catch (SQLException throwables) {
+            logMessage("ERROR: getVaccinatoByEmailAndPasswordSha()");
+            throwables.printStackTrace();
+        }
         return findCitizen;
     }
 
@@ -236,37 +264,6 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             logMessage(query + " in: " + duration + "mS");
         } catch (Exception e) {
             logMessage("ERROR: getTipologiaCentroVaccinale()");
-            e.printStackTrace();
-        }
-        return returnList;
-    }
-
-    public List<Vaccinato> getVaccinatiCV(int idCV) throws RemoteException {
-        List<Vaccinato> returnList = new ArrayList<>();
-        try {
-            long startTime = System.nanoTime();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM vaccinati WHERE centro_vaccinale_id = " + idCV + ";";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Vaccinato obj = new Vaccinato(rs.getInt("id"));
-                obj.setId_univoco(rs.getString("id_univoco"));
-                obj.setCentro_vaccinale_id(rs.getInt("centro_vaccinale_id"));
-                obj.setTipologia_vaccino_id(rs.getInt("tipologia_vaccino_id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setCognome(rs.getString("cognome"));
-                obj.setCodice_fiscale(rs.getString("codice_fiscale"));
-                obj.setData_somministrazione(rs.getTimestamp("data_somministrazione"));
-                obj.setEmail(rs.getString("email"));
-                obj.setPass(rs.getString("pass"));
-                returnList.add(obj);
-            }
-            rs.close();
-            stmt.close();
-            long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage(query + " in: " + duration + "mS");
-        } catch (Exception e) {
-            logMessage("ERROR: getVaccinatiCV()");
             e.printStackTrace();
         }
         return returnList;
@@ -441,30 +438,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return totEventiAvvPerTipologia;
     }
 
-    public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
-        // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
-        Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
-        try {
-            long startTime = System.nanoTime();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT id, vaccinati FROM dashboard_centri_vaccinali;";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));
-            }
-            rs.close();
-            stmt.close();
-            long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage(query + " in: " + duration + "mS");
-        } catch (Exception e) {
-            logMessage("ERROR: vaccinatiPerOgniCentroVaccinale()");
-            e.printStackTrace();
-        }
-        return vaccinatiPerCentro;
-    }
-
     public boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
-
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
@@ -472,9 +446,8 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             stmt.executeUpdate(query);
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage("Aggiornamento utente completato in: " + duration + "mS");
+            logMessage("UPDATE vaccinati SET email = 'XXX', pass = 'XXX' WHERE id_univoco = '" + idUnivoco + "'; in: " + duration + "mS");
             return true;
-
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
