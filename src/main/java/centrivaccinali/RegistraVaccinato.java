@@ -1,6 +1,7 @@
 package centrivaccinali;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
 import models.TipologiaVaccino;
@@ -262,7 +263,9 @@ public class RegistraVaccinato{
      */
 
     public RegistraVaccinato() throws Exception {
-
+        tfNome.setDocument(new JTextFieldCharLimit(64));
+        tfCognome.setDocument(new JTextFieldCharLimit(64));
+        tfCodiceFiscale.setDocument(new JTextFieldCharLimit(24));
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -404,10 +407,6 @@ public class RegistraVaccinato{
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
         allFieldsValid &= isAlphabetic(getTfCognome());
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
-        allFieldsValid &= getTfNome().length()<=64;
-        allFieldsValid &= getTfCognome().length()<=64;
-        allFieldsValid &= getTfCodiceFiscale().length()<=24;
-
         return allFieldsValid;
     }
 

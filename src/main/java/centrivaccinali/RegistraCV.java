@@ -1,6 +1,7 @@
 package centrivaccinali;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
 import models.TipologiaCentroVaccinale;
@@ -226,6 +227,12 @@ public class RegistraCV {
      */
 
     public RegistraCV() throws RemoteException {
+        tfNomeCentro.setDocument(new JTextFieldCharLimit(128));
+        tfIndirizzo.setDocument(new JTextFieldCharLimit(128));
+        tfCivico.setDocument(new JTextFieldCharLimit(8));
+        tfComune.setDocument(new JTextFieldCharLimit(64));
+        tfSiglaProvincia.setDocument(new JTextFieldCharLimit(2));
+        tfCap.setDocument(new JTextFieldCharLimit(5));
         btnRegistraCV.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -236,7 +243,7 @@ public class RegistraCV {
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
                             DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
+                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia().toUpperCase(),getTfCap());
                             db.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
                             JOptionPane.showMessageDialog(null, "La registrazione è " +
@@ -360,21 +367,15 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
-        allFieldsValid &= getTfNomeCentro().length()<=128;
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
-        allFieldsValid &= getTfIndirizzo().length()<=128;
         allFieldsValid &= isAlphabetic(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
-        allFieldsValid &= getTfCivico().length()<=8;
         allFieldsValid &= isNumeric(getTfCivico());
         allFieldsValid &= checkInput(getTfComune(), tfComune);
-        allFieldsValid &= getTfComune().length()<=64;
         allFieldsValid &= isAlphabetic(getTfComune());
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
         allFieldsValid &= isAlphabetic(getTfSiglaProvincia());
-        allFieldsValid &= getTfSiglaProvincia().length()==2;
         allFieldsValid &= checkInput(getTfCap(), tfCap);
-        allFieldsValid &= getTfCap().length()==5;
         allFieldsValid &= isNumeric(getTfCap());
 
         return allFieldsValid;
