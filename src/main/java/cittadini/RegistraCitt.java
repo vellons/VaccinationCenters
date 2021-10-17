@@ -59,7 +59,6 @@ public class RegistraCitt {
                     return;
                 }
                 try {
-                    System.out.println(tfIdUnivoco.getText());
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
                     if (userVax != null) {
                         if (userVax.getEmail() != null) {

@@ -166,6 +166,7 @@
                   <background color="-3727837"/>
                   <borderPainted value="false"/>
                   <enabled value="true"/>
+                  <focusPainted value="false"/>
                   <foreground color="-1"/>
                   <opaque value="true"/>
                   <text value="Cerca"/>

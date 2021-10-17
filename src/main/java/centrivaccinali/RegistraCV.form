@@ -217,7 +217,7 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
               <focusable value="true"/>
               <font style="1"/>
               <foreground color="-1"/>

@@ -56,7 +56,7 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
               <focusable value="false"/>
               <foreground color="-1"/>
               <opaque value="true"/>
@@ -75,11 +75,11 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
               <focusable value="false"/>
               <foreground color="-1"/>
               <opaque value="true"/>
-              <text value="Registrati presso un C.V."/>
+              <text value="Registrati presso un centro vaccinale"/>
             </properties>
           </component>
           <component id="fdcc1" class="javax.swing.JButton" binding="btnSegnalaEvento">
@@ -94,7 +94,7 @@
               <contentAreaFilled value="true"/>
               <defaultCapable value="true"/>
               <enabled value="true"/>
-              <focusPainted value="true"/>
+              <focusPainted value="false"/>
               <focusable value="false"/>
               <foreground color="-1"/>
               <opaque value="true"/>
