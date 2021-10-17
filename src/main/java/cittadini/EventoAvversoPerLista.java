@@ -1,6 +1,7 @@
 package cittadini;
 
 import global.JTextFieldCharLimit;
+import models.EventoAvverso;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -8,13 +9,14 @@ import javax.swing.event.DocumentListener;
 import java.util.Hashtable;
 
 public class EventoAvversoPerLista {
-    private JPanel panelEventoAvversoPerLista;
+    public JPanel panelEventoAvversoPerLista;
     private JLabel lbSeverita;
     private JLabel lbScriviCommento;
     private JSlider sliderServerita;
     private JLabel lbCounterCharacter;
     private JTextArea txtNote;
     private JLabel lbTipologiaEventoAvverso;
+    private EventoAvverso ea;
 
     public EventoAvversoPerLista() {
 
