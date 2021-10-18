@@ -2,6 +2,7 @@ package cittadini;
 
 import global.JTextFieldCharLimit;
 import models.EventoAvverso;
+import models.TipologiaEvento;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -18,7 +19,9 @@ public class EventoAvversoPerLista {
     private JLabel lbTipologiaEventoAvverso;
     private EventoAvverso ea;
 
-    public EventoAvversoPerLista() {
+    public EventoAvversoPerLista(TipologiaEvento tipologiaEvento) {
+
+        lbTipologiaEventoAvverso.setText(tipologiaEvento.getNome());
 
         sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
 

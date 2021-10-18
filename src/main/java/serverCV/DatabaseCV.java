@@ -454,4 +454,31 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             return false;
         }
     }
+
+    public synchronized List<EventoAvverso> getEventiAvversiCittadino(String vaccinatoID) throws RemoteException {
+        // restituisce gli eventi avversi di un deteteminato cittadino
+        List<EventoAvverso> returnList = new ArrayList<>();
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM eventi_avversi WHERE vaccinato_id = " + vaccinatoID + ";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
+                obj.setVaccinato_id(rs.getInt("vaccinato_id"));
+                obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
+                obj.setSeverita(rs.getString("severita"));
+                obj.setNote(rs.getString("note"));
+                returnList.add(obj);
+            }
+            rs.close();
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: getEventiAvversiCittadino()");
+            e.printStackTrace();
+        }
+        return returnList;
+    }
 }
