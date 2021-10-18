@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -315,6 +317,22 @@ public class RegistraVaccinato{
             @Override
             public void actionPerformed(ActionEvent e) {
                 tfIDUnivoco.setText(UUID.randomUUID().toString());
+            }
+        });
+        tfNome.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCognome.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
             }
         });
     }

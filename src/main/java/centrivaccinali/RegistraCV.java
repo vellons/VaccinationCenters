@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -259,6 +261,54 @@ public class RegistraCV {
                     lblErrors.setText("Assicurarsi che tutti campi siano stati compilati correttamente");
                     lblErrors.setForeground(Color.RED);
                     lblErrors.setVisible(true);
+                }
+            }
+        });
+        tfIndirizzo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfComune.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfSiglaProvincia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCivico.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCap.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfNomeCentro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
                 }
             }
         });
