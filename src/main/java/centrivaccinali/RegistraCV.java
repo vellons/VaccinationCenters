@@ -417,13 +417,13 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
+        allFieldsValid &= noFirstSpace(getTfNomeCentro());
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
         allFieldsValid &= noFirstSpace(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
         allFieldsValid &= checkInput(getTfComune(), tfComune);
         allFieldsValid &= noFirstSpace(getTfComune());
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
-        allFieldsValid &= noFirstSpace(getTfSiglaProvincia());
         allFieldsValid &= checkInput(getTfCap(), tfCap);
 
         return allFieldsValid;
