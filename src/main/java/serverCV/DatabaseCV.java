@@ -18,6 +18,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     private static final long serialVersionUID = 1L;
     private final JTextArea textAreaServerStatus;
     private Connection conn;
+    private int count;
 
     protected DatabaseCV(JTextArea textAreaServerStatus) throws RemoteException {
         super();
@@ -463,17 +464,24 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return vaccinatiPerCentro;
     }
 
-    public boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
+    public synchronized boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
 
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
-            stmt.executeUpdate(query);
-            stmt.close();
-            long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage("Aggiornamento utente completato in: " + duration + "mS");
-            return true;
+            int count = rowCounterInTable("vaccinati WHERE email = '" + email + "'");
+                    System.out.println(count);
+            if (count > 0) {
+                System.out.println("L'email esiste già");
+                return false;
+            } else {
+                String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
+                stmt.executeUpdate(query);
+                stmt.close();
+                long duration = (System.nanoTime() - startTime) / 1000000;
+                logMessage("Aggiornamento utente completato in: " + duration + "mS");
+                return true;
+            }
 
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
