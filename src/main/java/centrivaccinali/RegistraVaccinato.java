@@ -322,7 +322,7 @@ public class RegistraVaccinato{
         tfNome.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar()))){
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
                     e.consume();
                 }
             }
@@ -330,7 +330,15 @@ public class RegistraVaccinato{
         tfCognome.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar()))){
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCodiceFiscale.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar()))){
                     e.consume();
                 }
             }
@@ -421,31 +429,23 @@ public class RegistraVaccinato{
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNome(), tfNome);
-        allFieldsValid &= isAlphabetic(getTfNome());
+        allFieldsValid &= noFirstSpace(getTfNome());
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
-        allFieldsValid &= isAlphabetic(getTfCognome());
+        allFieldsValid &= noFirstSpace(getTfCognome());
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
         return allFieldsValid;
     }
 
     /**
-     * <code>isAlphabetic</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da sole lettere
+     * <code>noFirstSpace</code> &egrave; un metodo per controllare se l'input di un textfield ha uno spazio come primo carattere
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param input &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo alfabetico
+     * @return valore booleano che indica se il il primo carattere di una stringa &egrave; uno spazio
      */
 
-    private boolean isAlphabetic(String input) {
-        if(Character.isSpaceChar(input.charAt(0))){
-            return false;
-        }
-        for (int i = 0; i != input.length(); ++i) {
-            if (!Character.isLetter(input.charAt(i)) && !Character.isSpaceChar(input.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+    private boolean noFirstSpace(String input) {
+        return !Character.isSpaceChar(input.charAt(0));
     }
 
     /**
@@ -466,23 +466,6 @@ public class RegistraVaccinato{
         } catch(Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    /**
-     * <code>isNumeric</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da soli numeri
-     * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
-     *
-     * @param str &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo numerico
-     */
-
-    private boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
         }
     }
 
