@@ -134,10 +134,10 @@ public class RegistraCitt {
                 }
                 try {
                     if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText())) {
-                        JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo", "Registrazione completata", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo.", "Registrazione completata", JOptionPane.PLAIN_MESSAGE);
                         Cittadini.closePreviousWindow(Cittadini.registraCittadinoCV);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Registrazione non avvenuta con successo.\n", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Registrazione non avvenuta con successo. (probabile l'email esista già)\n", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
