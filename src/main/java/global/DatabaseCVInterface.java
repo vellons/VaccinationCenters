@@ -39,4 +39,7 @@ public interface DatabaseCVInterface extends Remote {
     Map<String, Integer> getCountEventiCV(int idCV) throws RemoteException;
 
     boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException;
+
+    List<EventoAvverso> getEventiAvversiCittadino(String UUID) throws RemoteException;
+
 }

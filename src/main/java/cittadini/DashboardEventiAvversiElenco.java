@@ -4,6 +4,8 @@ import models.TipologiaCentroVaccinale;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -66,12 +68,30 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
+    private JFrame segnalaEventiAvversiFrame;
 
     /**
      * Costruttore della classe
      */
     public DashboardEventiAvversiElenco() {
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
+
+        btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                segnalaEventiAvversiFrame = new JFrame("Segnala eventi avversi");
+                segnalaEventiAvversiFrame.setContentPane(new DashboardSegnalaEventiAvversi().panelNewReport);
+                segnalaEventiAvversiFrame.pack();
+                segnalaEventiAvversiFrame.setLocationRelativeTo(null);
+                segnalaEventiAvversiFrame.setVisible(true);
+                try {
+                    Cittadini.initUI(segnalaEventiAvversiFrame);
+                    segnalaEventiAvversiFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
+                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     /**

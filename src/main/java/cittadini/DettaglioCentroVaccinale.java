@@ -48,7 +48,12 @@ public class DettaglioCentroVaccinale {
         for (Map.Entry<String, Integer> entry : db.getCountEventiCV(cv.getId()).entrySet()) {
             String key = entry.getKey();
             int value = entry.getValue();
-            text.append("- ").append(key).append(": ").append(value).append("<br/>");
+            text.append("- ")
+                    .append(key.substring(0, 1).toUpperCase())
+                    .append(key.substring(1))
+                    .append(": ")
+                    .append(value)
+                    .append("<br/>");
         }
         lbEventiAvversi.setText(text + "</html>");
     }
@@ -73,7 +78,7 @@ public class DettaglioCentroVaccinale {
     }
 
     private void setCVLabels(CentroVaccinale cv) throws RemoteException {
-        lbCentroVaccinale.setText(cv.getNome());
+        lbCentroVaccinale.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 30)));
         lbIndirizzo.setText(cv.getIndirizzoComposto());
         lblTipologia.setText("Tipologia: " + findTipologia());
     }
