@@ -98,7 +98,7 @@ public class RegistraCitt {
         tfCognome.setText(userVax.getCognome());
         tfCodiceFiscale.setText(userVax.getCodice_fiscale());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         tfDataSomministrazione.setText(formatter.format(userVax.getData_somministrazione()));
 
         tfPassword.addFocusListener(new FocusAdapter() {
