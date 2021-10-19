@@ -267,7 +267,7 @@ public class RegistraVaccinato{
     public RegistraVaccinato() throws Exception {
         tfNome.setDocument(new JTextFieldCharLimit(64));
         tfCognome.setDocument(new JTextFieldCharLimit(64));
-        tfCodiceFiscale.setDocument(new JTextFieldCharLimit(24));
+        tfCodiceFiscale.setDocument(new JTextFieldCharLimit(16));
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
