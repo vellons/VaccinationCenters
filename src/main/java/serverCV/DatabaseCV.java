@@ -438,16 +438,47 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return totEventiAvvPerTipologia;
     }
 
-    public boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
+    public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
+        // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
+        Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
-            stmt.executeUpdate(query);
+            String query = "SELECT id, vaccinati FROM dashboard_centri_vaccinali;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));
+            }
+            rs.close();
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage("UPDATE vaccinati SET email = 'XXX', pass = 'XXX' WHERE id_univoco = '" + idUnivoco + "'; in: " + duration + "mS");
-            return true;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (Exception e) {
+            logMessage("ERROR: vaccinatiPerOgniCentroVaccinale()");
+            e.printStackTrace();
+        }
+        return vaccinatiPerCentro;
+    }
+
+    public synchronized boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
+
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            int count = rowCounterInTable("vaccinati WHERE email = '" + email + "'");
+                    System.out.println(count);
+            if (count > 0) {
+                System.out.println("L'email esiste già");
+                return false;
+            } else {
+                String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
+                stmt.executeUpdate(query);
+                stmt.close();
+                long duration = (System.nanoTime() - startTime) / 1000000;
+                logMessage("Aggiornamento utente completato in: " + duration + "mS");
+                return true;
+            }
+
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
