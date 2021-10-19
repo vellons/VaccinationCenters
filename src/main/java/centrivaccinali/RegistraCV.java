@@ -1,6 +1,7 @@
 package centrivaccinali;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
 import models.TipologiaCentroVaccinale;
@@ -10,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -226,6 +229,12 @@ public class RegistraCV {
      */
 
     public RegistraCV() throws RemoteException {
+        tfNomeCentro.setDocument(new JTextFieldCharLimit(128));
+        tfIndirizzo.setDocument(new JTextFieldCharLimit(128));
+        tfCivico.setDocument(new JTextFieldCharLimit(8));
+        tfComune.setDocument(new JTextFieldCharLimit(64));
+        tfSiglaProvincia.setDocument(new JTextFieldCharLimit(2));
+        tfCap.setDocument(new JTextFieldCharLimit(5));
         btnRegistraCV.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -236,14 +245,14 @@ public class RegistraCV {
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
                             DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia(),getTfCap());
+                            cv = new CentroVaccinale(getTfNomeCentro(),tipo,1,getQualificatore(),getTfIndirizzo(),getTfCivico(),getTfComune(),getTfSiglaProvincia().toUpperCase(),getTfCap());
                             db.inserisciCentroVaccinale(cv);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraCVFrame);
-                            JOptionPane.showMessageDialog(null, "La registrazione e'" +
+                            JOptionPane.showMessageDialog(null, "La registrazione è " +
                                     "andata a buon fine!", "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
                         }
                     } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, "C'e' stato un problema. Prova a riavviare l'app",
+                        JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
                                 "Attenzione", JOptionPane.PLAIN_MESSAGE);
                         exception.printStackTrace();
                     }
@@ -252,6 +261,54 @@ public class RegistraCV {
                     lblErrors.setText("Assicurarsi che tutti campi siano stati compilati correttamente");
                     lblErrors.setForeground(Color.RED);
                     lblErrors.setVisible(true);
+                }
+            }
+        });
+        tfIndirizzo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfComune.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfSiglaProvincia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCivico.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCap.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfNomeCentro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
                 }
             }
         });
@@ -360,59 +417,29 @@ public class RegistraCV {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNomeCentro(), tfNomeCentro);
-        allFieldsValid &= getTfNomeCentro().length()<=128;
+        allFieldsValid &= noFirstSpace(getTfNomeCentro());
         allFieldsValid &= checkInput(getTfIndirizzo(), tfIndirizzo);
-        allFieldsValid &= getTfIndirizzo().length()<=128;
-        allFieldsValid &= isAlphabetic(getTfIndirizzo());
+        allFieldsValid &= noFirstSpace(getTfIndirizzo());
         allFieldsValid &= checkInput(getTfCivico(), tfCivico);
-        allFieldsValid &= getTfCivico().length()<=8;
-        allFieldsValid &= isNumeric(getTfCivico());
         allFieldsValid &= checkInput(getTfComune(), tfComune);
-        allFieldsValid &= getTfComune().length()<=64;
-        allFieldsValid &= isAlphabetic(getTfComune());
+        allFieldsValid &= noFirstSpace(getTfComune());
         allFieldsValid &= checkInput(getTfSiglaProvincia(), tfSiglaProvincia);
-        allFieldsValid &= isAlphabetic(getTfSiglaProvincia());
-        allFieldsValid &= getTfSiglaProvincia().length()==2;
         allFieldsValid &= checkInput(getTfCap(), tfCap);
-        allFieldsValid &= getTfCap().length()==5;
-        allFieldsValid &= isNumeric(getTfCap());
 
         return allFieldsValid;
     }
 
-    /**
-     * <code>isNumeric</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da soli numeri
-     * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
-     *
-     * @param str &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo numerico
-     */
-
-    private boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
-        }
-    }
 
     /**
-     * <code>isAlphabetic</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da sole lettere
+     * <code>noFirstSpace</code> &egrave; un metodo per controllare se l'input di un textfield ha uno spazio come primo carattere
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param input &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo alfabetico
+     * @return valore booleano che indica se il il primo carattere di una stringa &egrave; uno spazio
      */
 
-    private boolean isAlphabetic(String input) {
-        for (int i = 0; i != input.length(); ++i) {
-            if (!Character.isLetter(input.charAt(i))) {
-                return false;
-            }
-        }
-
-        return true;
+    private boolean noFirstSpace(String input) {
+        return !Character.isSpaceChar(input.charAt(0));
     }
 
     /**

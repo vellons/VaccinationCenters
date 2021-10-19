@@ -1,6 +1,7 @@
 package centrivaccinali;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.CentroVaccinale;
 import models.TipologiaVaccino;
@@ -11,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -262,7 +265,9 @@ public class RegistraVaccinato{
      */
 
     public RegistraVaccinato() throws Exception {
-
+        tfNome.setDocument(new JTextFieldCharLimit(64));
+        tfCognome.setDocument(new JTextFieldCharLimit(64));
+        tfCodiceFiscale.setDocument(new JTextFieldCharLimit(24));
         btnRegistraVaccinato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -284,11 +289,11 @@ public class RegistraVaccinato{
                             vax = new Vaccinato(getTfIDUnivoco(),centro_id,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
                             db.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
-                            JOptionPane.showMessageDialog(null, "La registrazione e'" +
-                                    "andata a buon fine! Ecco il tuo codice identificativo, attento a non perderlo: "+ tfIDUnivoco.getText(), "Registrazione effettuate", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showInputDialog(null, "La registrazione è " +
+                                    "andata a buon fine! Ecco il tuo codice identificativo. Attento a non perderlo!!!", getTfIDUnivoco());
                         }
                     } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, "C'e'; stato un problema. Prova a riavviare l'app",
+                            JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
                                     "Attenzione", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
@@ -312,6 +317,30 @@ public class RegistraVaccinato{
             @Override
             public void actionPerformed(ActionEvent e) {
                 tfIDUnivoco.setText(UUID.randomUUID().toString());
+            }
+        });
+        tfNome.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCognome.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                    e.consume();
+                }
+            }
+        });
+        tfCodiceFiscale.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar()))){
+                    e.consume();
+                }
             }
         });
     }
@@ -400,33 +429,23 @@ public class RegistraVaccinato{
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNome(), tfNome);
-        allFieldsValid &= isAlphabetic(getTfNome());
+        allFieldsValid &= noFirstSpace(getTfNome());
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
-        allFieldsValid &= isAlphabetic(getTfCognome());
+        allFieldsValid &= noFirstSpace(getTfCognome());
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
-        allFieldsValid &= getTfNome().length()<=64;
-        allFieldsValid &= getTfCognome().length()<=64;
-        allFieldsValid &= getTfCodiceFiscale().length()<=24;
-
         return allFieldsValid;
     }
 
     /**
-     * <code>isAlphabetic</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da sole lettere
+     * <code>noFirstSpace</code> &egrave; un metodo per controllare se l'input di un textfield ha uno spazio come primo carattere
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param input &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo alfabetico
+     * @return valore booleano che indica se il il primo carattere di una stringa &egrave; uno spazio
      */
 
-    private boolean isAlphabetic(String input) {
-        for (int i = 0; i != input.length(); ++i) {
-            if (!Character.isLetter(input.charAt(i))) {
-                return false;
-            }
-        }
-
-        return true;
+    private boolean noFirstSpace(String input) {
+        return !Character.isSpaceChar(input.charAt(0));
     }
 
     /**
@@ -447,23 +466,6 @@ public class RegistraVaccinato{
         } catch(Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    /**
-     * <code>isNumeric</code> &egrave; un metodo per controllare se l'input di un textfield sia formato da soli numeri
-     * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
-     *
-     * @param str &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il dato &egrave; di tipo numerico
-     */
-
-    private boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
         }
     }
 
