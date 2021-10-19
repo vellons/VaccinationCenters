@@ -40,7 +40,7 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
 
-        List<EventoAvverso> list = db.getEventiAvversiCV(Login.utenteLoggato.getId());
+        List<EventoAvverso> list = db.getEventiAvversiCittadino(Login.utenteLoggato.getId());
         List<TipologiaEvento> listTipologiaEvento = db.getTipologieEventi();
 
         if (list.size() == 0) { // entro se l'utente non ha mai segnalato nessun evento avverso
