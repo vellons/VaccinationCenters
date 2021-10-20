@@ -267,7 +267,7 @@ public class RegistraCV {
         tfIndirizzo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))){
                     e.consume();
                 }
             }
@@ -275,7 +275,7 @@ public class RegistraCV {
         tfComune.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))){
                     e.consume();
                 }
             }
@@ -307,7 +307,7 @@ public class RegistraCV {
         tfNomeCentro.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar()))){
+                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))){
                     e.consume();
                 }
             }
