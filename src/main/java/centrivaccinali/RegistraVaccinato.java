@@ -429,23 +429,23 @@ public class RegistraVaccinato{
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNome(), tfNome);
-        allFieldsValid &= noFirstSpace(getTfNome());
+        allFieldsValid &= firstLetter(getTfNome());
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
-        allFieldsValid &= noFirstSpace(getTfCognome());
+        allFieldsValid &= firstLetter(getTfCognome());
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
         return allFieldsValid;
     }
 
     /**
-     * <code>noFirstSpace</code> &egrave; un metodo per controllare se l'input di un textfield ha uno spazio come primo carattere
+     * <code>firstLetter</code> &egrave; un metodo per controllare se l'input di un textfield ha una lettera come primo carattere
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param input &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * @return valore booleano che indica se il il primo carattere di una stringa &egrave; uno spazio
+     * @return valore booleano che indica se il il primo carattere di una stringa &egrave; una lettera
      */
 
-    private boolean noFirstSpace(String input) {
-        return !Character.isSpaceChar(input.charAt(0));
+    private boolean firstLetter(String input) {
+        return Character.isLetter(input.charAt(0));
     }
 
     /**
