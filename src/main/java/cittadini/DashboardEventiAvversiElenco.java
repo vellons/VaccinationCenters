@@ -1,15 +1,13 @@
 package cittadini;
 
-import models.TipologiaCentroVaccinale;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * La classe DashboardCentriVaccinaliElenco permette l'utilizzo di visualizzare l'elenco degli eventi avversi
@@ -59,15 +57,15 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblUtente;
+    private JLabel lblDataVaccino;
 
     /**
-     * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di centro vaccinale
-     * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
-     * chiamando solo una volta il server per ottenere l'elenco
+     * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
+     * quale si vuole inserire un nuovo evento avverso
+     *
+     * <p>
+     * &egrave; dichiarata <strong>private</strong> in quanto deve essere accessibile solo all'interno della classe
      */
-    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
-
     private JFrame segnalaEventiAvversiFrame;
 
     /**
@@ -75,6 +73,12 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     public DashboardEventiAvversiElenco() {
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+            lblDataVaccino.setText("Ti sei vaccinat* il " + LocalDateTime.parse(Login.utenteLoggato.getData_somministrazione().toString(), formatter).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        } catch (Exception e) {
+            lblDataVaccino.setText("");
+        }
 
         btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
             @Override
@@ -108,8 +112,8 @@ public class DashboardEventiAvversiElenco extends JFrame {
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelTitle.add(picLabel2);
 
-        // Creo la lista degli eventi avversi
+        // Creo la lista degli eventi avversi appartenenti all'utente loggato
         panelListaEventiAvversi = new JPanel();
-        panelListaEventiAvversi.add(new ListaCentriVaccinaliPanel("", "", 0));  // TODO: nuova lista eventi avversi
+        panelListaEventiAvversi.add(new ListaEventiSegnalatiPanel());
     }
 }
