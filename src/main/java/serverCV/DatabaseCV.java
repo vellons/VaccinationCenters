@@ -486,7 +486,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         }
     }
 
-    public synchronized List<EventoAvverso> getEventiAvversiCittadino(String vaccinatoID) throws RemoteException {
+    public synchronized List<EventoAvverso> getEventiAvversiCittadino(int vaccinatoID) throws RemoteException {
         // restituisce gli eventi avversi di un deteteminato cittadino
         List<EventoAvverso> returnList = new ArrayList<>();
         try {

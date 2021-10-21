@@ -7,6 +7,7 @@ import models.TipologiaEvento;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.io.StringWriter;
 import java.util.Hashtable;
 
 public class EventoAvversoPerLista {
@@ -21,7 +22,8 @@ public class EventoAvversoPerLista {
 
     public EventoAvversoPerLista(TipologiaEvento tipologiaEvento) {
 
-        lbTipologiaEventoAvverso.setText(tipologiaEvento.getNome());
+        StringBuilder eventoAvversoNome = new StringBuilder();
+        lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(tipologiaEvento.getNome().substring(0, 1).toUpperCase()).append(tipologiaEvento.getNome().substring(1))));
 
         sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
 
@@ -31,14 +33,17 @@ public class EventoAvversoPerLista {
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 update();
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
+
             public void update() {
                 lbCounterCharacter.setText("Caratteri: " + txtNote.getText().length() + "/256");
             }
