@@ -111,7 +111,6 @@ public class Login {
                         utenteLoggato = v;
                         tfEmail.setText("");
                         tfPassword.setText("");
-                        System.out.println(utenteLoggato);
                         openDashElencoEventiAvversi();
                     }
                 } catch (RemoteException ex) {

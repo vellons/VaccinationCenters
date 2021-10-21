@@ -102,7 +102,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font size="15"/>
+              <font size="16" style="1"/>
               <foreground color="-16777216"/>
               <text value="Nome evento avverso"/>
             </properties>
