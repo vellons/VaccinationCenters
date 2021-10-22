@@ -21,7 +21,10 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
      */
     public JPanel mainList;
 
-    public ListaSegnalaEventiAvversiPanel() throws RemoteException {
+    /**
+     * Costruttore della classe
+     */
+    public ListaSegnalaEventiAvversiPanel() {
         setLayout(new BorderLayout());
 
         // Inizializzazione panel
@@ -40,29 +43,32 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
 
-        List<EventoAvverso> list = db.getEventiAvversiCittadino(Login.utenteLoggato.getId());
-        List<TipologiaEvento> listTipologiaEvento = db.getTipologieEventi();
+        List<TipologiaEvento> listTipologiaEvento;
+        try {
+            listTipologiaEvento = db.getTipologieEventi();
+            if (ListaEventiSegnalatiPanel.eventiUtenteCorrente.size() == 0) { // entro se l'utente non ha mai segnalato nessun evento avverso
+                for (TipologiaEvento obj : listTipologiaEvento) {
+                    aggiungiEventoAvverso(obj);
+                }
+            } else { // entro se l'utente ha già segnalato almeno un evento
+                // in questo caso elimino le tipologie di eventi avversi già segnalati in precedenza.
+                ListIterator<TipologiaEvento> i = listTipologiaEvento.listIterator();
+                while (i.hasNext()) {
+                    int tmp = i.next().getId();
+                    for (EventoAvverso ea : ListaEventiSegnalatiPanel.eventiUtenteCorrente) { // La lista è presente ListaEventiSegnalatiPanel, evito di rifare un'altra lettura degli eventi avversi segnalati
+                        if (tmp == ea.getTipologia_evento_id())
+                            i.remove();
+                    }
+                }
 
-        if (list.size() == 0) { // entro se l'utente non ha mai segnalato nessun evento avverso
-            for (TipologiaEvento obj : listTipologiaEvento) {
-                aggiungiEventoAvverso(obj);
-            }
-        } else { // entro se l'utente ha già segnalato almeno un evento
-            // in questo caso elimino le tipologie di eventi avversi già segnalati in precedenza.
-            ListIterator<TipologiaEvento> i = listTipologiaEvento.listIterator();
-            while (i.hasNext()) {
-                int tmp = i.next().getId();
-                for (EventoAvverso ea : list) {
-                    if (tmp == ea.getTipologia_evento_id())
-                        i.remove();
+                while (i.hasPrevious()) { // leggo al contrario la lista
+                    TipologiaEvento obj = i.previous();
+                    System.out.println(obj.toString());
+                    aggiungiEventoAvverso(obj);
                 }
             }
-
-            while (i.hasPrevious()) { // leggo al contrario la lista
-                TipologiaEvento obj = i.previous();
-                System.out.println(obj.toString());
-                aggiungiEventoAvverso(obj);
-            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -74,9 +80,14 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
         return new Dimension(500, 500);
     }
 
+    /**
+     * @param tipologiaEvento &egrave; l'evento avverso che l'utente non ha ancora segnalato
+     */
     private void aggiungiEventoAvverso(TipologiaEvento tipologiaEvento) {
         JPanel panel = new JPanel();
-        panel.add(new EventoAvversoPerLista(tipologiaEvento).panelEventoAvversoPerLista);
+        EventoAvversoPerLista avversoPerLista = new EventoAvversoPerLista(tipologiaEvento);
+        panel.add(avversoPerLista.panelEventoAvversoPerLista);
+        DashboardSegnalaEventiAvversi.listEvento.add(avversoPerLista);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1;

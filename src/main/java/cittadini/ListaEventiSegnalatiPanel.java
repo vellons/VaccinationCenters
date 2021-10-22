@@ -28,6 +28,14 @@ public class ListaEventiSegnalatiPanel extends JPanel {
     public JPanel mainList;
 
     /**
+     * <code>eventiUtenteCorrente</code> &egrave; un ArrayList che contiene gli eventi avversi che l'utente ha segnalato
+     * &egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile nel package cittadini
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
+     * chiamando solo una volta il server per ottenere l'elenco
+     */
+    protected static List<EventoAvverso> eventiUtenteCorrente = new ArrayList<>();
+
+    /**
      * Costruttore della classe
      */
     public ListaEventiSegnalatiPanel() {
@@ -48,7 +56,7 @@ public class ListaEventiSegnalatiPanel extends JPanel {
         repaint();
 
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-        List<EventoAvverso> eventiUtenteCorrente = new ArrayList<>();
+
         try {
             eventiUtenteCorrente = db.getEventiAvversiCittadino(Login.utenteLoggato.getId());
         } catch (RemoteException e) {

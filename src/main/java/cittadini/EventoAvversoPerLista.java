@@ -1,13 +1,11 @@
 package cittadini;
 
 import global.JTextFieldCharLimit;
-import models.EventoAvverso;
 import models.TipologiaEvento;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.io.StringWriter;
 import java.util.Hashtable;
 
 public class EventoAvversoPerLista {
@@ -18,14 +16,20 @@ public class EventoAvversoPerLista {
     private JLabel lbCounterCharacter;
     private JTextArea txtNote;
     private JLabel lbTipologiaEventoAvverso;
-    private EventoAvverso ea;
+    private TipologiaEvento tipologiaEvento;
 
     public EventoAvversoPerLista(TipologiaEvento tipologiaEvento) {
+        this.tipologiaEvento = tipologiaEvento;
 
         StringBuilder eventoAvversoNome = new StringBuilder();
-        lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(tipologiaEvento.getNome().substring(0, 1).toUpperCase()).append(tipologiaEvento.getNome().substring(1))));
+        lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(this.tipologiaEvento.getNome().substring(0, 1).toUpperCase()).append(this.tipologiaEvento.getNome().substring(1))));
+        txtNote.setEnabled(false);
+        //sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
 
-        sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
+        sliderServerita.addChangeListener(e -> {
+            lbSeverita.setText("Severità: " + sliderServerita.getValue());
+            txtNote.setEnabled(sliderServerita.getValue() > 0);
+        });
 
         txtNote.setDocument(new JTextFieldCharLimit(256));
         txtNote.getDocument().addDocumentListener(new DocumentListener() {
@@ -48,6 +52,18 @@ public class EventoAvversoPerLista {
                 lbCounterCharacter.setText("Caratteri: " + txtNote.getText().length() + "/256");
             }
         });
+    }
+
+    public TipologiaEvento getTipologiaEvento() {
+        return tipologiaEvento;
+    }
+
+    public int getValoreSeverita() {
+        return sliderServerita.getValue();
+    }
+
+    public String getNota() {
+        return txtNote.getText();
     }
 
     private void createUIComponents() {

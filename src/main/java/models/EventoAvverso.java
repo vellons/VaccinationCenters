@@ -7,11 +7,18 @@ public class EventoAvverso implements Serializable {
     private int id;
     private int vaccinato_id;
     private int tipologia_evento_id;
-    private String severita;
+    private int severita;
     private String note;
 
-    public EventoAvverso(int id, int vaccinato_id, int tipologia_evento_id, String severita, String note) {
+    public EventoAvverso(int id, int vaccinato_id, int tipologia_evento_id, int severita, String note) {
         this.id = id;
+        this.vaccinato_id = vaccinato_id;
+        this.tipologia_evento_id = tipologia_evento_id;
+        this.severita = severita;
+        this.note = note;
+    }
+
+    public EventoAvverso(int vaccinato_id, int tipologia_evento_id, int severita, String note) {
         this.vaccinato_id = vaccinato_id;
         this.tipologia_evento_id = tipologia_evento_id;
         this.severita = severita;
@@ -46,11 +53,11 @@ public class EventoAvverso implements Serializable {
         this.tipologia_evento_id = tipologia_evento_id;
     }
 
-    public String getSeverita() {
+    public int getSeverita() {
         return severita;
     }
 
-    public void setSeverita(String severita) {
+    public void setSeverita(int severita) {
         this.severita = severita;
     }
 
