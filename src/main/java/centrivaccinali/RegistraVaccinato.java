@@ -429,9 +429,9 @@ public class RegistraVaccinato{
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNome(), tfNome);
-        allFieldsValid &= firstLetter(getTfNome());
+        if(allFieldsValid){ allFieldsValid = firstLetter(getTfNome());}
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
-        allFieldsValid &= firstLetter(getTfCognome());
+        if(allFieldsValid){ allFieldsValid = firstLetter(getTfCognome());}
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
         return allFieldsValid;
     }
