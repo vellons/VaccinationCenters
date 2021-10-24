@@ -6,6 +6,8 @@ import models.TipologiaEvento;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Hashtable;
 
 public class EventoAvversoPerLista {
@@ -50,6 +52,15 @@ public class EventoAvversoPerLista {
 
             public void update() {
                 lbCounterCharacter.setText("Caratteri: " + txtNote.getText().length() + "/256");
+            }
+        });
+
+        txtNote.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'")))
+                    e.consume();
             }
         });
     }

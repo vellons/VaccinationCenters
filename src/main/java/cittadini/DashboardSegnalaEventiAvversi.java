@@ -22,22 +22,48 @@ public class DashboardSegnalaEventiAvversi {
 
 
     public DashboardSegnalaEventiAvversi() {
-        DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
-        
+
+
         btnInviaSegnalazione.addActionListener(e -> {
             System.out.println("TODO: CLICK");
-            for (EventoAvversoPerLista elem : listEvento) {
-                if (elem.getValoreSeverita() > 0) {
-                    try {
-                        EventoAvverso ea = new EventoAvverso(Login.utenteLoggato.getId(), elem.getTipologiaEvento().getId(), elem.getValoreSeverita(), elem.getNota());
-                        db.inserisciNuovoEventoAvversoCittadino(ea);
-                        //System.out.println("Invio info al server\n" + ea);
-                    } catch (RemoteException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+
+            if (JOptionPane.showOptionDialog(null, "Confermi di voler segnalare gli eventi avversi?",
+                    "Inoltra eventi avversi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, null, null) == JOptionPane.YES_OPTION) {
+               // checkBeforeSend();
+                sendToServer();
             }
         });
+    }
+
+    private void sendToServer() {
+        DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+        for (EventoAvversoPerLista elem : listEvento) {
+            try {
+                EventoAvverso ea = new EventoAvverso(Login.utenteLoggato.getId(), elem.getTipologiaEvento().getId(), elem.getValoreSeverita(), elem.getNota());
+                db.inserisciNuovoEventoAvversoCittadino(ea);
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+/*    private void checkBeforeSend() {
+        for (EventoAvversoPerLista elem : listEvento) {
+            if (elem.getValoreSeverita() > 0) {
+                if (elem.getNota().isEmpty()) {
+                    jOptionPanelMessageDialog("Per favore, inserire una nota per l'evento avverso " + elem.getTipologiaEvento().getNome(), "Nota non disponibile");
+                    break;
+                }
+            }
+            else {
+                sendToServer();
+            }
+        }
+    }*/
+
+    private void jOptionPanelMessageDialog(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }
 
     private void createUIComponents() throws IOException {
