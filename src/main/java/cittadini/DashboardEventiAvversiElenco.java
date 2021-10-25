@@ -45,13 +45,18 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JButton btnAggiungiEventoAvverso;
 
     /**
-     * <code>lblUtente</code> rappresenta una label per inserire il totale di vaccinati.
+     * <code>lblUtente</code> rappresenta una label per il nome dell'utente.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblUtente;
+
+    /**
+     * <code>lblUtente</code> rappresenta una label per inserire la data di vaccinazione dell'utente.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lblDataVaccino;
-    private JLabel lblTitolo;
 
     /**
      * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
@@ -69,7 +74,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-            lblDataVaccino.setText("Ti sei vaccinat* il " + LocalDateTime.parse(Login.utenteLoggato.getData_somministrazione().toString(), formatter).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            lblDataVaccino.setText("Ti sei vaccinato/a il " + LocalDateTime.parse(Login.utenteLoggato.getData_somministrazione().toString(), formatter).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         } catch (Exception e) {
             lblDataVaccino.setText("");
         }
@@ -77,7 +82,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
         btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                segnalaEventiAvversiFrame = new JFrame("Segnala eventi avversi");
+                segnalaEventiAvversiFrame = new JFrame("Centri Vaccinali Cittadini - Segnala eventi avversi");
                 segnalaEventiAvversiFrame.setContentPane(new DashboardSegnalaEventiAvversi().panelNewReport);
                 segnalaEventiAvversiFrame.pack();
                 segnalaEventiAvversiFrame.setLocationRelativeTo(null);
@@ -98,7 +103,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     private void createUIComponents() throws Exception {
         panelLogo = new JPanel();
-        BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
+        BufferedImage myPicture = ImageIO.read(new File("media/IconaFioreSicuro.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
 

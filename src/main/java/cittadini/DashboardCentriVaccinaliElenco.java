@@ -34,13 +34,6 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
     private JPanel panelLogo;
 
     /**
-     * <code>panelTitle</code> rappresenta un pannello per inserire il titolo.
-     * <p>
-     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     */
-    private JPanel panelTitle;
-
-    /**
      * <code>panelListaCentriVaccinali</code> rappresenta un pannello.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
@@ -156,10 +149,6 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
         BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
-        panelTitle = new JPanel();
-        BufferedImage myPicture2 = ImageIO.read(new File("media/Cittadini.png"));
-        JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
-        panelTitle.add(picLabel2);
 
         // Prendo le tipologie di centro vaccinale
         if (tipologie.size() == 0) { // Tipologie è static, recupero i dati dal server solo la prima volta

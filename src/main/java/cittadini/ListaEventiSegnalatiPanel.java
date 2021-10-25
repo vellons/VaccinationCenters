@@ -71,7 +71,7 @@ public class ListaEventiSegnalatiPanel extends JPanel {
         } else {
             JPanel panel = new JPanel();
             panel.add(new JLabel("<html><center>Non hai segnalato eventi avversi.<br/>" +
-                    "Clicca il bottone \"Aggiungi evento avverso\" per aiutare a monitorare gli eventi avversi.<br/>" +
+                    "Clicca il bottone \"Segnala evento avverso\" per aiutare a monitorare gli eventi avversi.<br/>" +
                     "Se non ti senti bene contatta il tuo medico.</center></html>"));
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridwidth = GridBagConstraints.REMAINDER;
