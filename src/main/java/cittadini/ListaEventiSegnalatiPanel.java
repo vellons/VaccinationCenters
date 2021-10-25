@@ -88,7 +88,7 @@ public class ListaEventiSegnalatiPanel extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(410, 490);
+        return new Dimension(450, 490);
     }
 
     /**

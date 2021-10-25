@@ -82,7 +82,7 @@ public class Login {
      * <code>utenteLoggato</code> se l'utente &egrave; loggato nell'applicazione all'interno di questa variabile
      * saranno presenti le sue informazioni
      * <p>
-     * &egrave; dichiarato <strong>public</strong> in quanto l'attributo &egrave; utilizzabile ovunque
+     * &egrave; dichiarato <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile ovunque nel package
      * &egrave; dichiarato <strong>static</strong> cos&igrave; da poterla utlizzare senza istanziare l'oggetto
      */
     protected static Vaccinato utenteLoggato = null;
