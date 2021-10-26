@@ -152,6 +152,18 @@ public class Cittadini {
         signUpCitt.setVisible(true);
     }
 
+    public static void reloadDashboardEventiAvversiElenco(JFrame elencoEventiAvversi) throws Exception {
+        elencoEventiAvversi.setVisible(false);
+        elencoEventiAvversi.dispose();
+        elencoEventiAvversi.invalidate();
+        elencoEventiAvversi.setContentPane(new DashboardEventiAvversiElenco().panelDashboardCentriVaccinaliElenco);
+        initUI(elencoEventiAvversi);
+        elencoEventiAvversi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        elencoEventiAvversi.pack();
+        elencoEventiAvversi.setLocationRelativeTo(null);
+        elencoEventiAvversi.setVisible(true);
+    }
+
     public static void closePreviousWindow(JFrame finestra) {
         finestra.setVisible(false);
         finestra.dispose();
