@@ -1,11 +1,15 @@
 package cittadini;
 
+import global.DatabaseCVInterface;
+import global.ServerConnectionSingleton;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -65,7 +69,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * <p>
      * &egrave; dichiarata <strong>private</strong> in quanto deve essere accessibile solo all'interno della classe
      */
-    private JFrame segnalaEventiAvversiFrame;
+    public static JFrame segnalaEventiAvversiFrame;
 
     /**
      * Costruttore della classe
@@ -78,6 +82,17 @@ public class DashboardEventiAvversiElenco extends JFrame {
         } catch (Exception e) {
             lblDataVaccino.setText("");
         }
+
+        DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+
+        try { // se l'utente ha segnalato tutti i tipi esistenti di eventi avversi lo disabilito
+            if (db.getTipologieEventi().size() == ListaEventiSegnalatiPanel.eventiUtenteCorrente.size()){
+                btnAggiungiEventoAvverso.setEnabled(false);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
 
         btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
             @Override

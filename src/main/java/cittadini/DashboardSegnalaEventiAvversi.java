@@ -19,48 +19,60 @@ public class DashboardSegnalaEventiAvversi {
     private JButton btnInviaSegnalazione;
     private JPanel panelLogo;
     protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>();
+    private final List<EventoAvversoPerLista> listFinalEvento = new ArrayList<>();
 
 
     public DashboardSegnalaEventiAvversi() {
 
-
         btnInviaSegnalazione.addActionListener(e -> {
-            System.out.println("TODO: CLICK");
 
             if (JOptionPane.showOptionDialog(null, "Confermi di voler segnalare gli eventi avversi?",
                     "Inoltra eventi avversi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, null, null) == JOptionPane.YES_OPTION) {
-               // checkBeforeSend();
-                sendToServer();
+                if (!listFinalEvento.isEmpty())
+                    listFinalEvento.clear();
+                boolean isAllOk = checkBeforeSend();
+                if (isAllOk) {
+                    sendToServer();
+                    jOptionPanelMessageDialog("Segnalazione inviato con successo", "Invio riuscito");
+                    Cittadini.closePreviousWindow(DashboardEventiAvversiElenco.segnalaEventiAvversiFrame);
+                    try {
+                        Cittadini.reloadDashboardEventiAvversiElenco(Login.elencoEventiAvversi);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else
+                    jOptionPanelMessageDialog("Eventi avversi non inviati. Per favore inserire le note per ogni evento avverso evento avverso segnalato, con severità diversa da 0", "Invio fallito");
             }
         });
     }
 
+    private boolean checkBeforeSend() {
+        boolean check = false;
+        for (EventoAvversoPerLista elem : listEvento) {
+            if (elem.getValoreSeverita() > 0) {
+                if (elem.getNota().isEmpty()) {
+                    check = false;
+                } else {
+                    check = true;
+                    listFinalEvento.add(elem);
+                }
+            }
+        }
+        return check;
+    }
+
     private void sendToServer() {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
-        for (EventoAvversoPerLista elem : listEvento) {
+        for (EventoAvversoPerLista elem : listFinalEvento) {
             try {
-                EventoAvverso ea = new EventoAvverso(Login.utenteLoggato.getId(), elem.getTipologiaEvento().getId(), elem.getValoreSeverita(), elem.getNota());
+                EventoAvverso ea = new EventoAvverso(Login.utenteLoggato.getId(), elem.getTipologiaEvento().getId(), elem.getValoreSeverita(), elem.getNota().trim());
                 db.inserisciNuovoEventoAvversoCittadino(ea);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
             }
         }
     }
-
-/*    private void checkBeforeSend() {
-        for (EventoAvversoPerLista elem : listEvento) {
-            if (elem.getValoreSeverita() > 0) {
-                if (elem.getNota().isEmpty()) {
-                    jOptionPanelMessageDialog("Per favore, inserire una nota per l'evento avverso " + elem.getTipologiaEvento().getNome(), "Nota non disponibile");
-                    break;
-                }
-            }
-            else {
-                sendToServer();
-            }
-        }
-    }*/
 
     private void jOptionPanelMessageDialog(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
