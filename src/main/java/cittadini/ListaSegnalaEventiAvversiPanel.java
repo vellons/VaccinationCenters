@@ -52,19 +52,23 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
                 }
             } else { // entro se l'utente ha già segnalato almeno un evento
                 // in questo caso elimino le tipologie di eventi avversi già segnalati in precedenza.
-                ListIterator<TipologiaEvento> i = listTipologiaEvento.listIterator();
-                while (i.hasNext()) {
-                    int tmp = i.next().getId();
-                    for (EventoAvverso ea : ListaEventiSegnalatiPanel.eventiUtenteCorrente) { // La lista è presente ListaEventiSegnalatiPanel, evito di rifare un'altra lettura degli eventi avversi segnalati
-                        if (tmp == ea.getTipologia_evento_id())
-                            i.remove(); // TODO: try catch
+                try {
+                    ListIterator<TipologiaEvento> i = listTipologiaEvento.listIterator();
+                    while (i.hasNext()) {
+                        int tmp = i.next().getId();
+                        for (EventoAvverso ea : ListaEventiSegnalatiPanel.eventiUtenteCorrente) { // La lista è presente ListaEventiSegnalatiPanel, evito di rifare un'altra lettura degli eventi avversi segnalati
+                            if (tmp == ea.getTipologia_evento_id())
+                                i.remove();
+                        }
                     }
-                }
 
-                while (i.hasPrevious()) { // leggo al contrario la lista
-                    TipologiaEvento obj = i.previous();
-                    System.out.println(obj.toString());
-                    aggiungiEventoAvverso(obj);
+                    while (i.hasPrevious()) { // leggo al contrario la lista
+                        TipologiaEvento obj = i.previous();
+                        System.out.println(obj.toString());
+                        aggiungiEventoAvverso(obj);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         } catch (RemoteException e) {

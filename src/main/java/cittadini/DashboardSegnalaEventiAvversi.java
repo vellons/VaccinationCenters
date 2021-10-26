@@ -18,9 +18,11 @@ public class DashboardSegnalaEventiAvversi {
     public JPanel panelNewReport;
     private JButton btnInviaSegnalazione;
     private JPanel panelLogo;
-    protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>(); // TODO: fare un controllo
+    private JLabel lbInfo;
+    protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>();
     private final List<EventoAvversoPerLista> listFinalEvento = new ArrayList<>();
-
+    private final List<EventoAvversoPerLista> listErrorEvento = new ArrayList<>();
+    private final List<EventoAvversoPerLista> listNessunEvento = new ArrayList<>();
 
     public DashboardSegnalaEventiAvversi() {
 
@@ -29,38 +31,55 @@ public class DashboardSegnalaEventiAvversi {
             if (JOptionPane.showOptionDialog(null, "Confermi di voler segnalare gli eventi avversi?",
                     "Inoltra eventi avversi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, null, null) == JOptionPane.YES_OPTION) {
-                if (!listFinalEvento.isEmpty())
-                    listFinalEvento.clear();
-                boolean isAllOk = checkBeforeSend();
-                if (isAllOk) {
+
+                checkBeforeSend();
+
+                if (listNessunEvento.size() == listEvento.size()) { // se l'utente non ha segnalato niente
+                    jOptionPanelMessageDialog("Non hai segnalato nessun evento. Se non vuoi segnalare,\nchiudi la finestra.", "Nessun evento avverso segnalato");
+                } else { // se l'utente ha segnalato qualcosa
+                    //   if (!(listErrorEvento.size() > 0)) { // se non ci sono elementi (considerati errori), inoltro al server gli eventi avversi
                     sendToServer();
                     jOptionPanelMessageDialog("Segnalazione inviato con successo", "Invio riuscito");
                     Cittadini.closePreviousWindow(DashboardEventiAvversiElenco.segnalaEventiAvversiFrame);
+                    chekListEventoCauseIsStatic();
                     try {
                         Cittadini.reloadDashboardEventiAvversiElenco(Login.elencoEventiAvversi);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                } else
-                    jOptionPanelMessageDialog("Eventi avversi non inviati. Per favore inserire le note per ogni evento avverso evento avverso segnalato, con severità diversa da 0", "Invio fallito");
+                    //   } else
+                    //     jOptionPanelMessageDialog("", "Invio fallito");
+                }
             }
         });
     }
 
-    private boolean checkBeforeSend() {
-        // TODO: ora controlli solo ultimo &=
-        boolean check = false;
+    private void chekListEventoCauseIsStatic() {
+        if (listEvento.size() > 0)
+            listEvento.clear();
+    }
+
+    private void checkBeforeSend() {
+        clearLists();
+
         for (EventoAvversoPerLista elem : listEvento) {
             if (elem.getValoreSeverita() > 0) {
-                if (elem.getNota().isEmpty()) {
-                    check = false;
-                } else {
-                    check = true;
-                    listFinalEvento.add(elem);
-                }
-            }
+                // if (elem.getNota().isEmpty())
+                //     listErrorEvento.add(elem);
+                //  else
+                listFinalEvento.add(elem);
+            } else
+                listNessunEvento.add(elem);
         }
-        return check;
+    }
+
+    private void clearLists() {
+        if (!listFinalEvento.isEmpty())
+            listFinalEvento.clear();
+        if (!listErrorEvento.isEmpty())
+            listErrorEvento.clear();
+        if (!listNessunEvento.isEmpty())
+            listNessunEvento.clear();
     }
 
     private void sendToServer() {
