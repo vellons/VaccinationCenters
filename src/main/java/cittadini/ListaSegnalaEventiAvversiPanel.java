@@ -57,7 +57,7 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
                     int tmp = i.next().getId();
                     for (EventoAvverso ea : ListaEventiSegnalatiPanel.eventiUtenteCorrente) { // La lista è presente ListaEventiSegnalatiPanel, evito di rifare un'altra lettura degli eventi avversi segnalati
                         if (tmp == ea.getTipologia_evento_id())
-                            i.remove();
+                            i.remove(); // TODO: try catch
                     }
                 }
 

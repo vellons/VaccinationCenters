@@ -18,7 +18,7 @@ public class DashboardSegnalaEventiAvversi {
     public JPanel panelNewReport;
     private JButton btnInviaSegnalazione;
     private JPanel panelLogo;
-    protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>();
+    protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>(); // TODO: fare un controllo
     private final List<EventoAvversoPerLista> listFinalEvento = new ArrayList<>();
 
 
@@ -48,6 +48,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     private boolean checkBeforeSend() {
+        // TODO: ora controlli solo ultimo &=
         boolean check = false;
         for (EventoAvversoPerLista elem : listEvento) {
             if (elem.getValoreSeverita() > 0) {

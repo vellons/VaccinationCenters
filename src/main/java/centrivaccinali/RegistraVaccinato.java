@@ -578,13 +578,11 @@ public class RegistraVaccinato{
         }
 
         cboxTipoVaccino = new JComboBox(tipologieCombo.toArray());
-        if (nomi.size() == 0) {
-            try {
-                DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
-                nomi = db.getCentriVaccinali("");
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+            nomi = db.getCentriVaccinali("");
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
         List<String> nomiCombo = new ArrayList<>();
         for (CentroVaccinale obj : nomi) {

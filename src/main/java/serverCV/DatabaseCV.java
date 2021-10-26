@@ -469,20 +469,20 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             System.out.println(count);
             if (count > 0) {
                 System.out.println("L'email esiste già");
-                return false;
+                return false;  // TODO SILVIO: codice errore 1
             } else {
                 String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
                 stmt.executeUpdate(query);
                 stmt.close();
                 long duration = (System.nanoTime() - startTime) / 1000000;
                 logMessage("Aggiornamento utente completato in: " + duration + "mS");
-                return true;
+                return true; // TODO SILVIO: codice errore 0
             }
 
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
-            return false;
+            return false; // TODO SILVIO: codice errore -1
         }
     }
 
@@ -531,7 +531,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             pStmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logMessage("ERROR: inserisciNuovoEventoAvversoCittadino()");
             e.printStackTrace();
         }
