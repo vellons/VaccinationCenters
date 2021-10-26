@@ -58,7 +58,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
                 obj.setVaccinato_id(rs.getInt("vaccinato_id"));
                 obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
-                obj.setSeverita(rs.getString("severita"));
+                obj.setSeverita(rs.getInt("severita"));
                 obj.setNote(rs.getString("note"));
                 returnList.add(obj);
             }
@@ -281,7 +281,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
                 obj.setVaccinato_id(rs.getInt("vaccinato_id"));
                 obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
-                obj.setSeverita(rs.getString("severita"));
+                obj.setSeverita(rs.getInt("severita"));
                 obj.setNote(rs.getString("note"));
                 returnList.add(obj);
             }
@@ -466,7 +466,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
             int count = rowCounterInTable("vaccinati WHERE email = '" + email + "'");
-                    System.out.println(count);
+            System.out.println(count);
             if (count > 0) {
                 System.out.println("L'email esiste già");
                 return false;
@@ -486,7 +486,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         }
     }
 
-    public synchronized List<EventoAvverso> getEventiAvversiCittadino(String vaccinatoID) throws RemoteException {
+    public synchronized List<EventoAvverso> getEventiAvversiCittadino(int vaccinatoID) throws RemoteException {
         // restituisce gli eventi avversi di un deteteminato cittadino
         List<EventoAvverso> returnList = new ArrayList<>();
         try {
@@ -498,7 +498,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
                 obj.setVaccinato_id(rs.getInt("vaccinato_id"));
                 obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
-                obj.setSeverita(rs.getString("severita"));
+                obj.setSeverita(rs.getInt("severita"));
                 obj.setNote(rs.getString("note"));
                 returnList.add(obj);
             }
@@ -511,5 +511,29 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             e.printStackTrace();
         }
         return returnList;
+    }
+
+    public synchronized void inserisciNuovoEventoAvversoCittadino(EventoAvverso ea) throws RemoteException {
+        // permette l'inserimento di un nuovo evento avverso all'interno del DB remoto
+
+        String query = "INSERT INTO eventi_avversi(id, vaccinato_id, tipologia_evento_id, severita, note)" +
+                "values (nextval('eventi_avversi_id_seq'),?,?,?,?)";
+        try (PreparedStatement pStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            long startTime = System.nanoTime();
+
+            pStmt.setInt(1, ea.getVaccinato_id());
+            pStmt.setInt(2, ea.getTipologia_evento_id());
+            pStmt.setInt(3, ea.getSeverita());
+            pStmt.setString(4, ea.getNote());
+
+            pStmt.executeUpdate();
+
+            pStmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage(query + " in: " + duration + "mS");
+        } catch (SQLException e) {
+            logMessage("ERROR: inserisciNuovoEventoAvversoCittadino()");
+            e.printStackTrace();
+        }
     }
 }

@@ -43,6 +43,7 @@ public class RegistraCitt {
     private JButton btnCercaCittadino;
     private JTextField tfDataSomministrazione;
     private JLabel lblDataSomministrazione;
+    private JLabel lblHelpIdentificatore;
     private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
     private boolean showJOptionPane = true;
 
@@ -66,7 +67,7 @@ public class RegistraCitt {
                     Vaccinato userVax = db.getVaccinatoByIDUnique(tfIdUnivoco.getText());
                     if (userVax != null) {
                         if (userVax.getEmail() != null) {
-                            JOptionPane.showMessageDialog(null, "Hai già completata la registrazione in precedenza.\n",
+                            JOptionPane.showMessageDialog(null, "Hai già completato la registrazione in precedenza.",
                                     "Registrazione già effettuata", JOptionPane.PLAIN_MESSAGE);
                             Cittadini.closePreviousWindow(Cittadini.registraCittadinoCV);
                         } else {
@@ -92,6 +93,7 @@ public class RegistraCitt {
         tfIdUnivoco.setEditable(false);
         tfDataSomministrazione.setEditable(false);
         btnCercaCittadino.setVisible(false);
+        lblHelpIdentificatore.setVisible(false);
 
         tfNome.setText(userVax.getNome());
         tfCognome.setText(userVax.getCognome());

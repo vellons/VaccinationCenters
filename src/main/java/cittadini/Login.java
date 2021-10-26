@@ -46,13 +46,6 @@ public class Login {
      */
     private JPanel panelLoginLogo;
 
-    /**
-     * <code>panelLogo2</code> &egrave; un pannello Swing che compone
-     * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
-     * <p>
-     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     */
-    private JPanel panelLoginLogo2;
 
     /**
      * <code>tfEmail</code> &egrave; un campo di testo Swing dedicato all'email
@@ -82,7 +75,7 @@ public class Login {
      * <code>utenteLoggato</code> se l'utente &egrave; loggato nell'applicazione all'interno di questa variabile
      * saranno presenti le sue informazioni
      * <p>
-     * &egrave; dichiarato <strong>public</strong> in quanto l'attributo &egrave; utilizzabile ovunque
+     * &egrave; dichiarato <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile ovunque nel package
      * &egrave; dichiarato <strong>static</strong> cos&igrave; da poterla utlizzare senza istanziare l'oggetto
      */
     protected static Vaccinato utenteLoggato = null;
@@ -105,13 +98,12 @@ public class Login {
                     Vaccinato v = db.getVaccinatoByEmailAndPasswordSha(tfEmail.getText(), tfPassword.getText());
                     if (v == null) {
                         lblErrors.setFont(new Font("Default", Font.BOLD, 14));
-                        lblErrors.setText("Email o password errata");
+                        lblErrors.setText("Email o password errati");
                         lblErrors.setForeground(Color.RED);
                     } else {
                         utenteLoggato = v;
                         tfEmail.setText("");
                         tfPassword.setText("");
-                        System.out.println(utenteLoggato);
                         openDashElencoEventiAvversi();
                     }
                 } catch (RemoteException ex) {
@@ -152,10 +144,6 @@ public class Login {
         BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLoginLogo.add(picLabel);
-        panelLoginLogo2 = new JPanel();
-        BufferedImage myPicture2 = ImageIO.read(new File("media/Cittadini.png"));
-        JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
-        panelLoginLogo2.add(picLabel2);
 
         tfEmail = new JTextField();
         tfPassword = new JPasswordField();

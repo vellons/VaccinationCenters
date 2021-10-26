@@ -63,15 +63,6 @@ public class CentriVaccinali {
     private JPanel panelLogo;
 
     /**
-     * <code>panelLogo3</code> &egrave; un pannello Swing che compone
-     * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
-     * <p>
-     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     */
-
-    private JPanel panelLogo3;
-
-    /**
      * <code>panelLogo2</code> &egrave; un pannello Swing che compone
      * l'interfaccia grafica, nella fattispecie una parte del logo dell'appicazione.
      * <p>
@@ -219,9 +210,5 @@ public class CentriVaccinali {
         BufferedImage myPicture2 = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
-        panelLogo3 = new JPanel();
-        BufferedImage myPicture3 = ImageIO.read(new File("media/Operatori.png"));
-        JLabel picLabel3 = new JLabel(new ImageIcon(myPicture3));
-        panelLogo3.add(picLabel3);
     }
 }

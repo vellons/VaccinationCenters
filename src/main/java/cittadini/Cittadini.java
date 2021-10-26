@@ -22,7 +22,6 @@ public class Cittadini {
     private JButton btnSegnalaEvento;
     private JPanel panelLogo;
     private JPanel panelLogo2;
-    private JPanel panelLogo3;
 
     public Cittadini() {
         btnCercaCentro.addActionListener(e -> openDashBoardCentriVaccinaliElenco());
@@ -72,10 +71,6 @@ public class Cittadini {
         BufferedImage myPicture2 = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
         panelLogo2.add(picLabel2);
-        panelLogo3 = new JPanel();
-        BufferedImage myPicture3 = ImageIO.read(new File("media/Cittadini.png"));
-        JLabel picLabel3 = new JLabel(new ImageIcon(myPicture3));
-        panelLogo3.add(picLabel3);
     }
 
     private void openDashBoardCentriVaccinaliElenco() {

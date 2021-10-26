@@ -40,6 +40,8 @@ public interface DatabaseCVInterface extends Remote {
 
     boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException;
 
-    List<EventoAvverso> getEventiAvversiCittadino(String UUID) throws RemoteException;
+    List<EventoAvverso> getEventiAvversiCittadino(int vaccinatoID) throws RemoteException;
+
+    void inserisciNuovoEventoAvversoCittadino(EventoAvverso ea) throws RemoteException;
 
 }

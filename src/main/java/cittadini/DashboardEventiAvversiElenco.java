@@ -1,15 +1,13 @@
 package cittadini;
 
-import models.TipologiaCentroVaccinale;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * La classe DashboardCentriVaccinaliElenco permette l'utilizzo di visualizzare l'elenco degli eventi avversi
@@ -33,13 +31,6 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JPanel panelLogo;
 
     /**
-     * <code>panelTitle</code> rappresenta un pannello per inserire il titolo.
-     * <p>
-     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     */
-    private JPanel panelTitle;
-
-    /**
      * <code>panelListaEventiAvversi</code> rappresenta un pannello.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
@@ -54,20 +45,26 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JButton btnAggiungiEventoAvverso;
 
     /**
-     * <code>lblUtente</code> rappresenta una label per inserire il totale di vaccinati.
+     * <code>lblUtente</code> rappresenta una label per il nome dell'utente.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblUtente;
 
     /**
-     * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di centro vaccinale
-     * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
-     * chiamando solo una volta il server per ottenere l'elenco
+     * <code>lblUtente</code> rappresenta una label per inserire la data di vaccinazione dell'utente.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
-    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    private JLabel lblDataVaccino;
 
+    /**
+     * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
+     * quale si vuole inserire un nuovo evento avverso
+     *
+     * <p>
+     * &egrave; dichiarata <strong>private</strong> in quanto deve essere accessibile solo all'interno della classe
+     */
     private JFrame segnalaEventiAvversiFrame;
 
     /**
@@ -75,11 +72,17 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     public DashboardEventiAvversiElenco() {
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+            lblDataVaccino.setText("Ti sei vaccinato/a il " + LocalDateTime.parse(Login.utenteLoggato.getData_somministrazione().toString(), formatter).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        } catch (Exception e) {
+            lblDataVaccino.setText("");
+        }
 
         btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                segnalaEventiAvversiFrame = new JFrame("Segnala eventi avversi");
+                segnalaEventiAvversiFrame = new JFrame("Centri Vaccinali Cittadini - Segnala eventi avversi");
                 segnalaEventiAvversiFrame.setContentPane(new DashboardSegnalaEventiAvversi().panelNewReport);
                 segnalaEventiAvversiFrame.pack();
                 segnalaEventiAvversiFrame.setLocationRelativeTo(null);
@@ -100,16 +103,12 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     private void createUIComponents() throws Exception {
         panelLogo = new JPanel();
-        BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
+        BufferedImage myPicture = ImageIO.read(new File("media/IconaFioreSicuro.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         panelLogo.add(picLabel);
-        panelTitle = new JPanel();
-        BufferedImage myPicture2 = ImageIO.read(new File("media/Cittadini.png"));
-        JLabel picLabel2 = new JLabel(new ImageIcon(myPicture2));
-        panelTitle.add(picLabel2);
 
-        // Creo la lista degli eventi avversi
+        // Creo la lista degli eventi avversi appartenenti all'utente loggato
         panelListaEventiAvversi = new JPanel();
-        panelListaEventiAvversi.add(new ListaCentriVaccinaliPanel("", "", 0));  // TODO: nuova lista eventi avversi
+        panelListaEventiAvversi.add(new ListaEventiSegnalatiPanel());
     }
 }

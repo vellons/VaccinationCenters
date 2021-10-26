@@ -50,11 +50,11 @@ public class EventoAvverso implements Serializable {
     /**
      * <code>severita</code> &egrave; la severit&agrave; dell'evento avverso
      * <p>
-     * &egrave; dichiarato <strong>String</strong> permette di scrivere stringhe
+     * &egrave; dichiarato <strong>int</strong> permette di scrivere dati di lunghezza fino a 32 bit
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
 
-    private String severita;
+    private int severita;
 
     /**
      * <code>note</code> sono le note aggiuntive dell'evento avverso
@@ -75,8 +75,25 @@ public class EventoAvverso implements Serializable {
      * @param note                         sono le note aggiuntive dell'evento avverso
      */
 
-    public EventoAvverso(int id, int vaccinato_id, int tipologia_evento_id, String severita, String note) {
+    public EventoAvverso(int id, int vaccinato_id, int tipologia_evento_id, int severita, String note) {
         this.id = id;
+        this.vaccinato_id = vaccinato_id;
+        this.tipologia_evento_id = tipologia_evento_id;
+        this.severita = severita;
+        this.note = note;
+    }
+
+
+    /**
+     * Costrutore della classe
+     *
+     * @param vaccinato_id                 &egrave; l'identificativo dell'utente vaccinato
+     * @param tipologia_evento_id          &egrave; l'id della tipologia dell'evento avverso
+     * @param severita                     &egrave; la severit&agrave; dell'evento avverso
+     * @param note                         sono le note aggiuntive dell'evento avverso
+     */
+
+    public EventoAvverso(int vaccinato_id, int tipologia_evento_id, int severita, String note) {
         this.vaccinato_id = vaccinato_id;
         this.tipologia_evento_id = tipologia_evento_id;
         this.severita = severita;
@@ -145,7 +162,7 @@ public class EventoAvverso implements Serializable {
      * @return la severit&agrave; dell'evento avverso
      */
 
-    public String getSeverita() {
+    public int getSeverita() {
         return severita;
     }
 
@@ -153,7 +170,7 @@ public class EventoAvverso implements Serializable {
      * @param severita &egrave; la severit&agrave; dell'evento avverso
      */
 
-    public void setSeverita(String severita) {
+    public void setSeverita(int severita) {
         this.severita = severita;
     }
 
