@@ -61,6 +61,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblDataVaccino;
+    private JLabel lbBtnDisabilitato;
 
     /**
      * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
@@ -75,6 +76,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * Costruttore della classe
      */
     public DashboardEventiAvversiElenco() {
+        lbBtnDisabilitato.setVisible(false);
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
@@ -86,8 +88,9 @@ public class DashboardEventiAvversiElenco extends JFrame {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
 
         try { // se l'utente ha segnalato tutti i tipi esistenti di eventi avversi lo disabilito
-            if (db.getTipologieEventi().size() == ListaEventiSegnalatiPanel.eventiUtenteCorrente.size()){
+            if (db.getTipologieEventi().size() == ListaEventiSegnalatiPanel.eventiUtenteCorrente.size()) {
                 btnAggiungiEventoAvverso.setEnabled(false);
+                lbBtnDisabilitato.setVisible(true);
             }
         } catch (RemoteException e) {
             e.printStackTrace();

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cittadini.DashboardEventiAvversiElenco">
-  <grid id="cbd77" binding="panelDashboardCentriVaccinaliElenco" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="cbd77" binding="panelDashboardCentriVaccinaliElenco" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="61" y="165" width="487" height="316"/>
+      <xy x="61" y="165" width="794" height="316"/>
     </constraints>
     <properties>
       <background color="-723724"/>
@@ -28,7 +28,7 @@
       <grid id="7832d" binding="panelListaEventiAvversi" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="0" row-span="3" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="4" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-723724"/>
@@ -61,11 +61,6 @@
           <text value="Segnala evento avverso"/>
         </properties>
       </component>
-      <vspacer id="6afec">
-        <constraints>
-          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <grid id="8e3cc" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="40"/>
         <constraints>
@@ -121,6 +116,20 @@
           <text value="Area riservata"/>
         </properties>
       </component>
+      <component id="49590" class="javax.swing.JLabel" binding="lbBtnDisabilitato">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-16777216"/>
+          <text value="&lt;html&gt;&#10;Hai segnalato tutti i tipi di eventi avversi.&#10;&lt;/html&gt;"/>
+        </properties>
+      </component>
+      <vspacer id="b073b">
+        <constraints>
+          <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
     </children>
   </grid>
 </form>
