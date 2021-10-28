@@ -460,7 +460,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return vaccinatiPerCentro;
     }
 
-    public synchronized boolean updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
+    public synchronized int updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
 
         try {
             long startTime = System.nanoTime();
@@ -469,20 +469,20 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             System.out.println(count);
             if (count > 0) {
                 System.out.println("L'email esiste già");
-                return false;  // TODO SILVIO: codice errore 1
+                return 1;
             } else {
                 String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";
                 stmt.executeUpdate(query);
                 stmt.close();
                 long duration = (System.nanoTime() - startTime) / 1000000;
                 logMessage("Aggiornamento utente completato in: " + duration + "mS");
-                return true; // TODO SILVIO: codice errore 0
+                return 0;
             }
 
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
-            return false; // TODO SILVIO: codice errore -1
+            return -1;
         }
     }
 
