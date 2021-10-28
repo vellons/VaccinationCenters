@@ -461,14 +461,12 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     }
 
     public synchronized int updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
-
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
             int count = rowCounterInTable("vaccinati WHERE email = '" + email + "'");
             System.out.println(count);
             if (count > 0) {
-                System.out.println("L'email esiste già");
                 return 1;
             } else {
                 String query = "UPDATE vaccinati SET email = '" + email + "', pass = '" + Sha1.sha1(password) + "' WHERE id_univoco = '" + idUnivoco + "';";

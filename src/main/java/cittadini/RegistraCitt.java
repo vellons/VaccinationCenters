@@ -135,14 +135,15 @@ public class RegistraCitt {
                     return;
                 }
                 try {
-                    if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText()) == 0) {
+                    int result = db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText());
+                    if (result == 0) {
                         JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo.", "Registrazione completata", JOptionPane.PLAIN_MESSAGE);
                         Cittadini.closePreviousWindow(Cittadini.registraCittadinoCV);
-                    } else if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText()) == 1){
+                    } else if (result == 1){
                         JOptionPane.showMessageDialog(null, "Registrazione non avvenuta con successo.\nL'email da te inserita esiste già", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
                     }
-                    else if (db.updateRegistraVaccinato(tfEmail.getText(), String.valueOf(tfPassword.getPassword()), tfIdUnivoco.getText()) == -1){
-                        JOptionPane.showMessageDialog(null, "Si è verificato un problema dal lato server.\n", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
+                    else if (result == -1){
+                        JOptionPane.showMessageDialog(null, "Si è verificato un problema dal lato server.", "Registrazione fallita", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
