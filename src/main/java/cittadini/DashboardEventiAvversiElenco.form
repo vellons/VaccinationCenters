@@ -118,9 +118,10 @@
       </component>
       <component id="49590" class="javax.swing.JLabel" binding="lbBtnDisabilitato">
         <constraints>
-          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font style="2"/>
           <foreground color="-16777216"/>
           <text value="&lt;html&gt;&#10;Hai segnalato tutti i tipi di eventi avversi.&#10;&lt;/html&gt;"/>
         </properties>
