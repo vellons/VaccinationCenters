@@ -74,6 +74,7 @@ public class ListaCentriVaccinaliPanel extends JPanel {
             centriV = db.getCentriVaccinali(clausolaWhere);
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
 
         // Controllo se dopo aver applicato i filtri ci sono ancora centri vaccinali

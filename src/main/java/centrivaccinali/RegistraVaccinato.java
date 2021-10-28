@@ -570,6 +570,7 @@ public class RegistraVaccinato{
                 tipologie = db.getTipologiaVaccino();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                ServerConnectionSingleton.resetConnection();
             }
         }
         List<String> tipologieCombo = new ArrayList<>();
@@ -583,6 +584,7 @@ public class RegistraVaccinato{
             nomi = db.getCentriVaccinali("");
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
         List<String> nomiCombo = new ArrayList<>();
         for (CentroVaccinale obj : nomi) {

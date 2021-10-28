@@ -98,11 +98,11 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
 
     /**
      * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di centro vaccinale
-     * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile anche da altre classi
+     * &egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile anche da altre classi dello stesso package
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    public static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
+    protected static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();
 
 
     /**
@@ -137,6 +137,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
                     ServerConnectionSingleton.getDatabaseInstance().rowCounterInTable("vaccinati"));
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
     }
 
@@ -157,6 +158,7 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
                 tipologie = db.getTipologiaCentroVaccinale();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                ServerConnectionSingleton.resetConnection();
             }
         }
         List<String> tipologieCombo = new ArrayList<>();

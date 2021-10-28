@@ -61,6 +61,7 @@ public class ListaEventiSegnalatiPanel extends JPanel {
             eventiUtenteCorrente = db.getEventiAvversiCittadino(Login.utenteLoggato.getId());
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
 
         if (eventiUtenteCorrente.size() > 0) {

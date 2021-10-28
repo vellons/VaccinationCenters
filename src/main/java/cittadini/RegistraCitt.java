@@ -83,6 +83,7 @@ public class RegistraCitt {
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
+                    ServerConnectionSingleton.resetConnection();
                 }
             }
         });
@@ -142,6 +143,7 @@ public class RegistraCitt {
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
+                    ServerConnectionSingleton.resetConnection();
                 }
             }
         });

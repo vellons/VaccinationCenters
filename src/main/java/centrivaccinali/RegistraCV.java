@@ -483,6 +483,7 @@ public class RegistraCV {
                 tipologie = db.getTipologiaCentroVaccinale();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                ServerConnectionSingleton.resetConnection();
             }
         }
         List<String> tipologieCombo = new ArrayList<>();

@@ -54,4 +54,10 @@ public class ServerConnectionSingleton {
         }
         return database;
     }
+
+    public static void resetConnection() {
+        singleton_instance = null;
+        database = null;
+        System.err.println("Reset connection with server");
+    }
 }

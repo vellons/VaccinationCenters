@@ -93,8 +93,8 @@ public class Login {
                     lblErrors.setForeground(Color.RED);
                     return;
                 }
-                DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
                 try {
+                    DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
                     Vaccinato v = db.getVaccinatoByEmailAndPasswordSha(tfEmail.getText(), tfPassword.getText());
                     if (v == null) {
                         lblErrors.setFont(new Font("Default", Font.BOLD, 14));
@@ -106,8 +106,10 @@ public class Login {
                         tfPassword.setText("");
                         openDashElencoEventiAvversi();
                     }
-                } catch (RemoteException ex) {
+                } catch (Exception ex) {
+                    lblErrors.setText("Ci sono stati problemi con il login. Prova a riavviare l'app");
                     ex.printStackTrace();
+                    ServerConnectionSingleton.resetConnection();
                 }
             }
         });

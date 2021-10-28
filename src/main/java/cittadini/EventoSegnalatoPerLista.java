@@ -19,11 +19,11 @@ public class EventoSegnalatoPerLista {
 
     /**
      * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di eventi avversi
-     * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave;utilizzabile anche da altre classi
+     * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave;utilizzabile anche da altre classi dello stesso package
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
-    public static List<TipologiaEvento> tipologie = new ArrayList<>();
+    protected static List<TipologiaEvento> tipologie = new ArrayList<>();
 
     public EventoSegnalatoPerLista(EventoAvverso eventoAvverso) {
 

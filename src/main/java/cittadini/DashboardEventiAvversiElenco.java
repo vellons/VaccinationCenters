@@ -94,6 +94,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
             }
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
 
 

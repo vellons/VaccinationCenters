@@ -99,6 +99,7 @@ public class DashboardSegnalaEventiAvversi {
                 db.inserisciNuovoEventoAvversoCittadino(ea);
             } catch (RemoteException ex) {
                 ex.printStackTrace();
+                ServerConnectionSingleton.resetConnection();
             }
         }
     }

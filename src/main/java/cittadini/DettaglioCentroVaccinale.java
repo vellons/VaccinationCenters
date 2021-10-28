@@ -113,6 +113,7 @@ public class DettaglioCentroVaccinale {
             }
         } catch (RemoteException e) {
             e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
         }
     }
 
