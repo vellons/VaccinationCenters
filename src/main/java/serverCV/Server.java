@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.Permission;
+import java.security.Policy;
+import java.security.ProtectionDomain;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -66,6 +69,17 @@ public class Server {
             socket.close();
         } catch (Exception ignored) {
         }
+
+        // Creazione della regola di sicurezza per l'accesso remoto
+        Policy allowRemotePermissionPolicy = new Policy() {
+            @Override
+            public boolean implies(ProtectionDomain domain, Permission permission) {
+                return true;
+            }
+        };
+        Policy.getPolicy();
+        Policy.setPolicy(allowRemotePermissionPolicy);
+        System.setSecurityManager(new SecurityManager());
 
         // Bind del registry per la connessione con RMI
         try {
