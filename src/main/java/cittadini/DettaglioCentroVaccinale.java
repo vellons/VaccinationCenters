@@ -78,7 +78,7 @@ public class DettaglioCentroVaccinale {
     }
 
     private void setCVLabels(CentroVaccinale cv) throws RemoteException {
-        lbCentroVaccinale.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 20)));
+        lbCentroVaccinale.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 25)));
         lbIndirizzo.setText(cv.getIndirizzoComposto());
         lblTipologia.setText("Tipologia: " + findTipologia());
     }
