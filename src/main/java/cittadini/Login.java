@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 /**
  * La classe Login permette all'utente di entrare nell'area riservata per vedere i suoi eventi avversi o
@@ -80,6 +79,8 @@ public class Login {
      */
     protected static Vaccinato utenteLoggato = null;
 
+    public static DashboardEventiAvversiElenco dashboardEventiAvversiElenco;
+
     public Login() {
 
         btnLogin.addActionListener(new ActionListener() {
@@ -122,7 +123,8 @@ public class Login {
     private void openDashElencoEventiAvversi() {
         try {
             elencoEventiAvversi = new JFrame("Centri Vaccinali Cittadini - Area riservata");
-            elencoEventiAvversi.setContentPane(new DashboardEventiAvversiElenco().panelDashboardCentriVaccinaliElenco);
+            dashboardEventiAvversiElenco = new DashboardEventiAvversiElenco();
+            elencoEventiAvversi.setContentPane(dashboardEventiAvversiElenco.panelDashboardCentriVaccinaliElenco);
             Cittadini.initUI(elencoEventiAvversi);
             elencoEventiAvversi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Definisce il comportamento della finestra
             elencoEventiAvversi.pack();
