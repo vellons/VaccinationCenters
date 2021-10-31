@@ -13,6 +13,11 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La classe DashboardSegnalaEventiAvversi permette d'inviare gli eventi avversi non ancora segnalati dall'utente
+ *
+ * @author manuelmacaj
+ */
 public class DashboardSegnalaEventiAvversi {
     private JPanel panelListaNuoveSegnalazioni;
     public JPanel panelNewReport;
@@ -24,6 +29,9 @@ public class DashboardSegnalaEventiAvversi {
     private final List<EventoAvversoPerLista> listErrorEvento = new ArrayList<>();
     private final List<EventoAvversoPerLista> listNessunEvento = new ArrayList<>();
 
+    /**
+     * Costruttore della classe
+     */
     public DashboardSegnalaEventiAvversi() {
 
         btnInviaSegnalazione.addActionListener(e -> {
@@ -55,11 +63,17 @@ public class DashboardSegnalaEventiAvversi {
         });
     }
 
+    /**
+     * Metodo che provvede a cancellare pulire <code>listEvento</code> se esso &egrave; maggiore di zero
+     */
     private void chekListEventoCauseIsStatic() {
         if (listEvento.size() > 0)
             listEvento.clear();
     }
 
+    /**
+     * Metodo che verifica gli eventi avversi inseriti dall'utente
+     */
     private void checkBeforeSend() {
         clearLists();
 
@@ -78,10 +92,19 @@ public class DashboardSegnalaEventiAvversi {
         }
     }
 
+    /**
+     * Metodo che controlla il primo carattere de stringa
+     *
+     * @param input la nota di un evento avverso
+     * @return restituisce TRUE se il primo carattere &egrave; uno SPACECHAE, FALSE altrimenti
+     */
     private boolean firstLetter(String input) {
         return Character.isSpaceChar(input.charAt(0));
     }
 
+    /**
+     * Metodo per la pulizia delle liste
+     */
     private void clearLists() {
         if (!listApproveEvento.isEmpty())
             listApproveEvento.clear();
@@ -91,6 +114,9 @@ public class DashboardSegnalaEventiAvversi {
             listNessunEvento.clear();
     }
 
+    /**
+     * Metodo per l'invio degli eventi avversi al server
+     */
     private void sendToServer() {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
         for (EventoAvversoPerLista elem : listApproveEvento) {
@@ -104,10 +130,22 @@ public class DashboardSegnalaEventiAvversi {
         }
     }
 
+    /**
+     * Metodo per la costruzione del Dialog message
+     *
+     * @param message messaggio da mostrare nel Dialog message
+     * @param title   titolo del Dialog message
+     */
     private void jOptionPanelMessageDialog(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Metodo utilizzato per quei componenti grafici che presenta la custom create a TRUE
+     *
+     * @throws IOException un eccezione che viene lanciata quando il programma non
+     *                     trova il file che si vuole utilizzare
+     */
     private void createUIComponents() throws IOException {
         panelLogo = new JPanel();
         BufferedImage myPicture = ImageIO.read(new File("media/ItaliaRinasce.png"));

@@ -249,20 +249,38 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="db003" class="javax.swing.JButton" binding="btnModifica">
+              <component id="b5ec4" class="javax.swing.JButton" binding="btnModifica">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="250" height="-1"/>
+                  </grid>
                 </constraints>
                 <properties>
-                  <text value="Modifica"/>
+                  <actionCommand value="Cerca"/>
+                  <background color="-3727837"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1"/>
+                  <opaque value="true"/>
+                  <text value="Conferma modifica"/>
                 </properties>
               </component>
-              <component id="83e8a" class="javax.swing.JButton" binding="btnAnnulla">
+              <component id="a0055" class="javax.swing.JButton" binding="btnAnnulla">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="250" height="-1"/>
+                  </grid>
                 </constraints>
                 <properties>
-                  <text value="Annulla"/>
+                  <actionCommand value="Cerca"/>
+                  <background color="-3727837"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1"/>
+                  <opaque value="true"/>
+                  <text value="Annulla modifica"/>
                 </properties>
               </component>
             </children>
