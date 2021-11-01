@@ -19,15 +19,71 @@ import java.util.List;
  * @author manuelmacaj
  */
 public class DashboardSegnalaEventiAvversi {
+    /**
+     * <code>panelListaNuoveSegnalazioni</code> rappresenta il pannello di visualizzazione, dedicato alla lista di eventi avversi che l'utente non ha ancora segnalato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo alla classe DashboardSegnalaEventiAvversi
+     * </p>
+     */
     private JPanel panelListaNuoveSegnalazioni;
-    public JPanel panelNewReport;
+    /**
+     * <code>panelNewReport</code> il pannello principale
+     * <p>
+     * &egrave; dichiarato <strong>protected</strong> cos&igrave; da poter essere visibile solo alle classi appartenenti al package cittadini
+     * </p>
+     */
+    protected JPanel panelNewReport;
+    /**
+     * <code>btnInviaSegnalazione</code> rappresenta il bottone che permette all'utente d'inviare la/le segnalazione/i
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JButton btnInviaSegnalazione;
+    /**
+     * <code>panelLogo</code> rappresenta un pannello per inserire il logo
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JPanel panelLogo;
+    /**
+     * <code>lbInfo</code> rappresenta una label che mostra le istruzioni per la segnalazione di un evento avverso
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbInfo;
+    /**
+     * <code>listEvento</code> rappresenter&agrave; la lista di eventi non ancora segnalati dall'utente
+     * <p>
+     * &egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile nel package cittadini
+     * </p>
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve:
+     * in questo caso serve per ricavare una lista degli eventi avversi non ancora segnalati
+     */
     protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>();
+    /**
+     * <code>listApproveEvento</code> rappresenta la lista di eventi approvati, in fase di controllo
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private final List<EventoAvversoPerLista> listApproveEvento = new ArrayList<>();
+    /**
+     * <code>listErrorEvento</code> rappresenta la lista di eventi non approvati, in fase di controllo
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private final List<EventoAvversoPerLista> listErrorEvento = new ArrayList<>();
-    private final List<EventoAvversoPerLista> listNessunEvento = new ArrayList<>();
+    /**
+     * <code>listEventoNonToccato</code> rappresenta la lista di eventi avversi non presi in considerazione dall'utente
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
+    private final List<EventoAvversoPerLista> listEventoNonToccato = new ArrayList<>();
 
     /**
      * Costruttore della classe
@@ -42,7 +98,7 @@ public class DashboardSegnalaEventiAvversi {
 
                 checkBeforeSend();
 
-                if (listNessunEvento.size() == listEvento.size()) { // se l'utente non ha segnalato niente
+                if (listEventoNonToccato.size() == listEvento.size()) { // se l'utente non ha segnalato niente
                     jOptionPanelMessageDialog("Non hai segnalato nessun evento. Se non vuoi segnalare,\nchiudi la finestra.", "Nessun evento avverso segnalato");
                 } else { // se l'utente ha segnalato qualcosa
                     if (!(listErrorEvento.size() > 0)) { // se non ci sono elementi (considerati errori), inoltro al server gli eventi avversi
@@ -88,7 +144,7 @@ public class DashboardSegnalaEventiAvversi {
                 } else // se l'utente non è interessato ad aggiungere una nota a riguardo di un particolare evento avverso//...
                     listApproveEvento.add(elem); //  ...aggiungo nella lista degli eventi avversi approvati
             } else
-                listNessunEvento.add(elem);
+                listEventoNonToccato.add(elem);
         }
     }
 
@@ -96,26 +152,26 @@ public class DashboardSegnalaEventiAvversi {
      * Metodo che controlla il primo carattere de stringa
      *
      * @param input la nota di un evento avverso
-     * @return restituisce TRUE se il primo carattere &egrave; uno SPACECHAE, FALSE altrimenti
+     * @return restituisce TRUE se il primo carattere &egrave; uno SPACECHAR, FALSE altrimenti
      */
     private boolean firstLetter(String input) {
         return Character.isSpaceChar(input.charAt(0));
     }
 
     /**
-     * Metodo per la pulizia delle liste
+     * Metodo per la pulizia delle liste impiegate nella fase di controllo
      */
     private void clearLists() {
         if (!listApproveEvento.isEmpty())
             listApproveEvento.clear();
         if (!listErrorEvento.isEmpty())
             listErrorEvento.clear();
-        if (!listNessunEvento.isEmpty())
-            listNessunEvento.clear();
+        if (!listEventoNonToccato.isEmpty())
+            listEventoNonToccato.clear();
     }
 
     /**
-     * Metodo per l'invio degli eventi avversi al server
+     * Metodo per l'invio degli eventi avversi segnalati al server
      */
     private void sendToServer() {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
@@ -141,7 +197,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo utilizzato per quei componenti grafici che presenta la custom create a TRUE
+     * Metodo utilizzato per quei componenti grafici della GUI form che hanno la "custom create" a TRUE
      *
      * @throws IOException un eccezione che viene lanciata quando il programma non
      *                     trova il file che si vuole utilizzare
