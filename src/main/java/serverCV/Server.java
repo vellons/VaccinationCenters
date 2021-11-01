@@ -29,6 +29,7 @@ public class Server {
     private final static String DB_NAME = "wewhpzry";
     private final static String REGISTRY_NAME = "CVDatabaseServer";
     private final static int REGISTRY_PORT = 1099;
+    private static boolean ALLOW_REMOTE = false;
     private String WAN_IP = null;
     private String LAN_IP = null;
     private String username;
@@ -79,14 +80,6 @@ public class Server {
         }
 
         // Creazione della regola di sicurezza per l'accesso remoto
-        /*Policy allowRemotePermissionPolicy = new Policy() {
-            @Override
-            public boolean implies(ProtectionDomain domain, Permission permission) {
-                return true;
-            }
-        };
-        Policy.getPolicy();
-        Policy.setPolicy(allowRemotePermissionPolicy);*/
         System.setSecurityManager(new SecurityManager() {
             @Override
             public void checkPermission(Permission p) {
@@ -94,7 +87,7 @@ public class Server {
         });
 
         // Configurazione per l'accesso remoto con RMI
-        if (WAN_IP != null) {
+        if (ALLOW_REMOTE && WAN_IP != null) {
             System.setProperty("java.rmi.server.hostname", WAN_IP);
         }
 
@@ -117,6 +110,12 @@ public class Server {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         JFrame mainServer = new JFrame("Centri Vaccinali - Server");
+        for (String option : args) {
+            if (option.toLowerCase().contains("--remote")) {
+                ALLOW_REMOTE = true;
+                System.err.println("ALLOW_REMOTE = " + ALLOW_REMOTE);
+            }
+        }
 
         try {
             mainServer.setContentPane(new Server().panelServer);
