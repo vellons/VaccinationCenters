@@ -2,8 +2,11 @@ package serverCV;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -26,6 +29,8 @@ public class Server {
     private final static String DB_NAME = "wewhpzry";
     private final static String REGISTRY_NAME = "CVDatabaseServer";
     private final static int REGISTRY_PORT = 1099;
+    private String WAN_IP = null;
+    private String LAN_IP = null;
     private String username;
     private String password;
     private String host;
@@ -63,7 +68,12 @@ public class Server {
         try {
             Socket socket = new Socket();
             socket.connect(new InetSocketAddress("1.1.1.1", 80));
-            logMessage("Server IP: " + socket.getLocalAddress().toString().replace("/", ""));
+            URL url = new URL("http://checkip.amazonaws.com/");
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            WAN_IP = br.readLine();
+            LAN_IP = socket.getLocalAddress().toString().replace("/", "");
+            logMessage("Server LAN IP: " + LAN_IP);
+            logMessage("Server WAN IP: " + WAN_IP);
             socket.close();
         } catch (Exception ignored) {
         }
@@ -82,6 +92,11 @@ public class Server {
             public void checkPermission(Permission p) {
             }
         });
+
+        // Configurazione per l'accesso remoto con RMI
+        if (WAN_IP != null) {
+            System.setProperty("java.rmi.server.hostname", WAN_IP);
+        }
 
         // Bind del registry per la connessione con RMI
         try {
