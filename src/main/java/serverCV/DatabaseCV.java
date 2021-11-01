@@ -151,9 +151,9 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
-        } catch (SQLException throwables) {
+        } catch (Exception e) {
             logMessage("ERROR: getVaccinatoByIDUnique()");
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
 
         return findCitizen;
@@ -183,9 +183,9 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage("SELECT * FROM vaccinati WHERE email = 'XXX' AND password = 'XXX'; in: " + duration + "mS");
-        } catch (SQLException throwables) {
+        } catch (Exception e) {
             logMessage("ERROR: getVaccinatoByEmailAndPasswordSha()");
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
         return findCitizen;
     }
@@ -269,31 +269,26 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return returnList;
     }
 
-    public List<EventoAvverso> getEventiAvversiCV(int idCV) throws RemoteException {
-        // Restituisce gli eventi avversi di un centro vaccinale
-        List<EventoAvverso> returnList = new ArrayList<>();
+    public float getMediaEventiAvversiCV(int idCV) throws RemoteException {
+        // Restituisce la media degli eventi avversi di un centro vaccinale
+        float media = 0;
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "SELECT ea.* FROM eventi_avversi ea INNER JOIN vaccinati v ON ea.vaccinato_id = v.id INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id WHERE cv.id = " + idCV + ";";
+            String query = "SELECT AVG(ea.severita) FROM vaccinati v JOIN eventi_avversi ea ON v.id = ea.vaccinato_id WHERE v.centro_vaccinale_id = " + idCV + ";";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                EventoAvverso obj = new EventoAvverso(rs.getInt("id"));
-                obj.setVaccinato_id(rs.getInt("vaccinato_id"));
-                obj.setTipologia_evento_id(rs.getInt("tipologia_evento_id"));
-                obj.setSeverita(rs.getInt("severita"));
-                obj.setNote(rs.getString("note"));
-                returnList.add(obj);
+                media = rs.getFloat("avg");
             }
             rs.close();
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
         } catch (Exception e) {
-            logMessage("ERROR: getEventiAvversiCV()");
+            logMessage("ERROR: getMediaEventiAvversiCV()");
             e.printStackTrace();
         }
-        return returnList;
+        return media;
     }
 
     public List<DashboardCentroVaccinale> getDashboardCVInfo(String where) throws RemoteException {
@@ -325,7 +320,6 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     }
 
     public synchronized boolean inserisciCentroVaccinale(CentroVaccinale cv) throws RemoteException { // inserimento centro vaccinale nel DB remoto
-
         String query = "INSERT INTO centri_vaccinali(nome, tipologia_id, stato," +
                 " indirizzo_qualificatore, indirizzo, indirizzo_civico, indirizzo_comune, " +
                 "indirizzo_sigla_provincia, indirizzo_cap) " +
@@ -413,7 +407,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return rowCounter;
     }
 
-    public Map<String, Integer> getCountEventiCV(int idCV) throws RemoteException {
+    public Map<String, Integer> getEventiAvversiCV(int idCV) throws RemoteException {
         // restituisce il conteggio gi ogni evento avverso, per tipologia
         Map<String, Integer> totEventiAvvPerTipologia = new HashMap<>();
         try {
@@ -438,28 +432,6 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         return totEventiAvvPerTipologia;
     }
 
-    public Map<Integer, Integer> vaccinatiPerOgniCentroVaccinale() throws RemoteException {
-        // Restituisce il conteggio dei vaccinati per ogni centro vaccinale
-        Map<Integer, Integer> vaccinatiPerCentro = new HashMap<>();
-        try {
-            long startTime = System.nanoTime();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT id, vaccinati FROM dashboard_centri_vaccinali;";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                vaccinatiPerCentro.put(rs.getInt("id"), rs.getInt("vaccinati"));
-            }
-            rs.close();
-            stmt.close();
-            long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage(query + " in: " + duration + "mS");
-        } catch (Exception e) {
-            logMessage("ERROR: vaccinatiPerOgniCentroVaccinale()");
-            e.printStackTrace();
-        }
-        return vaccinatiPerCentro;
-    }
-
     public synchronized int updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException {
         try {
             long startTime = System.nanoTime();
@@ -473,10 +445,9 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 stmt.executeUpdate(query);
                 stmt.close();
                 long duration = (System.nanoTime() - startTime) / 1000000;
-                logMessage("Aggiornamento utente completato in: " + duration + "mS");
+                logMessage("Aggiornamento email e password utente " + idUnivoco +" completato in: " + duration + "mS");
                 return 0;
             }
-
         } catch (Exception e) {
             logMessage("ERROR: updateRegistraVaccinato()");
             e.printStackTrace();
@@ -535,19 +506,17 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
         }
     }
 
-    @Override
     public synchronized boolean updateEventoAvverso(EventoAvverso ea) throws RemoteException {
         // permette di effettuare un aggiornamento di uno specifico di un evento avverso
         try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
-            String query = "UPDATE eventi_avversi SET severita = " + ea.getSeverita() + ", note = '" + ea.getNote() + "' WHERE id = " + ea.getId() + " ";
+            String query = "UPDATE eventi_avversi SET severita = " + ea.getSeverita() + ", note = '" + ea.getNote() + "' WHERE id = " + ea.getId() + ";";
             stmt.executeUpdate(query);
             stmt.close();
             long duration = (System.nanoTime() - startTime) / 1000000;
-            logMessage("Aggiornamento evento avverso completato in: " + duration + "mS");
+            logMessage(query + " in: " + duration + "mS");
             return true;
-
         } catch (Exception e) {
             logMessage("ERROR: updateEventoAvverso()");
             e.printStackTrace();

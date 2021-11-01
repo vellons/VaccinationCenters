@@ -100,6 +100,10 @@ SELECT cv_scroll.id, cv_scroll.nome, (
 ) FROM centri_vaccinali cv_scroll ORDER BY cv_scroll.id DESC;
 
 
+-- severita media eventi avversi per un centro vaccinale
+SELECT AVG(ea.severita) FROM vaccinati v JOIN eventi_avversi ea ON v.id = ea.vaccinato_id WHERE v.centro_vaccinale_id = '2';
+
+
 -- vaccinati per ogni centro vaccinale vaccinatiPerOgniCentroVaccinale()
 SELECT cv.id, cv.nome, count(*) vaccinati FROM vaccinati v INNER JOIN centri_vaccinali cv ON v.centro_vaccinale_id = cv.id GROUP BY cv.id ORDER BY cv.id ASC;
 

@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -122,6 +123,15 @@ public class DettaglioCentroVaccinale {
     private final DatabaseCVInterface db;
 
     /**
+     * <code>db</code> Usato per formattare 2 cifre dopo la virgola
+     * <p>
+     * &Egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
+     * </p>
+     */
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    /**
      * costruttore della classe
      *
      * @param cv &egrave; il centro vaccinale selezionato dall'utente
@@ -137,15 +147,21 @@ public class DettaglioCentroVaccinale {
 
     private void setEventiAvversiLabel() throws RemoteException {
         StringBuilder text = new StringBuilder("<html>");
-        for (Map.Entry<String, Integer> entry : db.getCountEventiCV(cv.getId()).entrySet()) {
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : db.getEventiAvversiCV(cv.getId()).entrySet()) {
             String key = entry.getKey();
             int value = entry.getValue();
+            if (value > 0) count++;
             text.append("- ")
                     .append(key.substring(0, 1).toUpperCase())
                     .append(key.substring(1))
                     .append(": ")
                     .append(value)
                     .append("<br/>");
+        }
+        if (count > 0) {
+            text.append("<br/>Severità media eventi: ").append(df.format(db.getMediaEventiAvversiCV(cv.getId())));
+            lbTitoloEventi.setText("Eventi avversi segnalati (" + count +"):");
         }
         lbEventiAvversi.setText(text + "</html>");
     }
