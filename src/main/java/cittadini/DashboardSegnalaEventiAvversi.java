@@ -120,7 +120,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo che provvede a cancellare pulire <code>listEvento</code> se esso &egrave; maggiore di zero
+     * <code>chekListEventoCauseIsStatic</code> &egrave; un metodo che provvede a cancellare pulire <code>listEvento</code> se esso &egrave; maggiore di zero.
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void chekListEventoCauseIsStatic() {
         if (listEvento.size() > 0)
@@ -128,7 +129,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo che verifica gli eventi avversi inseriti dall'utente
+     * <code>checkBeforeSend</code> &egrave; un metodo che verifica gli eventi avversi inseriti dall'utente
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void checkBeforeSend() {
         clearLists();
@@ -149,7 +151,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo che controlla il primo carattere de stringa
+     * <code>firstLetter</code> &egrave; un metodo che controlla il primo carattere de stringa
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @param input la nota di un evento avverso
      * @return restituisce TRUE se il primo carattere &egrave; uno SPACECHAR, FALSE altrimenti
@@ -159,7 +162,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo per la pulizia delle liste impiegate nella fase di controllo
+     * <code>clearLists</code> &egrave; un metodo per la pulizia delle liste impiegate nella fase di controllo
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void clearLists() {
         if (!listApproveEvento.isEmpty())
@@ -171,7 +175,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo per l'invio degli eventi avversi segnalati al server
+     * <code>sendToServer</code> &egrave; un metodo per l'invio degli eventi avversi segnalati al server
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void sendToServer() {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
@@ -187,7 +192,8 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo per la costruzione del Dialog message
+     * <code>jOptionPanelMessageDialog</code> &egrave; un metodo per la costruzione del Dialog message
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @param message messaggio da mostrare nel Dialog message
      * @param title   titolo del Dialog message
@@ -197,10 +203,11 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * Metodo utilizzato per quei componenti grafici della GUI form che hanno la "custom create" a TRUE
+     * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
+     * quando viene caricato il frame
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      *
-     * @throws IOException un eccezione che viene lanciata quando il programma non
-     *                     trova il file che si vuole utilizzare
+     * @throws IOException &egrave; utilizzata quando si verificano errori nelle fasi di input e di output
      */
     private void createUIComponents() throws IOException {
         panelLogo = new JPanel();

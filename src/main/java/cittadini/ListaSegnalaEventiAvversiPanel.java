@@ -13,6 +13,12 @@ import java.util.ListIterator;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
+/**
+ * La classe ListaSegnalaEventiAvversiPanel serve per mostrare all'interno di un JPanel la lista di tutti gli eventi
+ * avversi che l'utente non ha ancora segnalato dall'utente loggato
+ *
+ * @author manuelmacaj
+ */
 public class ListaSegnalaEventiAvversiPanel extends JPanel {
     /**
      * <code>mainList</code> &egrave; un pannello Swing che contiene l'elenco dei centri vaccinali
@@ -85,7 +91,11 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
     }
 
     /**
-     * @param tipologiaEvento &egrave; l'evento avverso che l'utente non ha ancora segnalato
+     * <code>aggiungiEventoAvverso</code> &egrave; un metodo che permette di creare un singolo pannello per
+     * ogni evento avverso da segnalare
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param tipologiaEvento &egrave; l'evento avverso che l'utente loggato non ha ancora segnalato
      */
     private void aggiungiEventoAvverso(TipologiaEvento tipologiaEvento) {
         JPanel panel = new JPanel();
