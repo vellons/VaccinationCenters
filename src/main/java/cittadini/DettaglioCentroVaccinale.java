@@ -17,13 +17,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Map;
 
 /**
  * La classe DettaglioCentroVaccinale permette di visualizzare nel dettaglio
  * un centro vaccinale selezionato dall'utente
- * 
+ *
  * @author manuelmacaj
  */
 public class DettaglioCentroVaccinale {
@@ -125,7 +126,7 @@ public class DettaglioCentroVaccinale {
      * costruttore della classe
      *
      * @param cv &egrave; il centro vaccinale selezionato dall'utente
-     * @throws RemoteException
+     * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
      */
     public DettaglioCentroVaccinale(CentroVaccinale cv) throws RemoteException {
         db = ServerConnectionSingleton.getDatabaseInstance();
@@ -135,6 +136,13 @@ public class DettaglioCentroVaccinale {
         setEventiAvversiLabel();
     }
 
+    /**
+     * <code>setEventiAvversiLabel</code> &egrave; un metodo per visualizzare il conteggio di casi segnalati
+     * per ogni evento avverso.<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
+     */
     private void setEventiAvversiLabel() throws RemoteException {
         StringBuilder text = new StringBuilder("<html>");
         for (Map.Entry<String, Integer> entry : db.getCountEventiCV(cv.getId()).entrySet()) {
@@ -150,6 +158,12 @@ public class DettaglioCentroVaccinale {
         lbEventiAvversi.setText(text + "</html>");
     }
 
+    /**
+     * <code>createPieChartPanel</code> &egrave; un metodo per la creazione di un PieChart.<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @return restituisce un pannello per la visualizzazione di un grafico a torta
+     */
     private JPanel createPieChartPanel() { // funzione che mi permette la creazione di un Chart sul pannello panelPieChart
         JFreeChart chart = createChart(createDataset());
         PiePlot plot = (PiePlot) chart.getPlot();
@@ -158,6 +172,12 @@ public class DettaglioCentroVaccinale {
         return new ChartPanel(chart);
     }
 
+    /**
+     * <code>createDataset</code> &egrave; un metodo creazione dataset.<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @return restituisce il set di dati da utilizzare nel grafico a torta
+     */
     private PieDataset createDataset() { // Specifica dei parametri che verranno visualizzati sul PieChart
         DefaultPieDataset dataset = new DefaultPieDataset();
         dataset.setValue("Vaccinati senza eventi avversi", (infoCV.getVaccinati() - infoCV.getVaccinati_con_eventi_avversi())); // totale vaccinati
@@ -165,16 +185,37 @@ public class DettaglioCentroVaccinale {
         return dataset; // restituisco l'oggetto di tipo DefaultPieDataset
     }
 
+    /**
+     * <code>createChart</code> &egrave; un metodo per la creazione di un PieChart<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param dataset sono gli "spicchi" da utilizzare nel grafico a torta
+     * @return restituisce
+     */
     private JFreeChart createChart(PieDataset dataset) { // funzione che permette la creazioe di un PieChart (diagramma a torta)
         return ChartFactory.createPieChart("Vaccinati", dataset, false, true, false);
     }
 
+    /**
+     * <code>setCVLabels</code> &egrave; un metodo per il "settaggio" delle label d'informazione sul centro vaccinale<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param cv &egrave; il centro vaccinale che l'utente ha selezionato
+     * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
+     */
     private void setCVLabels(CentroVaccinale cv) throws RemoteException {
         lbCentroVaccinale.setText(cv.getNome().substring(0, Math.min(cv.getNome().length(), 25)));
         lbIndirizzo.setText(cv.getIndirizzoComposto());
         lblTipologia.setText("Tipologia: " + findTipologia());
     }
 
+    /**
+     * <code>findTipologia</code> &egrave; un metodo per la ricerca della tipologia del centro vaccinale.<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @return restituisce la tipologia di centro vaccinale
+     * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
+     */
     private String findTipologia() throws RemoteException {
         String tipologia = "";
         for (TipologiaCentroVaccinale obj : db.getTipologiaCentroVaccinale()) {
@@ -185,6 +226,12 @@ public class DettaglioCentroVaccinale {
         return tipologia;
     }
 
+    /**
+     * <code>setTotalVax</code> &egrave; un metodo che aggiunge alla label lbTotaleVaccinati, il totale dei vaccinati
+     * nel centro vaccinale corrente.
+     * Include anche l'invocazione per la creazione del grafico a torta.<br>
+     * &Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     */
     private void setTotalVax() {
         try {
             for (DashboardCentroVaccinale list : db.getDashboardCVInfo("WHERE id = " + cv.getId())) {
@@ -209,7 +256,14 @@ public class DettaglioCentroVaccinale {
         }
     }
 
-    private void createUIComponents() throws Exception {
+    /**
+     * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
+     * quando viene caricato il frame
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     *
+     * @throws IOException &egrave; utilizzata quando si verificano errori nelle fasi di input e di output
+     */
+    private void createUIComponents() throws IOException {
         panelLogo = new JPanel();
         BufferedImage myPicture = ImageIO.read(new File("media/CVLogo.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));

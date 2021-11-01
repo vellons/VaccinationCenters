@@ -126,6 +126,9 @@ public class EventoAvversoPerLista {
     }
 
     /**
+     * <code>getTipologiaEvento</code> &egrave; un metodo per la restituzione della tipologia del vaccino
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
      * @return restituisce la tipologia evento avverso
      */
     public TipologiaEvento getTipologiaEvento() {
@@ -133,6 +136,9 @@ public class EventoAvversoPerLista {
     }
 
     /**
+     * <code>getValoreSeverita</code> &egrave; un metodo per la restituzione della severit&agrave;
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
      * @return restituisce il valore della severit&agrave;
      */
     public int getValoreSeverita() {
@@ -140,6 +146,9 @@ public class EventoAvversoPerLista {
     }
 
     /**
+     * <code>getNota</code> &egrave; un metodo per la restituzione delle note
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
      * @return restituisce la nota che l'utente ha scritto
      */
     public String getNota() {
@@ -147,7 +156,9 @@ public class EventoAvversoPerLista {
     }
 
     /**
-     * Metodo utilizzato per quei componenti grafici che presenta la custom create a TRUE
+     * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
+     * quando viene caricato il frame
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      */
     private void createUIComponents() {
         sliderServerita = new JSlider(JSlider.HORIZONTAL, 0, 5, 0);
