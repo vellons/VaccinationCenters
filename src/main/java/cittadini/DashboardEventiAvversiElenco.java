@@ -63,7 +63,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JLabel lblUtente;
 
     /**
-     * <code>lblUtente</code> rappresenta una label per inserire la data di vaccinazione dell'utente.
+     * <code>lblDataVaccino</code> rappresenta una label per inserire la data di vaccinazione dell'utente.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
@@ -78,6 +78,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JLabel lbTipologiaEventoAvverso;
     private JButton btnModifica;
     private JButton btnAnnulla;
+    private JLabel lblTuoCentro;
     private EventoAvverso eventoAvversoModifica;
 
     /**
@@ -115,6 +116,14 @@ public class DashboardEventiAvversiElenco extends JFrame {
             ServerConnectionSingleton.resetConnection();
         }
 
+        try {
+            String nomeCentro = db.getCentriVaccinali("WHERE id=" + Login.utenteLoggato.getCentro_vaccinale_id()).get(0).getNome();
+            lblTuoCentro.setText("Il tuo centro: " + nomeCentro.substring(0, Math.min(nomeCentro.length(), 30)));
+        } catch (RemoteException e) {
+            lblTuoCentro.setText("");
+            e.printStackTrace();
+            ServerConnectionSingleton.resetConnection();
+        }
 
         btnAggiungiEventoAvverso.addActionListener(new ActionListener() {
             @Override
@@ -244,7 +253,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
         sliderServerita.setPaintTicks(true);
 
         // Add positions label in the slider
-        Hashtable position = new Hashtable();
+        Hashtable<Integer, JLabel> position = new Hashtable<>();
         position.put(1, new JLabel("1"));
         position.put(2, new JLabel("2"));
         position.put(3, new JLabel("3"));

@@ -167,7 +167,7 @@ public class EventoAvversoPerLista {
         sliderServerita.setPaintTicks(true);
 
         // Add positions label in the slider
-        Hashtable position = new Hashtable();
+        Hashtable<Integer, JLabel> position = new Hashtable<>();
         position.put(0, new JLabel("0"));
         position.put(1, new JLabel("1"));
         position.put(2, new JLabel("2"));
