@@ -89,6 +89,7 @@ public class Server {
         // Configurazione per l'accesso remoto con RMI
         if (ALLOW_REMOTE && WAN_IP != null) {
             System.setProperty("java.rmi.server.hostname", WAN_IP);
+            logMessage("Registry RMI hostname=" + WAN_IP + " (Autorizzata connesione remota)");
         }
 
         // Bind del registry per la connessione con RMI
