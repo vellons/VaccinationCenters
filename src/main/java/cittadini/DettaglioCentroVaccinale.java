@@ -20,23 +20,115 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.util.Map;
 
+/**
+ * La classe DettaglioCentroVaccinale permette di visualizzare nel dettaglio
+ * un centro vaccinale selezionato dall'utente
+ * 
+ * @author manuelmacaj
+ */
 public class DettaglioCentroVaccinale {
 
+    /**
+     * <code>cv</code> rappresenta il centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo alla classe DettaglioCentroVaccinale
+     * </p>
+     */
     private final CentroVaccinale cv;
-    public JPanel panelDettaglioCV;
+    /**
+     * <code>panelDettaglioCV</code> rappresenta il pannello principale
+     * <p>
+     * &egrave; dichiarato <strong>protected</strong> cos&igrave; da poter essere visibile solo alle classi appartenenti al package cittadini
+     * </p>
+     */
+    protected JPanel panelDettaglioCV;
+    /**
+     * <code>panelLogo</code> rappresenta un pannello per inserire il logo
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JPanel panelLogo;
+    /**
+     * <code>lbCentroVaccinale</code> rappresenta la label dedicata nome del centro vaccianle
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbCentroVaccinale;
+    /**
+     * <code>lbIndirizzo</code> rappresenta la label dedicata all'indirizzo del centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbIndirizzo;
+    /**
+     * <code>lbTotaleVaccinati</code> rapprenta la label dedicata alla visualizzazione del totale dei vaccinati nel centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbTotaleVaccinati;
+    /**
+     * <code>panelEventiAvversi</code> rappresenta un pannello in cui è raggruppato una label che mostra alcune informazioni sugli eventi avversi del centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JPanel panelEventiAvversi;
+    /**
+     * <code>lbEventiAvversi</code> rappresenta la label in cui vengono mostrati le tipologie di eventi avversi con il conteggio dei casi avversi del centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbEventiAvversi;
+    /**
+     * <code>lbTipologia</code> rappresenta la label dedicata alla visualizzazione della tipologia (ospedaliero, aziendale od hub) del centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lblTipologia;
+    /**
+     * <code>panelPieChart</code> rappresenta il panel su cui verrà costruito l'areogramma
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JPanel panelPieChart;
+    /**
+     * <code>lbTitoloEventi</code> rappresenta una label che mostra questo testo: "Eventi avversi segnalati:"
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private JLabel lbTitoloEventi;
+    /**
+     * <code>infoCV</code> rappresenta un oggetto di tipo DashboardCentroVaccinale che mi permette di accedere e ricavare informazioni specifiche inerente al centro vaccinale selezionato
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
     private DashboardCentroVaccinale infoCV;
-    private final DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
 
+    /**
+     * <code>db</code> Singleton class con il server
+     * <p>
+     * &Egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * </p>
+     */
+    private final DatabaseCVInterface db;
+
+    /**
+     * costruttore della classe
+     *
+     * @param cv &egrave; il centro vaccinale selezionato dall'utente
+     * @throws RemoteException
+     */
     public DettaglioCentroVaccinale(CentroVaccinale cv) throws RemoteException {
+        db = ServerConnectionSingleton.getDatabaseInstance();
         this.cv = cv;
         setCVLabels(this.cv);
         setTotalVax();

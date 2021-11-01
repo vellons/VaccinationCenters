@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cittadini.DashboardEventiAvversiElenco">
-  <grid id="cbd77" binding="panelDashboardCentriVaccinaliElenco" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="cbd77" binding="panelDashboardCentriVaccinaliElenco" layout-manager="GridLayoutManager" row-count="7" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="61" y="165" width="794" height="316"/>
+      <xy x="61" y="187" width="987" height="462"/>
     </constraints>
     <properties>
       <background color="-723724"/>
@@ -28,7 +28,7 @@
       <grid id="7832d" binding="panelListaEventiAvversi" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="0" row-span="4" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="5" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-723724"/>
@@ -126,7 +126,168 @@
           <text value="&lt;html&gt;&#10;Hai segnalato tutti i tipi di eventi avversi.&#10;&lt;/html&gt;"/>
         </properties>
       </component>
-      <vspacer id="b073b">
+      <grid id="a7d81" binding="panelEventoAvversoModifica" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-723724"/>
+          <preferredSize width="400" height="200"/>
+        </properties>
+        <border type="line">
+          <font/>
+          <title-color color="-2105376"/>
+          <color color="-16777216"/>
+        </border>
+        <children>
+          <grid id="66cd8" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="1e91a" class="javax.swing.JLabel" binding="lbSeverita">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-723724"/>
+                  <foreground color="-16777216"/>
+                  <text value="Severità: 0"/>
+                </properties>
+              </component>
+              <component id="67dea" class="javax.swing.JLabel" binding="lbScriviCommento">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-723724"/>
+                  <foreground color="-16777216"/>
+                  <text value="Note"/>
+                </properties>
+              </component>
+              <component id="55eea" class="javax.swing.JSlider" binding="sliderServerita" custom-create="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-723724"/>
+                  <foreground color="-16777216"/>
+                </properties>
+              </component>
+              <component id="85b" class="javax.swing.JLabel" binding="lbCounterCharacter">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-723724"/>
+                  <foreground color="-16777216"/>
+                  <text value="Caratteri: 0/256"/>
+                </properties>
+              </component>
+              <grid id="42db0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="line">
+                  <font/>
+                  <title-color color="-4473925"/>
+                  <color color="-16777216"/>
+                </border>
+                <children>
+                  <scrollpane id="914c8">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="b53fe" class="javax.swing.JTextArea" binding="txtNote">
+                        <constraints/>
+                        <properties>
+                          <autoscrolls value="true"/>
+                          <background color="-1"/>
+                          <columns value="0"/>
+                          <disabledTextColor color="-8355712"/>
+                          <font name="Arial" size="11" style="0"/>
+                          <lineWrap value="true"/>
+                          <tabSize value="3"/>
+                          <text value=""/>
+                          <wrapStyleWord value="true"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
+              <component id="55cc3" class="javax.swing.JLabel" binding="lbTipologiaEventoAvverso">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="16" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="99e8b" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-723724"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b5ec4" class="javax.swing.JButton" binding="btnModifica">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="250" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <actionCommand value="Cerca"/>
+                  <background color="-3727837"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1"/>
+                  <opaque value="true"/>
+                  <text value="Conferma modifica"/>
+                </properties>
+              </component>
+              <component id="a0055" class="javax.swing.JButton" binding="btnAnnulla">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="250" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <actionCommand value="Cerca"/>
+                  <background color="-3727837"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1"/>
+                  <opaque value="true"/>
+                  <text value="Annulla modifica"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <vspacer id="6f660">
         <constraints>
           <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>

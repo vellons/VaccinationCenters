@@ -6,6 +6,8 @@ import models.EventoAvverso;
 import models.TipologiaEvento;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,13 @@ public class EventoSegnalatoPerLista {
         lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(nomeEvento.substring(0, 1).toUpperCase()).append(nomeEvento.substring(1))));
         lbSeverita.setText("Severità: " + eventoAvverso.getSeverita());
         lblNote.setText(eventoAvverso.getNote());
+
+        btnModificaEventoSegnalato.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Login.dashboardEventiAvversiElenco.startModificaPanel(eventoAvverso);
+            }
+        });
     }
 
     private String getNomeTipologiaEventoAvverso(int id) {

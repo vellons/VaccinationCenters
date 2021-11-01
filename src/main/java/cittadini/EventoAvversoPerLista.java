@@ -10,16 +10,76 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Hashtable;
 
+/**
+ * La classe EventoAvversoPerLista permette creare un pannello
+ * di un evento avverso non ancora segnalato dall'utente vaccinato
+ *
+ * @author manuelmacaj
+ */
 public class EventoAvversoPerLista {
-    public JPanel panelEventoAvversoPerLista;
+    /**
+     * <code>panelEventoAvversoPerLista</code> rappresenta un pannello su cui verr&agrave; costruita un'interfaccia per ogni evento avverso da segnalare.
+     * <p>
+     * &Egrave; dichiarato <strong>protected</strong> cos&igrave; da poter essere visibile solo nel package cittadini
+     * </p>
+     */
+    protected JPanel panelEventoAvversoPerLista;
+    /**
+     * <code>lbSeverita</code> rappresenta una label in cui verr&agrave; mostrato il livello di severit&agrave; di un evento avverso
+     * <p>
+     * &Egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JLabel lbSeverita;
+    /**
+     * <code>lbScriviCommento</code> rappresenta una label che mostra solo il seguente testo: "Note"
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JLabel lbScriviCommento;
+    /**
+     * <code>sliderServerita</code> rappresenta uno slider che permette all'utente di selezionare il livello di severita&grave; di un evento avverso
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JSlider sliderServerita;
+    /**
+     * <code>lbCounterCharacter</code> rappresenta una label in cui viene mostrato il conteggio dei caratteri della textArea (max 256)
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JLabel lbCounterCharacter;
+    /**
+     * <code>txtNote</code> rappresenta una textArea che permette all'utente d'inserire una nota a riguardo di un evento avverso
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JTextArea txtNote;
+    /**
+     * <code>lbTipologiaEventoAvverso</code> rappresenta una label che mostra nome dell'evento avverso da segnalare
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
     private JLabel lbTipologiaEventoAvverso;
-    private TipologiaEvento tipologiaEvento;
 
+    /**
+     * <code>tipologiaEvento</code> rappresenta un oggetto di tipo TipologiaEventoAvverso che permette di accedere alle informazioni inerenti a una tipologia di evento avverso (id, nome evento avverso)
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * </p>
+     */
+    private final TipologiaEvento tipologiaEvento;
+
+    /**
+     * Costruttore della classe
+     *
+     * @param tipologiaEvento rappresenta la tipologia di evento avverso che l'utente non ha mai segnalato
+     */
     public EventoAvversoPerLista(TipologiaEvento tipologiaEvento) {
         this.tipologiaEvento = tipologiaEvento;
 
@@ -65,18 +125,30 @@ public class EventoAvversoPerLista {
         });
     }
 
+    /**
+     * @return restituisce la tipologia evento avverso
+     */
     public TipologiaEvento getTipologiaEvento() {
         return tipologiaEvento;
     }
 
+    /**
+     * @return restituisce il valore della severit&agrave;
+     */
     public int getValoreSeverita() {
         return sliderServerita.getValue();
     }
 
+    /**
+     * @return restituisce la nota che l'utente ha scritto
+     */
     public String getNota() {
         return txtNote.getText();
     }
 
+    /**
+     * Metodo utilizzato per quei componenti grafici che presenta la custom create a TRUE
+     */
     private void createUIComponents() {
         sliderServerita = new JSlider(JSlider.HORIZONTAL, 0, 5, 0);
         sliderServerita.setMinorTickSpacing(1);

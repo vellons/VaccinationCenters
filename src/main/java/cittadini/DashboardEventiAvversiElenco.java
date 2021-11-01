@@ -1,17 +1,24 @@
 package cittadini;
 
 import global.DatabaseCVInterface;
+import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
+import models.EventoAvverso;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Hashtable;
 
 /**
  * La classe DashboardCentriVaccinaliElenco permette l'utilizzo di visualizzare l'elenco degli eventi avversi
@@ -62,6 +69,16 @@ public class DashboardEventiAvversiElenco extends JFrame {
      */
     private JLabel lblDataVaccino;
     private JLabel lbBtnDisabilitato;
+    private JPanel panelEventoAvversoModifica;
+    private JLabel lbSeverita;
+    private JLabel lbScriviCommento;
+    private JSlider sliderServerita;
+    private JLabel lbCounterCharacter;
+    private JTextArea txtNote;
+    private JLabel lbTipologiaEventoAvverso;
+    private JButton btnModifica;
+    private JButton btnAnnulla;
+    private EventoAvverso eventoAvversoModifica;
 
     /**
      * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
@@ -76,6 +93,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * Costruttore della classe
      */
     public DashboardEventiAvversiElenco() {
+        panelEventoAvversoModifica.setVisible(false);
         lbBtnDisabilitato.setVisible(false);
         lblUtente.setText("Ciao " + Login.utenteLoggato.getNome());
         try {
@@ -114,6 +132,96 @@ public class DashboardEventiAvversiElenco extends JFrame {
                 }
             }
         });
+        txtNote.setDocument(new JTextFieldCharLimit(256));
+        txtNote.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void update() {
+                lbCounterCharacter.setText("Caratteri: " + txtNote.getText().length() + "/256");
+            }
+        });
+
+        txtNote.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'")) && !(Character.valueOf(e.getKeyChar()).toString().equals("°")) && !(Character.valueOf(e.getKeyChar()).toString().equals(".")) && !(Character.valueOf(e.getKeyChar()).toString().equals(":")) && !(Character.valueOf(e.getKeyChar()).toString().equals(";")) && !(Character.valueOf(e.getKeyChar()).toString().equals(",")) && !(Character.valueOf(e.getKeyChar()).toString().equals("?")) && !(Character.valueOf(e.getKeyChar()).toString().equals("!")))
+                    e.consume();
+            }
+        });
+        btnAnnulla.addActionListener(e -> {
+            if (jOptionPanelYesOrNo("Sei sicuro di annullare la modifica dell'evento avverso corrente?", "Annullare?")) {
+                panelEventoAvversoModifica.setVisible(false);
+                panelEventoAvversoModifica.invalidate(); // distruggo il pannello
+                eventoAvversoModifica = null;
+            }
+        });
+        btnModifica.addActionListener(e -> {
+            if (jOptionPanelYesOrNo("Sei sicuro di voler modificare questo evento?", "Modificare?")) {
+                try {
+                    eventoAvversoModifica.setNote(txtNote.getText());
+                    eventoAvversoModifica.setSeverita(sliderServerita.getValue());
+
+                    boolean result = db.updateEventoAvverso(eventoAvversoModifica);
+                    if (result) {
+                        jOptionPanelMessageDialog("Modifica eseguita con successo", "Modifica eseguita");
+                        panelEventoAvversoModifica.setVisible(false);
+                        Cittadini.closePreviousWindow(Login.elencoEventiAvversi);
+                        try {
+                            Cittadini.reloadDashboardEventiAvversiElenco(Login.elencoEventiAvversi);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void startModificaPanel(EventoAvverso ea) {
+        if (panelEventoAvversoModifica.isVisible()) {
+            if (jOptionPanelYesOrNo("Attenzione: hai richiesto la modifica di un evento avverso, ma non hai terminato di modificare l'evento avverso precedente.\nContinuare? (Una volta cliccato Yes, le modifiche precenti verranno cancellate) ", "Attenzione")) {
+                eventoAvversoModifica = ea;
+                configureModificaPanel();
+            }
+        } else {
+            eventoAvversoModifica = ea;
+            panelEventoAvversoModifica.setVisible(true);
+            configureModificaPanel();
+        }
+    }
+
+    private void configureModificaPanel() {
+        lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoModifica.getTipologia_evento_id()));
+        sliderServerita.setValue(eventoAvversoModifica.getSeverita());
+        lbSeverita.setText("Severità: " + sliderServerita.getValue());
+        txtNote.setText(eventoAvversoModifica.getNote());
+        sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
+    }
+
+    private boolean jOptionPanelYesOrNo(String message, String title) {
+        return (JOptionPane.showOptionDialog(null, message,
+                title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, null, null) == JOptionPane.YES_OPTION);
+    }
+
+    private void jOptionPanelMessageDialog(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
@@ -129,5 +237,20 @@ public class DashboardEventiAvversiElenco extends JFrame {
         // Creo la lista degli eventi avversi appartenenti all'utente loggato
         panelListaEventiAvversi = new JPanel();
         panelListaEventiAvversi.add(new ListaEventiSegnalatiPanel());
+
+        sliderServerita = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);
+        sliderServerita.setMinorTickSpacing(1);
+        sliderServerita.setPaintLabels(true);
+        sliderServerita.setPaintTicks(true);
+
+        // Add positions label in the slider
+        Hashtable position = new Hashtable();
+        position.put(1, new JLabel("1"));
+        position.put(2, new JLabel("2"));
+        position.put(3, new JLabel("3"));
+        position.put(4, new JLabel("4"));
+        position.put(5, new JLabel("5"));
+        // Set the label to be drawn
+        sliderServerita.setLabelTable(position);
     }
 }

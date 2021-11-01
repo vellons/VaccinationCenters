@@ -151,7 +151,8 @@ public class Cittadini {
         elencoEventiAvversi.setVisible(false);
         elencoEventiAvversi.dispose();
         elencoEventiAvversi.invalidate();
-        elencoEventiAvversi.setContentPane(new DashboardEventiAvversiElenco().panelDashboardCentriVaccinaliElenco);
+        Login.dashboardEventiAvversiElenco = new DashboardEventiAvversiElenco();
+        elencoEventiAvversi.setContentPane(Login.dashboardEventiAvversiElenco.panelDashboardCentriVaccinaliElenco);
         initUI(elencoEventiAvversi);
         elencoEventiAvversi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         elencoEventiAvversi.pack();

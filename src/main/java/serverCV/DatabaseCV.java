@@ -534,4 +534,24 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             e.printStackTrace();
         }
     }
+
+    @Override
+    public synchronized boolean updateEventoAvverso(EventoAvverso ea) throws RemoteException {
+        // permette di effettuare un aggiornamento di uno specifico di un evento avverso
+        try {
+            long startTime = System.nanoTime();
+            Statement stmt = conn.createStatement();
+            String query = "UPDATE eventi_avversi SET severita = " + ea.getSeverita() + ", note = '" + ea.getNote() + "' WHERE id = " + ea.getId() + " ";
+            stmt.executeUpdate(query);
+            stmt.close();
+            long duration = (System.nanoTime() - startTime) / 1000000;
+            logMessage("Aggiornamento evento avverso completato in: " + duration + "mS");
+            return true;
+
+        } catch (Exception e) {
+            logMessage("ERROR: updateEventoAvverso()");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

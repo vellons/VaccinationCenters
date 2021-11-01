@@ -44,4 +44,6 @@ public interface DatabaseCVInterface extends Remote {
 
     void inserisciNuovoEventoAvversoCittadino(EventoAvverso ea) throws RemoteException;
 
+    boolean updateEventoAvverso(EventoAvverso ea) throws RemoteException;
+
 }
