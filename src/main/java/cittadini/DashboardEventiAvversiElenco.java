@@ -117,7 +117,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
         }
 
         try {
-            String nomeCentro = db.getCentriVaccinali("WHERE id=" + Login.utenteLoggato.getCentro_vaccinale_id()).get(0).getNome();
+            String nomeCentro = db.getCentriVaccinali("WHERE id=" + Login.utenteLoggato.getCentro_vaccinale_id() + " ").get(0).getNome();
             lblTuoCentro.setText("Il tuo centro: " + nomeCentro.substring(0, Math.min(nomeCentro.length(), 30)));
         } catch (RemoteException e) {
             lblTuoCentro.setText("");
