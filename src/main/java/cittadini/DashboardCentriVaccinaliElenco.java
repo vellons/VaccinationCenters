@@ -76,6 +76,14 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
     private JLabel lblVaccinazioniTotale;
 
     /**
+     * <code>lblVaccinazioniOggi</code> rappresenta una label per inserire il totale di vaccinati nel giorno corrente.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
+
+    private JLabel lblVaccinazioniOggi;
+
+    /**
      * <code>initialFiltroNome</code> rappresenta il filtro per il nome del centro vaccinale.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
@@ -135,6 +143,12 @@ public class DashboardCentriVaccinaliElenco extends JFrame {
         try {
             lblVaccinazioniTotale.setText("Totale vaccinati: " +
                     ServerConnectionSingleton.getDatabaseInstance().rowCounterInTable("vaccinati"));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            lblVaccinazioniOggi.setText("Vaccinati oggi: " +
+                    ServerConnectionSingleton.getDatabaseInstance().vaccinatiOggi());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

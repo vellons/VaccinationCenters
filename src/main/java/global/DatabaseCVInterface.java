@@ -44,4 +44,5 @@ public interface DatabaseCVInterface extends Remote {
 
     void inserisciNuovoEventoAvversoCittadino(EventoAvverso ea) throws RemoteException;
 
+    int vaccinatiOggi() throws RemoteException;
 }
