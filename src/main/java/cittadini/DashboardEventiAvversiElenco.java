@@ -4,6 +4,7 @@ import global.DatabaseCVInterface;
 import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
 import models.EventoAvverso;
+import models.TipologiaEvento;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -202,7 +203,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
         });
     }
 
-    public void startModificaPanel(EventoAvverso ea) {
+    public void startModificaPanel(EventoAvverso ea) throws RemoteException {
         if (panelEventoAvversoModifica.isVisible()) {
             if (jOptionPanelYesOrNo("Non hai terminato di modificare l'evento avverso precedente.\nContinuare? (Perderai i dati della modifica in corso)", "Attenzione")) {
                 eventoAvversoModifica = ea;
@@ -215,12 +216,24 @@ public class DashboardEventiAvversiElenco extends JFrame {
         }
     }
 
-    private void configureModificaPanel() {
-        lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoModifica.getTipologia_evento_id()));
+    private void configureModificaPanel() throws RemoteException {
+        lbTipologiaEventoAvverso.setText(getTipologiaEventoAvverso(eventoAvversoModifica.getTipologia_evento_id()));
         sliderServerita.setValue(eventoAvversoModifica.getSeverita());
         lbSeverita.setText("Severità: " + sliderServerita.getValue());
         txtNote.setText(eventoAvversoModifica.getNote());
         sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
+    }
+
+    private String getTipologiaEventoAvverso(int idTipologiaEvento) throws RemoteException {
+        DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
+        StringBuilder result = new StringBuilder();
+        for (TipologiaEvento elem : db.getTipologieEventi()) {
+            if (elem.getId() == idTipologiaEvento) {
+                result.append(elem.getNome().substring(0, 1).toUpperCase()).append(elem.getNome().substring(1));
+                break;
+            }
+        }
+        return result.toString();
     }
 
     private boolean jOptionPanelYesOrNo(String message, String title) {
