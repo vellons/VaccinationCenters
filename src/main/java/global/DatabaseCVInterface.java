@@ -36,6 +36,8 @@ public interface DatabaseCVInterface extends Remote {
 
     int rowCounterInTable(String table) throws RemoteException;
 
+    int vaccinatiOggi() throws RemoteException;
+
     Map<String, Integer> getEventiAvversiCV(int idCV) throws RemoteException;
 
     int updateRegistraVaccinato(String email, String password, String idUnivoco) throws RemoteException;

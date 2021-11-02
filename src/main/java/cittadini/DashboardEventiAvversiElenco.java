@@ -204,7 +204,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
 
     public void startModificaPanel(EventoAvverso ea) {
         if (panelEventoAvversoModifica.isVisible()) {
-            if (jOptionPanelYesOrNo("Attenzione: hai richiesto la modifica di un evento avverso, ma non hai terminato di modificare l'evento avverso precedente.\nContinuare? (Una volta cliccato Yes, le modifiche precenti verranno cancellate) ", "Attenzione")) {
+            if (jOptionPanelYesOrNo("Non hai terminato di modificare l'evento avverso precedente.\nContinuare? (Perderai i dati della modifica in corso)", "Attenzione")) {
                 eventoAvversoModifica = ea;
                 configureModificaPanel();
             }
