@@ -14,71 +14,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * La classe DashboardSegnalaEventiAvversi permette d'inviare gli eventi avversi non ancora segnalati dall'utente
+ * La classe DashboardSegnalaEventiAvversi permette d'inviare gli eventi avversi non ancora segnalati dall'utente.
  *
  * @author manuelmacaj
  */
 public class DashboardSegnalaEventiAvversi {
     /**
-     * <code>panelListaNuoveSegnalazioni</code> rappresenta il pannello di visualizzazione, dedicato alla lista di eventi avversi che l'utente non ha ancora segnalato
+     * <code>panelListaNuoveSegnalazioni</code> rappresenta il pannello di visualizzazione, dedicato alla lista di eventi avversi che l'utente non ha ancora segnalato.
      * <p>
      * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo alla classe DashboardSegnalaEventiAvversi
      * </p>
+     *
+     * @see ListaSegnalaEventiAvversiPanel
      */
     private JPanel panelListaNuoveSegnalazioni;
     /**
-     * <code>panelNewReport</code> il pannello principale
+     * <code>panelNewReport</code> il pannello principale.
      * <p>
      * &egrave; dichiarato <strong>protected</strong> cos&igrave; da poter essere visibile solo alle classi appartenenti al package cittadini
      * </p>
      */
     protected JPanel panelNewReport;
     /**
-     * <code>btnInviaSegnalazione</code> rappresenta il bottone che permette all'utente d'inviare la/le segnalazione/i
+     * <code>btnInviaSegnalazione</code> rappresenta il bottone che permette all'utente d'inviare la/le segnalazione/i.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
      */
     private JButton btnInviaSegnalazione;
     /**
-     * <code>panelLogo</code> rappresenta un pannello per inserire il logo
+     * <code>panelLogo</code> rappresenta un pannello per inserire il logo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
      */
     private JPanel panelLogo;
     /**
-     * <code>lbInfo</code> rappresenta una label che mostra le istruzioni per la segnalazione di un evento avverso
+     * <code>lbInfo</code> rappresenta una label che mostra le istruzioni per la segnalazione di un evento avverso.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
      */
     private JLabel lbInfo;
     /**
-     * <code>listEvento</code> rappresenter&agrave; la lista di eventi non ancora segnalati dall'utente
+     * <code>listEvento</code> rappresenter&agrave; la lista di eventi non ancora segnalati dall'utente.
      * <p>
-     * &egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile nel package cittadini
+     * &Egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile nel package cittadini
      * </p>
-     * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve:
+     * &Egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve:
      * in questo caso serve per ricavare una lista degli eventi avversi non ancora segnalati
      */
     protected static List<EventoAvversoPerLista> listEvento = new ArrayList<>();
     /**
-     * <code>listApproveEvento</code> rappresenta la lista di eventi approvati, in fase di controllo
+     * <code>listApproveEvento</code> rappresenta la lista di eventi approvati, in fase di controllo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
      */
     private final List<EventoAvversoPerLista> listApproveEvento = new ArrayList<>();
     /**
-     * <code>listErrorEvento</code> rappresenta la lista di eventi non approvati, in fase di controllo
+     * <code>listErrorEvento</code> rappresenta la lista di eventi non approvati, in fase di controllo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
      */
     private final List<EventoAvversoPerLista> listErrorEvento = new ArrayList<>();
     /**
-     * <code>listEventoNonToccato</code> rappresenta la lista di eventi avversi non presi in considerazione dall'utente
+     * <code>listEventoNonToccato</code> rappresenta la lista di eventi avversi non presi in considerazione dall'utente.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
@@ -86,7 +88,7 @@ public class DashboardSegnalaEventiAvversi {
     private final List<EventoAvversoPerLista> listEventoNonToccato = new ArrayList<>();
 
     /**
-     * Costruttore della classe
+     * Costruttore della classe.
      */
     public DashboardSegnalaEventiAvversi() {
 
@@ -120,7 +122,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>chekListEventoCauseIsStatic</code> &egrave; un metodo che provvede a cancellare pulire <code>listEvento</code> se esso &egrave; maggiore di zero.
+     * <code>chekListEventoCauseIsStatic</code> &egrave; un metodo che provvede a pulire <code>listEvento</code> se esso &egrave; maggiore di zero.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void chekListEventoCauseIsStatic() {
@@ -129,7 +131,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>checkBeforeSend</code> &egrave; un metodo che verifica gli eventi avversi inseriti dall'utente
+     * <code>checkBeforeSend</code> &egrave; un metodo che verifica gli eventi avversi inseriti dall'utente.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void checkBeforeSend() {
@@ -151,7 +153,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>firstLetter</code> &egrave; un metodo che controlla il primo carattere de stringa
+     * <code>firstLetter</code> &egrave; un metodo che controlla il primo carattere della stringa.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @param input la nota di un evento avverso
@@ -162,7 +164,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>clearLists</code> &egrave; un metodo per la pulizia delle liste impiegate nella fase di controllo
+     * <code>clearLists</code> &egrave; un metodo per la pulizia delle liste impiegate nella fase di controllo.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void clearLists() {
@@ -175,7 +177,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>sendToServer</code> &egrave; un metodo per l'invio degli eventi avversi segnalati al server
+     * <code>sendToServer</code> &egrave; un metodo per l'invio degli eventi avversi segnalati al server.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      */
     private void sendToServer() {
@@ -192,7 +194,7 @@ public class DashboardSegnalaEventiAvversi {
     }
 
     /**
-     * <code>jOptionPanelMessageDialog</code> &egrave; un metodo per la costruzione del Dialog message
+     * <code>jOptionPanelMessageDialog</code> &egrave; un metodo per la costruzione del Dialog message.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @param message messaggio da mostrare nel Dialog message
@@ -204,7 +206,7 @@ public class DashboardSegnalaEventiAvversi {
 
     /**
      * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
-     * quando viene caricato il frame
+     * quando viene caricato il frame.
      * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      *
      * @throws IOException &egrave; utilizzata quando si verificano errori nelle fasi di input e di output
