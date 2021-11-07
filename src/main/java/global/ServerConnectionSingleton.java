@@ -6,12 +6,53 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * La classe ServerConnectionSingleton ai client di gestire una singola connessione con il server.
+ * Questa classe utilizza il Design Pattern Singleton per garantire che esista una sola istanza della classe ServerConnectionSingleton.
+ * <br>
+ * Questa classe &egrave; molto importante in quanto si occupa di mantenere la connessione con il database.
+ * Tutti i metodi utilizzabile sono nella classe DatabaseCVInterface.
+ * <br>
+ * La porta di default per la connessione al server, tramite RMI &egrave; la 1099.
+ * L'indirizzo IP deve essere fornito dall'utente in fase di esecuzione.
+ * <br>
+ * In alternativa si può usare la variabile <b>CV_SERVER_HOST</b> d'ambiente per specificare l'host del server.
+ *
+ * @author Alex Vellone
+ * @see serverCV.Server
+ * @see DatabaseCVInterface
+ */
 public class ServerConnectionSingleton {
+
+    /**
+     * <code>singleton_instance</code> contiene l'unica istanza della classe ServerConnectionSingleton.
+     * Deve essere dichiarata private e static per garantire che sia univoca.
+     */
     private static ServerConnectionSingleton singleton_instance = null;
+
+    /**
+     * <code>database</code> oggetto sul quale eseguire le operazioni a database.
+     *
+     * @see serverCV.DatabaseCV
+     * @see DatabaseCVInterface
+     */
     private static DatabaseCVInterface database;
+
+    /**
+     * <code>REGISTRY_SERVER_IP</code> contiene l'indirizzo IP del server al quale connettersi
+     */
     private static String REGISTRY_SERVER_IP = null;
+
+    /**
+     * <code>REGISTRY_SERVER_PORT</code> contiene la porta RMI del server. Di default 1099
+     */
     private final static int REGISTRY_SERVER_PORT = 1099;
 
+    /**
+     * Costruttore della classe.
+     * Il costruttore &egrave; di tipo <b>private</b> perch&egrave; questa classe utilizza il
+     * Design Pattern Singleton per garantire che esista una sola istanza della classe ServerConnectionSingleton.
+     */
     private ServerConnectionSingleton() {
         try {
             // Recupero dell'IP del registry server se nelle variabili d'ambiente
@@ -42,6 +83,12 @@ public class ServerConnectionSingleton {
         }
     }
 
+    /**
+     * <code>getDatabaseInstance</code> metodo per utilizzare l'istanza di questa classe che utilizza il
+     * Design Pattern Singleton.
+     *
+     * @return istanza della classe DatabaseCVInterface
+     */
     public static DatabaseCVInterface getDatabaseInstance() {
         if (singleton_instance == null || database == null) {
             singleton_instance = new ServerConnectionSingleton();
@@ -49,12 +96,22 @@ public class ServerConnectionSingleton {
         return database;
     }
 
+    /**
+     * <code>resetConnection</code> metodo per resettare la connessione con il server.
+     * Questo metodo viene chiamato durante la gestione delle eccezioni per assicurarsi
+     * che la connessione con il server venga ristabilita in caso di problemi.
+     */
     public static void resetConnection() {
         singleton_instance = null;
         database = null;
         System.err.println("Reset connection with server");
     }
 
+    /**
+     * <code>isValidIP</code> metodo per verificare che la stinga fornita corrisponda all'indirizzo IPv4
+     *
+     * @return valore booleano
+     */
     public static boolean isValidIP(String ip) {
         // https://stackoverflow.com/questions/4581877/validating-ipv4-string-in-java
         try {

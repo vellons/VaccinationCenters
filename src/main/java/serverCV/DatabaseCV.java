@@ -7,11 +7,12 @@ import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterface {
     private static final long serialVersionUID = 1L;
@@ -409,14 +410,14 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     public int vaccinatiOggi() throws RemoteException {
         //restituisce il conteggio degli utenti vaccinati in un centro nella data corrente
         int totVaccinatiOggi = 0;
-        try{
+        try {
             long startTime = System.nanoTime();
             Statement stmt = conn.createStatement();
             String query = "SELECT count(v.id) FROM vaccinati v" +
                     " WHERE Date(data_somministrazione) = current_date ";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                totVaccinatiOggi=rs.getInt("count");
+                totVaccinatiOggi = rs.getInt("count");
             }
             rs.close();
             stmt.close();
@@ -467,7 +468,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
                 stmt.executeUpdate(query);
                 stmt.close();
                 long duration = (System.nanoTime() - startTime) / 1000000;
-                logMessage("Aggiornamento email e password utente " + idUnivoco +" completato in: " + duration + "mS");
+                logMessage("Aggiornamento email e password utente " + idUnivoco + " completato in: " + duration + "mS");
                 return 0;
             }
         } catch (Exception e) {

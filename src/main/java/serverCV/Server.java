@@ -25,28 +25,123 @@ import java.time.format.DateTimeFormatter;
  * Questo programma può essere eseguito con i seguenti parametri:<br>
  * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui è collegato il PC.<br>
  * --no-gui: avvia il programma senza interfaccia grafica, solo output su console.<br>
+ * <br>
+ * La variabile d'ambiente <b>CV_HOST</b>, se impostata, prepopola il campo della JTextField.<br>
+ * La variabile d'ambiente <b>CV_USER</b>, se impostata, prepopola il campo della JTextField.<br>
+ * La variabile d'ambiente <b>CV_PASS</b>, se impostata, prepopola il campo della JTextField.<br>
  *
  * @author Alex Vellone e Macaj Manuel
  * @see DatabaseCV
  */
 public class Server {
+    /**
+     * <code>tfUsernameDB</code> &egrave; un campo di testo Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JTextField tfUsernameDB;
+
+    /**
+     * <code>tfPasswordDB</code> &egrave; un campo di testo per password Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JPasswordField tfPasswordDB;
+
+    /**
+     * <code>btnAccedi</code> &egrave; un bottone Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JButton btnAccedi;
+
+    /**
+     * <code>btnDisconnetti</code> &egrave; un bottone Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JButton btnDisconnetti;
+
+    /**
+     * <code>textAreaServerStatus</code> &egrave; una area di testo Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JTextArea textAreaServerStatus;
+
+    /**
+     * <code>panelServer</code> &egrave; un pannello Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JPanel panelServer;
+
+    /**
+     * <code>tfSiglaProvincia</code> &egrave; un campo di testo Swing.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JTextField tfHostDB;
 
+
+    /**
+     * <code>DB_NAME</code> nome del database sul quale sono salvate le informazioni.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private final static String DB_NAME = "wewhpzry";
+
+    /**
+     * <code>REGISTRY_NAME</code> nome del registry RMI con il quale i client possono collegarsi.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     *
+     * @see global.ServerConnectionSingleton
+     */
     private final static String REGISTRY_NAME = "CVDatabaseServer";
+
+    /**
+     * <code>REGISTRY_PORT</code> contiene la porta RMI utilizzata dal server RMI.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     *
+     * @see global.ServerConnectionSingleton
+     */
     private final static int REGISTRY_PORT = 1099;
+
+    /**
+     * <code>ALLOW_REMOTE</code> se true autorizza le connessioni remote.
+     * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui è collegato il PC.<br>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private static boolean ALLOW_REMOTE = false;
+
+    /**
+     * <codeNO_GUI></code> se true avvia l'applicazione senza GUI.
+     * --no-gui: avvia il programma senza interfaccia grafica, solo output su console.<br>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private static boolean NO_GUI = false;
+
+    /**
+     * <code>username</code> contiene la stinga riferita all'username del database.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private String username;
+
+    /**
+     * <code>password</code> contiene la stinga riferita alla password del database.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private String password;
+
+    /**
+     * <code>host</code> contiene la stinga riferita all'hostname del database.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private String host;
+
+    /**
+     * <code>conn</code> contiene l'oggetto per la connessione con il database.
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private Connection conn;
+
+    /**
+     * <code>dbCV</code> contiene l'istanza della classe per le operazioni su DB.
+     *
+     * @see DatabaseCV
+     */
     DatabaseCV dbCV;
 
     /**
@@ -132,11 +227,11 @@ public class Server {
      * Punto di partenza del programma Server.
      *
      * @param args argomenti in ingresso
-     * @throws UnsupportedLookAndFeelException eccezione
-     * @throws ClassNotFoundException eccezione
-     * @throws InstantiationException eccezione
-     * @throws IllegalAccessException eccezione
-     * @throws RemoteException eccezione
+     * @throws UnsupportedLookAndFeelException eccezione in caso di problemi con gli oggetti JSwing
+     * @throws ClassNotFoundException          eccezione nel caso si cerchi di utilizzare una classe che non esiste
+     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws IllegalAccessException          eccezione in caso di accesso non consentito
+     * @throws RemoteException                 eccezione in caso di problemi di connessione usando RMI
      */
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, RemoteException {
         for (String option : args) {
@@ -170,14 +265,15 @@ public class Server {
     /**
      * <code>initUI</code> &egrave; una procedura per inizializzare l'interfaccia
      * utente su una finestra e per finalizzarne le impostazioni.
+     * <p>
+     * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
+     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
      *
      * @param frame &egrave; il frame sul quale applicare le impostazioni
-     *              &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
-     *              &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
-     * @throws ClassNotFoundException se non trova la classe da caricare
+     * @throws ClassNotFoundException          se non trova la classe da caricare
      * @throws UnsupportedLookAndFeelException e le classi look and feel richieste non sono presenti sul sistema
-     * @throws InstantiationException se per qualche motivo la classe non può essere istanziata
-     * @throws IllegalAccessException quando si cerca di effettuare l'accesso ad un campo laddove non &egrave; possibile
+     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws IllegalAccessException          quando si cerca di effettuare l'accesso ad un campo laddove non &egrave; possibile
      */
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Definisce il comportamento della finestra
@@ -201,7 +297,7 @@ public class Server {
     }
 
     /**
-     * Procedura per stampare un messaggio in console e sulla GUI.
+     * <code>logMessage</code> procedura per stampare un messaggio in console e sulla GUI.
      * Questo metodo aggiunge automaticamente la data e l'ora corrente.
      *
      * @param message messaggio da stampare
@@ -215,7 +311,7 @@ public class Server {
     }
 
     /**
-     * Metodo da eseguire per la connessione al database
+     * <code>connectToDB</code> metodo da eseguire per la connessione al database
      */
     private void connectToDB() {
         try {
@@ -241,7 +337,7 @@ public class Server {
     }
 
     /**
-     * Metodo da eseguire per disconnettersi dal database
+     * <code>disconnectToDB</code> metodo da eseguire per disconnettersi dal database
      */
     private void disconnectToDB() {
         try {
