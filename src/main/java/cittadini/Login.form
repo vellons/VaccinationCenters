@@ -38,7 +38,7 @@
             <properties>
               <background color="-723724"/>
               <foreground color="-3727837"/>
-              <text value="Emal"/>
+              <text value="Email"/>
             </properties>
           </component>
           <component id="def7k" class="javax.swing.JTextField" binding="tfEmail" custom-create="true">

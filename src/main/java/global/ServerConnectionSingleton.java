@@ -1,8 +1,6 @@
 package global;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,7 +14,7 @@ public class ServerConnectionSingleton {
 
     private ServerConnectionSingleton() {
         try {
-            // Recupero dell'ip del registry server se nelle variabili d'ambiente
+            // Recupero dell'IP del registry server se nelle variabili d'ambiente
             if (System.getenv("CV_SERVER_HOST") != null) {
                 REGISTRY_SERVER_IP = System.getenv("CV_SERVER_HOST");
             }
@@ -25,14 +23,10 @@ public class ServerConnectionSingleton {
             while (REGISTRY_SERVER_IP == null) {
                 String ip = JOptionPane.showInputDialog(null, "Inserisci l'IP del server:", "localhost");
                 if (ip != null && !ip.isEmpty()) {
-                    try {
-                        InetAddress address = InetAddress.getByName(ip);
-                        if (address.isReachable(5000)) {
-                            REGISTRY_SERVER_IP = ip;  // Se l'indirizzo è valido posso proseguire
-                        } else {
-                            System.out.println("Host " + ip + " non raggiungibile");
-                        }
-                    } catch (IOException ignored) {
+                    if (isValidIP(ip) || ip.equals("localhost")) {
+                        REGISTRY_SERVER_IP = ip;  // Se l'indirizzo è valido posso proseguire
+                    } else {
+                        System.err.println("IP " + ip + " non riconosciuto. Inserisci un IPv4 valido");
                     }
                 }
             }
@@ -59,5 +53,29 @@ public class ServerConnectionSingleton {
         singleton_instance = null;
         database = null;
         System.err.println("Reset connection with server");
+    }
+
+    public static boolean isValidIP(String ip) {
+        // https://stackoverflow.com/questions/4581877/validating-ipv4-string-in-java
+        try {
+            if (ip == null || ip.isEmpty()) {
+                return false;
+            }
+
+            String[] parts = ip.split("\\.");
+            if (parts.length != 4) {
+                return false;
+            }
+
+            for (String s : parts) {
+                int i = Integer.parseInt(s);
+                if ((i < 0) || (i > 255)) {
+                    return false;
+                }
+            }
+            return !ip.endsWith(".");
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
     }
 }

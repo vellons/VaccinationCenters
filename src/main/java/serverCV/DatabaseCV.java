@@ -423,7 +423,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
             long duration = (System.nanoTime() - startTime) / 1000000;
             logMessage(query + " in: " + duration + "mS");
         } catch (Exception e) {
-            logMessage("ERROR: resocontoVaccinatiOggi()");
+            logMessage("ERROR: vaccinatiOggi()");
             e.printStackTrace();
 
         }
