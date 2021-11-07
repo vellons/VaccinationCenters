@@ -12,21 +12,64 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La classe EventoSegnalatoPerLista serve per gestire un elemento della lista di eventi avversi segnalati dagli utenti.
+ *
+ * @author Vellons
+ * @see EventoAvverso
+ */
 public class EventoSegnalatoPerLista {
+
+    /**
+     * <code>panelEventoSegnalatoPerLista</code> &egrave; un panel
+     *
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     public JPanel panelEventoSegnalatoPerLista;
+
+    /**
+     * <code>lbSeverita</code> &egrave; label contenente la severit&agrave; da 1 a 5
+     *
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lbSeverita;
+
+    /**
+     * <code>lblNote</code> &egrave; una label contenente le note inserite dall'utente
+     *
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lblNote;
+
+    /**
+     * <code>lbTipologiaEventoAvverso</code> &egrave; una label contenente il nome della tipologia di evento avverso
+     *
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * @see EventoAvverso
+     */
     private JLabel lbTipologiaEventoAvverso;
+
+    /**
+     * <code>btnModificaEventoSegnalato</code> &egrave; un bottone
+     *
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JButton btnModificaEventoSegnalato;
 
     /**
      * <code>tipologie</code> &egrave; un ArrayList che contiene le tipologie di eventi avversi
-     * &egrave; dichiarata <strong>private</strong> in quanto l'attributo &egrave;utilizzabile anche da altre classi dello stesso package
+     *
+     * &egrave; dichiarata <strong>protected</strong> in quanto l'attributo &egrave;utilizzabile anche da altre classi dello stesso package
      * &egrave; dichiarata <strong>static</strong> cos&igrave; da poter riutilizzare il valore quando serve,
      * chiamando solo una volta il server per ottenere l'elenco
      */
     protected static List<TipologiaEvento> tipologie = new ArrayList<>();
 
+    /**
+     * Costruttore della classe
+     *
+     * @param eventoAvverso oggetto contenente le informazioni sull'evento avverso da mostrare
+     */
     public EventoSegnalatoPerLista(EventoAvverso eventoAvverso) {
 
         // Prendo le tipologie di eventi avversi
@@ -57,6 +100,12 @@ public class EventoSegnalatoPerLista {
         });
     }
 
+    /**
+     * <code>getNomeTipologiaEventoAvverso</code> serve per recuperare il nome della tipologia di evento avverso.
+     *
+     * @param id identificativo a database dell'evento avverso
+     * @return stringa riferita al nome dell'evento avverso
+     */
     private String getNomeTipologiaEventoAvverso(int id) {
         for (TipologiaEvento obj : tipologie) {
             if (obj.getId() == id) return obj.getNome();

@@ -174,7 +174,7 @@
                   <text value="Severità: 0"/>
                 </properties>
               </component>
-              <component id="67dea" class="javax.swing.JLabel" binding="lbScriviCommento">
+              <component id="67dea" class="javax.swing.JLabel">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

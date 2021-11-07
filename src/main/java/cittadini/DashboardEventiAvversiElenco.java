@@ -36,7 +36,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
     public JPanel panelDashboardCentriVaccinaliElenco;
 
     /**
-     * <code>panelLogo</code> rappresenta un pannello per inserire il logo
+     * <code>panelLogo</code> rappresenta un pannello per inserire il logo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
@@ -69,22 +69,88 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblDataVaccino;
+
+    /**
+     * <code>lbBtnDisabilitato</code> rappresenta una label con del testo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lbBtnDisabilitato;
+
+    /**
+     * <code>panelEventoAvversoModifica</code> rappresenta un pannello per gestire altri componenti.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JPanel panelEventoAvversoModifica;
+
+    /**
+     * <codelbSeverita></code> rappresenta una label con del testo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lbSeverita;
-    private JLabel lbScriviCommento;
+
+    /**
+     * <code>sliderServerita</code> rappresenta uno slider della severit&agrave;
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JSlider sliderServerita;
+
+    /**
+     * <code>lbCounterCharacter</code> rappresenta una label con del testo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lbCounterCharacter;
+
+    /**
+     * <code>txtNote</code> rappresenta un campo di testo inseribile dall'utente.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JTextArea txtNote;
+
+    /**
+     * <code>lbTipologiaEventoAvverso</code> rappresenta una label con del testo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lbTipologiaEventoAvverso;
+
+    /**
+     * <code>btnModifica</code> rappresenta un bottone.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JButton btnModifica;
+
+    /**
+     * <code></code> rappresenta un bottone.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JButton btnAnnulla;
+
+    /**
+     * <code></code> rappresenta una label con del testo.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     */
     private JLabel lblTuoCentro;
+
+    /**
+     * <code></code> rappresenta un evento avverso da modificare.
+     * <p>
+     * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
+     * @see EventoAvverso
+     */
     private EventoAvverso eventoAvversoModifica;
 
     /**
      * <code>segnalaEventiAvversiFrame</code> &egrave; una cornice Swing attivata nel momento nel
-     * quale si vuole inserire un nuovo evento avverso
+     * quale si vuole inserire un nuovo evento avverso.
      *
      * <p>
      * &egrave; dichiarata <strong>private</strong> in quanto deve essere accessibile solo all'interno della classe
@@ -92,7 +158,8 @@ public class DashboardEventiAvversiElenco extends JFrame {
     public static JFrame segnalaEventiAvversiFrame;
 
     /**
-     * Costruttore della classe
+     * Costruttore della classe.
+     * Recupera le informazioni necessarie dal server e le mostra nel pannello.
      */
     public DashboardEventiAvversiElenco() {
         panelEventoAvversoModifica.setVisible(false);
@@ -203,7 +270,13 @@ public class DashboardEventiAvversiElenco extends JFrame {
         });
     }
 
-    public void startModificaPanel(EventoAvverso ea) throws RemoteException {
+    /**
+     * <code>startModificaPanel</code> &egrave; un metodo abilitare la modifica di un evento avverso.
+     * <br>&Egrave; dichiarato <strong>protected</strong> in quanto metodo utilizzato all'interno del package
+     *
+     * @throws RemoteException in caso di problemi con RMI
+     */
+    protected void startModificaPanel(EventoAvverso ea) throws RemoteException {
         if (panelEventoAvversoModifica.isVisible()) {
             if (jOptionPanelYesOrNo("Non hai terminato di modificare l'evento avverso precedente.\nContinuare? (Perderai i dati della modifica in corso)", "Attenzione")) {
                 eventoAvversoModifica = ea;
@@ -216,6 +289,12 @@ public class DashboardEventiAvversiElenco extends JFrame {
         }
     }
 
+    /**
+     * <code>configureModificaPanel</code> &egrave; un metodo inizializzare il processo di modifica di un evento avverso.
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @throws RemoteException in caso di problemi con RMI
+     */
     private void configureModificaPanel() throws RemoteException {
         lbTipologiaEventoAvverso.setText(getTipologiaEventoAvverso(eventoAvversoModifica.getTipologia_evento_id()));
         sliderServerita.setValue(eventoAvversoModifica.getSeverita());
@@ -224,6 +303,15 @@ public class DashboardEventiAvversiElenco extends JFrame {
         sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
     }
 
+
+    /**
+     * <code>getTipologiaEventoAvverso</code> &egrave; un metodo per il recupero del nome dell'evento avverso dal server.
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param idTipologiaEvento id dell'evento
+     * @return stringa contenente il nome dell'evento avverso
+     * @throws RemoteException in caso di problemi con RMI
+     */
     private String getTipologiaEventoAvverso(int idTipologiaEvento) throws RemoteException {
         DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance();
         StringBuilder result = new StringBuilder();
@@ -236,12 +324,26 @@ public class DashboardEventiAvversiElenco extends JFrame {
         return result.toString();
     }
 
+    /**
+     * <code>jOptionPanelMessageDialog</code> &egrave; un metodo per la costruzione del Dialog message.
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param message messaggio da mostrare nel Dialog message
+     * @param title   titolo del Dialog message
+     */
     private boolean jOptionPanelYesOrNo(String message, String title) {
         return (JOptionPane.showOptionDialog(null, message,
                 title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, null, null) == JOptionPane.YES_OPTION);
     }
 
+    /**
+     * <code>jOptionPanelMessageDialog</code> &egrave; un metodo per la costruzione del Dialog message.
+     * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
+     *
+     * @param message messaggio da mostrare nel Dialog message
+     * @param title   titolo del Dialog message
+     */
     private void jOptionPanelMessageDialog(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }

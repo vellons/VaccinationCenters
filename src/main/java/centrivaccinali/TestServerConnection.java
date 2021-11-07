@@ -10,6 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Classe di test per verificare che la connessione con il database funzioni correttamente, passando dal server.
+ *
+ * @author Vellons
+ */
 public class TestServerConnection {
 
     public static void main(String[] args) throws RemoteException {
