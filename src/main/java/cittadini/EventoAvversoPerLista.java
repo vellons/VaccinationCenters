@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 /**
  * La classe EventoAvversoPerLista permette creare un pannello
- * di un evento avverso non ancora segnalato dall'utente vaccinato
+ * di un evento avverso non ancora segnalato dall'utente vaccinato.
  *
  * @author manuelmacaj
  */
@@ -25,58 +25,58 @@ public class EventoAvversoPerLista {
      */
     protected JPanel panelEventoAvversoPerLista;
     /**
-     * <code>lbSeverita</code> rappresenta una label in cui verr&agrave; mostrato il livello di severit&agrave; di un evento avverso
+     * <code>lbSeverita</code> rappresenta una label in cui verr&agrave; mostrato il livello di severit&agrave; di un evento avverso.
      * <p>
      * &Egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private JLabel lbSeverita;
     /**
-     * <code>lbScriviCommento</code> rappresenta una label che mostra solo il seguente testo: "Note"
+     * <code>lbScriviCommento</code> rappresenta una label che mostra solo il seguente testo: "Note".
      * <p>
      * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private JLabel lbScriviCommento;
     /**
-     * <code>sliderServerita</code> rappresenta uno slider che permette all'utente di selezionare il livello di severita&grave; di un evento avverso
+     * <code>sliderServerita</code> rappresenta uno slider che permette all'utente di selezionare il livello di severit&agrave; di un evento avverso.
      * <p>
      * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private JSlider sliderServerita;
     /**
-     * <code>lbCounterCharacter</code> rappresenta una label in cui viene mostrato il conteggio dei caratteri della textArea (max 256)
+     * <code>lbCounterCharacter</code> rappresenta una label in cui viene mostrato il conteggio dei caratteri della textArea (max 256).
      * <p>
      * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private JLabel lbCounterCharacter;
     /**
-     * <code>txtNote</code> rappresenta una textArea che permette all'utente d'inserire una nota a riguardo di un evento avverso
+     * <code>txtNote</code> rappresenta una textArea che permette all'utente d'inserire una nota a riguardo di un evento avverso.
      * <p>
-     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * &Egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private JTextArea txtNote;
     /**
-     * <code>lbTipologiaEventoAvverso</code> rappresenta una label che mostra nome dell'evento avverso da segnalare
+     * <code>lbTipologiaEventoAvverso</code> rappresenta una label che mostra nome dell'evento avverso da segnalare.
      * <p>
-     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * &Egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo alla classe classe EventoAvversoPerLista
      * </p>
      */
     private JLabel lbTipologiaEventoAvverso;
 
     /**
-     * <code>tipologiaEvento</code> rappresenta un oggetto di tipo TipologiaEventoAvverso che permette di accedere alle informazioni inerenti a una tipologia di evento avverso (id, nome evento avverso)
+     * <code>tipologiaEvento</code> rappresenta un oggetto di tipo TipologiaEventoAvverso che permette di accedere alle informazioni inerenti a una tipologia di evento avverso (id, nome evento avverso).
      * <p>
-     * &egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
+     * &Egrave; dichiarato <strong>private</strong> cos&igrave; da poter essere visibile solo nella classe EventoAvversoPerLista
      * </p>
      */
     private final TipologiaEvento tipologiaEvento;
 
     /**
-     * Costruttore della classe
+     * Costruttore della classe.
      *
      * @param tipologiaEvento rappresenta la tipologia di evento avverso che l'utente non ha mai segnalato
      */
@@ -86,7 +86,6 @@ public class EventoAvversoPerLista {
         StringBuilder eventoAvversoNome = new StringBuilder();
         lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(this.tipologiaEvento.getNome().substring(0, 1).toUpperCase()).append(this.tipologiaEvento.getNome().substring(1))));
         txtNote.setEnabled(false);
-        //sliderServerita.addChangeListener(e -> lbSeverita.setText("Severità: " + sliderServerita.getValue()));
 
         sliderServerita.addChangeListener(e -> {
             lbSeverita.setText("Severità: " + sliderServerita.getValue());
@@ -126,7 +125,7 @@ public class EventoAvversoPerLista {
     }
 
     /**
-     * <code>getTipologiaEvento</code> &egrave; un metodo per la restituzione della tipologia del vaccino
+     * <code>getTipologiaEvento</code> &egrave; un metodo per la restituzione della tipologia dell'evento avverso.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @return restituisce la tipologia evento avverso
@@ -136,7 +135,7 @@ public class EventoAvversoPerLista {
     }
 
     /**
-     * <code>getValoreSeverita</code> &egrave; un metodo per la restituzione della severit&agrave;
+     * <code>getValoreSeverita</code> &egrave; un metodo per la restituzione della severit&agrave;.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @return restituisce il valore della severit&agrave;
@@ -146,7 +145,7 @@ public class EventoAvversoPerLista {
     }
 
     /**
-     * <code>getNota</code> &egrave; un metodo per la restituzione delle note
+     * <code>getNota</code> &egrave; un metodo per la restituzione delle note.
      * <br>&Egrave; dichiarato <strong>private</strong> in quanto metodo utilizzato solo all'interno della classe
      *
      * @return restituisce la nota che l'utente ha scritto
@@ -157,7 +156,7 @@ public class EventoAvversoPerLista {
 
     /**
      * <code>createUIComponents</code> &egrave; una procedura per impostare la grafica
-     * quando viene caricato il frame
+     * quando viene caricato il frame.<br>
      * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      */
     private void createUIComponents() {

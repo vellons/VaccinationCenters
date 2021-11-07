@@ -48,7 +48,11 @@ public class EventoSegnalatoPerLista {
         btnModificaEventoSegnalato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Login.dashboardEventiAvversiElenco.startModificaPanel(eventoAvverso);
+                try {
+                    Login.dashboardEventiAvversiElenco.startModificaPanel(eventoAvverso);
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
