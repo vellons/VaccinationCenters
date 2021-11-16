@@ -1,5 +1,7 @@
 package centrivaccinali;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import global.DatabaseCVInterface;
 import global.JTextFieldCharLimit;
 import global.ServerConnectionSingleton;
@@ -9,6 +11,8 @@ import models.Vaccinato;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +33,7 @@ import java.util.List;
  * @author Mahdi Said
  */
 
-public class RegistraVaccinato{
+public class RegistraVaccinato {
 
     /**
      * <code>panelRegistraVaccino</code> &egrave; un pannello Swing che compone
@@ -181,7 +185,7 @@ public class RegistraVaccinato{
      * effettivo della data di somministrazione
      */
 
-    private Timestamp dataVaccino= null;
+    private Timestamp dataVaccino = null;
 
     /**
      * <code>cboxTipoVaccino</code> &egrave; una combobox Swing usata per la selezione della
@@ -221,7 +225,7 @@ public class RegistraVaccinato{
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
 
-    private int tipo=0;
+    private int tipo = 0;
 
     /**
      * <code>tipo</code> &egrave; un intero che contiene il valore
@@ -229,7 +233,7 @@ public class RegistraVaccinato{
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
 
-    private int centro_id=0;
+    private int centro_id = 0;
 
     /**
      * <code>nomi</code> &egrave; un' arraylist che contiene i
@@ -265,6 +269,7 @@ public class RegistraVaccinato{
      */
 
     public RegistraVaccinato() throws Exception {
+        $$$setupUI$$$();
         tfNome.setDocument(new JTextFieldCharLimit(64));
         tfCognome.setDocument(new JTextFieldCharLimit(64));
         tfCodiceFiscale.setDocument(new JTextFieldCharLimit(16));
@@ -273,28 +278,28 @@ public class RegistraVaccinato{
             public void actionPerformed(ActionEvent e) {
                 setTipo(getTipoVaccino());
                 setID(getNomeCentro());
-                if(!checkInput(getTfDataVaccino(),tfDataVaccino)){
+                if (!checkInput(getTfDataVaccino(), tfDataVaccino)) {
                     generaData();
                 }
-                if(!checkInput(getTfIDUnivoco(),tfIDUnivoco)){
+                if (!checkInput(getTfIDUnivoco(), tfIDUnivoco)) {
                     generaID();
                 }
-                dataVaccino=stringToTimestamp(getTfDataVaccino());
+                dataVaccino = stringToTimestamp(getTfDataVaccino());
                 if (checkAllInputs()) {
                     try {
                         if (JOptionPane.showOptionDialog(null, "Confermi di voler registrare il nuovo utente?",
                                 "Conferma registrazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                 null, null, null) == JOptionPane.YES_OPTION) {
                             DatabaseCVInterface db = ServerConnectionSingleton.getDatabaseInstance(); // Singleton class con il server
-                            vax = new Vaccinato(getTfIDUnivoco(),centro_id,tipo,getTfNome(),getTfCognome(),getTfCodiceFiscale(),dataVaccino,"","");
+                            vax = new Vaccinato(getTfIDUnivoco(), centro_id, tipo, getTfNome(), getTfCognome(), getTfCodiceFiscale(), dataVaccino, "", "");
                             db.inserisciCittadinoVaccinato(vax);
                             CentriVaccinali.closePreviousWindow(CentriVaccinali.registraVaccinatoFrame);
                             JOptionPane.showInputDialog(null, "La registrazione è " +
                                     "andata a buon fine! Ecco il tuo codice identificativo. Attento a non perderlo!!!", getTfIDUnivoco());
                         }
                     } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
-                                    "Attenzione", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "C'è stato un problema. Prova a riavviare l'app",
+                                "Attenzione", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
                     lblErrors.setFont(new Font("Default", Font.BOLD, 14));
@@ -322,7 +327,7 @@ public class RegistraVaccinato{
         tfNome.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))){
+                if (!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))) {
                     e.consume();
                 }
             }
@@ -330,7 +335,7 @@ public class RegistraVaccinato{
         tfCognome.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))){
+                if (!(Character.isLetter(e.getKeyChar())) && !(Character.isSpaceChar(e.getKeyChar())) && !(Character.valueOf(e.getKeyChar()).toString().equals("'"))) {
                     e.consume();
                 }
             }
@@ -338,7 +343,7 @@ public class RegistraVaccinato{
         tfCodiceFiscale.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar()))){
+                if (!(Character.isLetter(e.getKeyChar())) && !(Character.isDigit(e.getKeyChar()))) {
                     e.consume();
                 }
             }
@@ -354,7 +359,9 @@ public class RegistraVaccinato{
      * @return il valore del nome del centro vaccinale
      */
 
-    public String getNomeCentro() { return Objects.requireNonNull(cboxNomeCentro.getSelectedItem()).toString();}
+    public String getNomeCentro() {
+        return Objects.requireNonNull(cboxNomeCentro.getSelectedItem()).toString();
+    }
 
     /**
      * <code>getTfNome</code> &egrave; un metodo getter
@@ -396,7 +403,9 @@ public class RegistraVaccinato{
      * @return il valore della data di somministrazione
      */
 
-    public String getTfDataVaccino() {return tfDataVaccino.getText();}
+    public String getTfDataVaccino() {
+        return tfDataVaccino.getText();
+    }
 
     /**
      * <code>getTfIDUnivoco</code> &egrave; un metodo getter
@@ -416,7 +425,9 @@ public class RegistraVaccinato{
      * @return il valore del tipo del vaccino
      */
 
-    public String getTipoVaccino() { return Objects.requireNonNull(cboxTipoVaccino.getSelectedItem()).toString();}
+    public String getTipoVaccino() {
+        return Objects.requireNonNull(cboxTipoVaccino.getSelectedItem()).toString();
+    }
 
     /**
      * <code>checkAllInputs</code> &egrave; un metodo per controllare il contenuto dei textfield
@@ -425,13 +436,17 @@ public class RegistraVaccinato{
      * @return valore booleano che indica se i dati inseriti nei textfield sono validi
      */
 
-    private boolean checkAllInputs(){
+    private boolean checkAllInputs() {
         boolean allFieldsValid;  // Tramite una variabile booleana, verifico se tutti i campi siano completi
 
         allFieldsValid = checkInput(getTfNome(), tfNome);
-        if(allFieldsValid){ allFieldsValid = firstLetter(getTfNome());}
+        if (allFieldsValid) {
+            allFieldsValid = firstLetter(getTfNome());
+        }
         allFieldsValid &= checkInput(getTfCognome(), tfCognome);
-        if(allFieldsValid){ allFieldsValid = firstLetter(getTfCognome());}
+        if (allFieldsValid) {
+            allFieldsValid = firstLetter(getTfCognome());
+        }
         allFieldsValid &= getTfCodiceFiscale().matches(CF_REGEX);
         return allFieldsValid;
     }
@@ -453,17 +468,17 @@ public class RegistraVaccinato{
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param stringa &egrave; una stringa rappresentante il contenuto della stringa da convertire
-     * &egrave; dichiarata <strong>Timestamp</strong> in quanto il metodo restituisce un valore di una data e di un'ora
+     *                &egrave; dichiarata <strong>Timestamp</strong> in quanto il metodo restituisce un valore di una data e di un'ora
      */
 
 
-    private Timestamp stringToTimestamp(String stringa){
+    private Timestamp stringToTimestamp(String stringa) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date parsedDate = dateFormat.parse(stringa);
-            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            Timestamp timestamp = new Timestamp(parsedDate.getTime());
             return timestamp;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -474,14 +489,14 @@ public class RegistraVaccinato{
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param type &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
+     *             &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
      */
 
-    private void setTipo(String type){
+    private void setTipo(String type) {
 
         for (TipologiaVaccino obj : tipologie) {
-            if(Objects.equals(obj.getNome(), type)){
-                tipo=obj.getId();
+            if (Objects.equals(obj.getNome(), type)) {
+                tipo = obj.getId();
             }
         }
 
@@ -492,14 +507,14 @@ public class RegistraVaccinato{
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param name &egrave; una stringa rappresentante il contenuto della stringa da analizzare
-     * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
+     *             &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
      */
 
-    private void setID(String name){
+    private void setID(String name) {
 
         for (CentroVaccinale obj : nomi) {
-            if(Objects.equals(obj.getNome(), name)){
-                centro_id=obj.getId();
+            if (Objects.equals(obj.getNome(), name)) {
+                centro_id = obj.getId();
             }
         }
 
@@ -511,7 +526,7 @@ public class RegistraVaccinato{
      * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
      */
 
-    private void generaData(){
+    private void generaData() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         tfDataVaccino.setText(formatter.format(date));
@@ -523,7 +538,7 @@ public class RegistraVaccinato{
      * &egrave; dichiarata <strong>void</strong> in quanto il metodo non restituisce alcun valore
      */
 
-    private void generaID(){
+    private void generaID() {
         tfIDUnivoco.setText(UUID.randomUUID().toString());
     }
 
@@ -537,7 +552,7 @@ public class RegistraVaccinato{
      * @return valore booleano che indica se il dato &egrave; inserito nel textfield
      */
 
-    private boolean checkInput(String input, JTextField textField){
+    private boolean checkInput(String input, JTextField textField) {
         boolean res;
         String tmp = "";
         tmp += input;
@@ -593,5 +608,144 @@ public class RegistraVaccinato{
 
         cboxNomeCentro = new JComboBox(nomiCombo.toArray());
 
+    }
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() throws IOException {
+        createUIComponents();
+        panelRegistraVaccinato = new JPanel();
+        panelRegistraVaccinato.setLayout(new GridLayoutManager(4, 2, new Insets(10, 10, 10, 10), -1, -1));
+        panelRegistraVaccinato.setBackground(new Color(-723724));
+        panelLogo.setBackground(new Color(-723724));
+        panelRegistraVaccinato.add(panelLogo, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(7, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setBackground(new Color(-723724));
+        panelRegistraVaccinato.add(panel1, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        lblNomeCentro = new JLabel();
+        lblNomeCentro.setBackground(new Color(-723724));
+        lblNomeCentro.setForeground(new Color(-3727837));
+        lblNomeCentro.setText("Nome centro vaccinale");
+        panel1.add(lblNomeCentro, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        lblNome = new JLabel();
+        lblNome.setBackground(new Color(-723724));
+        lblNome.setForeground(new Color(-3727837));
+        lblNome.setText("Nome");
+        panel1.add(lblNome, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfNome = new JTextField();
+        panel1.add(tfNome, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        lblCognome = new JLabel();
+        lblCognome.setBackground(new Color(-723724));
+        lblCognome.setForeground(new Color(-3727837));
+        lblCognome.setText("Cognome");
+        panel1.add(lblCognome, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfCognome = new JTextField();
+        panel1.add(tfCognome, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        lblCodiceFiscale = new JLabel();
+        lblCodiceFiscale.setBackground(new Color(-723724));
+        lblCodiceFiscale.setForeground(new Color(-3727837));
+        lblCodiceFiscale.setText("Codice fiscale");
+        panel1.add(lblCodiceFiscale, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfCodiceFiscale = new JTextField();
+        panel1.add(tfCodiceFiscale, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        lblDataVaccino = new JLabel();
+        lblDataVaccino.setBackground(new Color(-723724));
+        lblDataVaccino.setForeground(new Color(-3727837));
+        lblDataVaccino.setText("Data somministrazione");
+        panel1.add(lblDataVaccino, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfDataVaccino = new JTextField();
+        tfDataVaccino.setEditable(false);
+        tfDataVaccino.setText("");
+        tfDataVaccino.setToolTipText("");
+        panel1.add(tfDataVaccino, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        lblTipoVaccino = new JLabel();
+        lblTipoVaccino.setBackground(new Color(-723724));
+        lblTipoVaccino.setForeground(new Color(-3727837));
+        lblTipoVaccino.setText("Tipo vaccino");
+        panel1.add(lblTipoVaccino, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        lblIDUnivoco = new JLabel();
+        lblIDUnivoco.setBackground(new Color(-723724));
+        lblIDUnivoco.setForeground(new Color(-3727837));
+        lblIDUnivoco.setText("Identificatore univoco");
+        panel1.add(lblIDUnivoco, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfIDUnivoco = new JTextField();
+        tfIDUnivoco.setEditable(false);
+        panel1.add(tfIDUnivoco, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(cboxTipoVaccino, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(cboxNomeCentro, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnGeneraID = new JButton();
+        btnGeneraID.setBackground(new Color(-12828863));
+        btnGeneraID.setBorderPainted(true);
+        btnGeneraID.setForeground(new Color(-4473925));
+        btnGeneraID.setText("");
+        panel1.add(btnGeneraID, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(20, 20), 0, false));
+        btnDataCorrente = new JButton();
+        btnDataCorrente.setBackground(new Color(-12828863));
+        btnDataCorrente.setBorderPainted(true);
+        btnDataCorrente.setForeground(new Color(-4473925));
+        btnDataCorrente.setOpaque(true);
+        btnDataCorrente.setText("");
+        panel1.add(btnDataCorrente, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(20, 20), 0, false));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setBackground(new Color(-723724));
+        panelRegistraVaccinato.add(panel2, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        lblErrors = new JLabel();
+        lblErrors.setEnabled(true);
+        lblErrors.setFocusable(false);
+        lblErrors.setText("Compila tutti i campi per procedere con la registrazione");
+        panel2.add(lblErrors, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setBackground(new Color(-723724));
+        panelRegistraVaccinato.add(panel3, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        btnRegistraVaccinato = new JButton();
+        btnRegistraVaccinato.setBackground(new Color(-3727837));
+        btnRegistraVaccinato.setBorderPainted(false);
+        btnRegistraVaccinato.setEnabled(true);
+        btnRegistraVaccinato.setFocusPainted(false);
+        Font btnRegistraVaccinatoFont = this.$$$getFont$$$(null, Font.BOLD, -1, btnRegistraVaccinato.getFont());
+        if (btnRegistraVaccinatoFont != null) btnRegistraVaccinato.setFont(btnRegistraVaccinatoFont);
+        btnRegistraVaccinato.setForeground(new Color(-1));
+        btnRegistraVaccinato.setOpaque(true);
+        btnRegistraVaccinato.setText("Registra vaccinato");
+        panel3.add(btnRegistraVaccinato, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(250, -1), 0, false));
+        panelLogo2.setBackground(new Color(-723724));
+        panelRegistraVaccinato.add(panelLogo2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return panelRegistraVaccinato;
     }
 }
