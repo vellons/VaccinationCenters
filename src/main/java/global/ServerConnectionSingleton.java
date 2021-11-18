@@ -16,7 +16,7 @@ import java.rmi.registry.Registry;
  * La porta di default per la connessione al server, tramite RMI &egrave; la 1099.
  * L'indirizzo IP deve essere fornito dall'utente in fase di esecuzione.
  * <br>
- * In alternativa si può usare la variabile <b>CV_SERVER_HOST</b> d'ambiente per specificare l'host del server.
+ * In alternativa si pu&ograve; usare la variabile <b>CV_SERVER_HOST</b> d'ambiente per specificare l'host del server.
  *
  * @author Alex Vellone
  * @see serverCV.Server
@@ -109,7 +109,7 @@ public class ServerConnectionSingleton {
 
     /**
      * <code>isValidIP</code> metodo per verificare che la stinga fornita corrisponda all'indirizzo IPv4
-     *
+     * @param ip string
      * @return valore booleano
      */
     public static boolean isValidIP(String ip) {

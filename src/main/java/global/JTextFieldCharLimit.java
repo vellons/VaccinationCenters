@@ -35,7 +35,7 @@ public class JTextFieldCharLimit extends PlainDocument {
      * @param offset &egrave; un intero che rappresenta l'inizio dell'offset che deve essere &gt;= 0
      * @param str    &egrave; una stringa che l'utente inserisce nel JTextField
      * @param set    &egrave; l'attributo per il contenuto inserito
-     * @throws BadLocationException &egrave; la posizione di inserimento data non è una posizione valida
+     * @throws BadLocationException &egrave; la posizione di inserimento data non &egrave; una posizione valida
      *                              all'interno del documento
      */
 
