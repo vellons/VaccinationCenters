@@ -41,7 +41,7 @@ public class Cittadini {
      *
      * <p>
      * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     public static JFrame mainCittadini;
@@ -52,7 +52,7 @@ public class Cittadini {
      *
      * <p>
      * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     public static JFrame elencoCentriVaccinali;
@@ -62,7 +62,7 @@ public class Cittadini {
      * di completare la registrazione
      * <p>
      * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     public static JFrame registraCittadinoCV;
@@ -72,7 +72,7 @@ public class Cittadini {
      * cittadino
      * <p>
      * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     public static JFrame login;
@@ -81,7 +81,7 @@ public class Cittadini {
      * <code>panelCittadini</code> &egrave; il pannello principale del JFrame MainCittadini
      * <p>
      * &egrave; dichiarata <strong>public</strong> in quanto l'attributo &egrave; utilizzabile all'esterno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     private JPanel panelCittadini;
@@ -141,7 +141,7 @@ public class Cittadini {
     /**
      * Main classe Cittadini
      *
-     * @param args
+     * @param args parametri in ingresso
      * @throws UnsupportedLookAndFeelException &egrave; utilizzata quando le richieste di tipo "Look and Feel" non vanno a buon fine
      * @throws ClassNotFoundException          &egrave; utilizzata quando i caricamenti delle classi non vanno a buon fine
      * @throws InstantiationException          &egrave; utilizzata quando una classe non riesce ad essere istanziata
@@ -166,10 +166,10 @@ public class Cittadini {
      *
      * @param frame &egrave; il frame sul quale applicare le impostazioni
      *              <br> &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
-     *              <br> &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     *              <br> &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      * @throws ClassNotFoundException          se non trova la classe da caricare
      * @throws UnsupportedLookAndFeelException e le classi look and feel richieste non sono presenti sul sistema
-     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws InstantiationException          se per qualche motivo la classe non pu&ograve; essere istanziata
      * @throws IllegalAccessException          quando si cerca di effettuare l'accesso ad un campo laddove non &egrave; possibile
      */
 
@@ -234,7 +234,7 @@ public class Cittadini {
     }
 
     /**
-     * <code>openRegistraCittadinoCV<code> &egrave; una procedura per aprire la finestra
+     * <code>openRegistraCittadinoCV</code> &egrave; una procedura per aprire la finestra
      * dedicata alla registrazione di un cittadino presso un centro vaccinale
      * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      */
@@ -254,7 +254,7 @@ public class Cittadini {
     }
 
     /**
-     * <code>openLogin<code> &egrave; una procedura per aprire la finestra
+     * <code>openLogin</code> &egrave; una procedura per aprire la finestra
      * dedicata alla login di un cittadino
      * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
      */
@@ -343,11 +343,11 @@ public class Cittadini {
 
     /**
      * <code>closePreviousWindow</code> &egrave; una procedura per chiudere una
-     * finestra non più utilizzata
+     * finestra non pi&ugrave; utilizzata
      *
      * @param finestra &egrave; la finestra da chiudere
      *                 &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
-     *                 &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     *                 &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
     public static void closePreviousWindow(JFrame finestra) {
         finestra.setVisible(false);

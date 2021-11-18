@@ -153,7 +153,7 @@ public interface DatabaseCVInterface extends Remote {
      * @param email     &egrave; una stringa che rappresenta l'email usata dall'utente
      * @param password  &egrave; una stringa che rappresenta la password usata dall'utente
      * @param idUnivoco &egrave; una stringa che rappresenta l'id univoco del vaccinato
-     * @return un risultato intero che indica se si è riusciti o meno a registrare l'utente vaccinato
+     * @return un risultato intero che indica se si &egrave; riusciti o meno a registrare l'utente vaccinato
      * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
      */
 

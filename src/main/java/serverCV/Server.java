@@ -36,11 +36,11 @@ import java.util.Locale;
 
 /**
  * La classe Server permette la connessione al database.
- * Tramite RMI è possibile invocare metodi per eseguire operazioni sul database.
+ * Tramite RMI &egrave; possibile invocare metodi per eseguire operazioni sul database.
  * Le operazioni sul database avvengono mediante metodi definiti nella classe DatabaseCV.
  * <br>
- * Questo programma può essere eseguito con i seguenti parametri:<br>
- * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui è collegato il PC.<br>
+ * Questo programma pu&ograve; essere eseguito con i seguenti parametri:<br>
+ * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui &egrave; collegato il PC.<br>
  * --no-gui: avvia il programma senza interfaccia grafica, solo output su console.<br>
  * <br>
  * La variabile d'ambiente <b>CV_HOST</b>, se impostata, prepopola il campo della JTextField.<br>
@@ -118,13 +118,13 @@ public class Server {
 
     /**
      * <code>ALLOW_REMOTE</code> se true autorizza le connessioni remote.
-     * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui è collegato il PC.<br>
+     * --remote: imposta l'hostname RMI all'indirizzo IP della WAN (internet) a cui &egrave; collegato il PC.<br>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private static boolean ALLOW_REMOTE = false;
 
     /**
-     * <codeNO_GUI></code> se true avvia l'applicazione senza GUI.
+     * <code>NO_GUI</code> se true avvia l'applicazione senza GUI.
      * --no-gui: avvia il programma senza interfaccia grafica, solo output su console.<br>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
@@ -247,7 +247,7 @@ public class Server {
      * @param args argomenti in ingresso
      * @throws UnsupportedLookAndFeelException eccezione in caso di problemi con gli oggetti JSwing
      * @throws ClassNotFoundException          eccezione nel caso si cerchi di utilizzare una classe che non esiste
-     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws InstantiationException          se per qualche motivo la classe non pu&ograve; essere istanziata
      * @throws IllegalAccessException          eccezione in caso di accesso non consentito
      * @throws RemoteException                 eccezione in caso di problemi di connessione usando RMI
      */
@@ -285,12 +285,12 @@ public class Server {
      * utente su una finestra e per finalizzarne le impostazioni.
      * <p>
      * &egrave; dichiarato <strong>void</strong> in quanto non restituisce alcun valore
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      *
      * @param frame &egrave; il frame sul quale applicare le impostazioni
      * @throws ClassNotFoundException          se non trova la classe da caricare
      * @throws UnsupportedLookAndFeelException e le classi look and feel richieste non sono presenti sul sistema
-     * @throws InstantiationException          se per qualche motivo la classe non può essere istanziata
+     * @throws InstantiationException          se per qualche motivo la classe non pu&ograve; essere istanziata
      * @throws IllegalAccessException          quando si cerca di effettuare l'accesso ad un campo laddove non &egrave; possibile
      */
     public static void initUI(JFrame frame) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {

@@ -96,7 +96,7 @@ public class Login {
     protected static Vaccinato utenteLoggato = null;
 
     /**
-     * <code>dashboardEventiAvversiElenco</code> è l'oggetto che contiene le informazioni sulla pagina da gestire
+     * <code>dashboardEventiAvversiElenco</code> &egrave; l'oggetto che contiene le informazioni sulla pagina da gestire
      * <p>
      * &egrave; dichiarato <strong>protected</strong> in quanto l'attributo &egrave; utilizzabile ovunque nel package
      * &egrave; dichiarato <strong>static</strong> cos&igrave; da poterla utlizzare senza istanziare l'oggetto

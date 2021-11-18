@@ -100,7 +100,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
     /**
      * <code>isSafeWhere</code> &egrave; un metodo per capire se la clausole where &egrave; accettabile
      *
-     * @param &egrave; where una stringa che rappresenta l'operatore condizionale where
+     * @param where &egrave; where una stringa che rappresenta l'operatore condizionale where
      * @return un valore booleano
      */
 
@@ -471,7 +471,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
      * vaccinale sul DB remoto
      *
      * @param cv &egrave; rappresenta il centro vaccinale che l'operatore vuole registrare
-     * @return true se l'inserimento del centro vaccinale nel DB remoto è andato a buon fine, false altrimenti
+     * @return true se l'inserimento del centro vaccinale nel DB remoto &egrave; andato a buon fine, false altrimenti
      * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
      */
 
@@ -515,7 +515,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
      * vaccinato sul DB remoto
      *
      * @param vax &egrave; rappresenta l'utente vaccinato che l'operatore registra dopo la somministrazione
-     * @return true se l'inserimento del cittadino vaccinato nel DB remoto è andato a buon fine, false altrimenti
+     * @return true se l'inserimento del cittadino vaccinato nel DB remoto &egrave; andato a buon fine, false altrimenti
      * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
      */
 
@@ -552,7 +552,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
 
     /**
      * <code>rowCounterInTable</code> &egrave; un metodo per contare quante righe sono presenti nella
-     * tabella che è stata passata
+     * tabella che &egrave; stata passata
      *
      * @param table &egrave; rappresenta la tabella su cui vogliamo effettuare il conteggio delle tuple
      * @return il conteggio delle tuple della tabella passata
@@ -747,7 +747,7 @@ public class DatabaseCV extends UnicastRemoteObject implements DatabaseCVInterfa
      * dall'utente
      *
      * @param ea rappresenta l'evento avverso che il cittadino ha modificato
-     * @return true se l'aggiornamento di uno specifico evento avverso è andato a buon fine, false altrimenti
+     * @return true se l'aggiornamento di uno specifico evento avverso &egrave; andato a buon fine, false altrimenti
      * @throws RemoteException &egrave; utilizzata quando si presentano errori nelle comunicazioni remote
      */
 

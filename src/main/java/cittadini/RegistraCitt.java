@@ -363,7 +363,7 @@ public class RegistraCitt {
     }
 
     /**
-     * <code>checkId</code> &egrave; un metodo per controllare se il textfield dell'id univoco è diverso da vuoto
+     * <code>checkId</code> &egrave; un metodo per controllare se il textfield dell'id univoco &egrave; diverso da vuoto
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @return valore booleano che indica se i dati inseriti nel textfield sono validi
@@ -379,7 +379,7 @@ public class RegistraCitt {
     }
 
     /**
-     * <code>checkEmail</code> &egrave; un metodo per controllare se l'email inserita nel textfield è valida o meno
+     * <code>checkEmail</code> &egrave; un metodo per controllare se l'email inserita nel textfield &egrave; valida o meno
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param email &egrave; una stringa rappresentante l'email da analizzare
@@ -402,7 +402,7 @@ public class RegistraCitt {
     }
 
     /**
-     * <code>checkPassword</code> &egrave; un metodo per controllare se la password inserita nel textfield è valida o meno
+     * <code>checkPassword</code> &egrave; un metodo per controllare se la password inserita nel textfield &egrave; valida o meno
      * &egrave; dichiarato <strong>private</strong> in quanto il metodo &egrave; utilizzabile all'interno della classe
      *
      * @param pwd &egrave; una stringa rappresentante la password da analizzare

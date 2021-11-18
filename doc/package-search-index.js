@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"centrivaccinali"},{"l":"cittadini"},{"l":"global"},{"l":"models"},{"l":"serverCV"}]

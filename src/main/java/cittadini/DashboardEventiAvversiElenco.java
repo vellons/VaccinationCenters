@@ -42,7 +42,7 @@ import java.util.Locale;
 
 /**
  * La classe DashboardCentriVaccinaliElenco permette l'utilizzo di visualizzare l'elenco degli eventi avversi
- * del cittadino che si è loggato
+ * del cittadino che si &egrave; loggato
  * *
  * * @author Vellons
  */
@@ -104,7 +104,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JPanel panelEventoAvversoModifica;
 
     /**
-     * <codelbSeverita></code> rappresenta una label con del testo.
+     * <code>lbSeverita</code> rappresenta una label con del testo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
@@ -146,21 +146,21 @@ public class DashboardEventiAvversiElenco extends JFrame {
     private JButton btnModifica;
 
     /**
-     * <code></code> rappresenta un bottone.
+     * <code>btnAnnulla</code> rappresenta un bottone.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JButton btnAnnulla;
 
     /**
-     * <code></code> rappresenta una label con del testo.
+     * <code>lblTuoCentro</code> rappresenta una label con del testo.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JLabel lblTuoCentro;
 
     /**
-     * <code></code> rappresenta un evento avverso da modificare.
+     * <code>eventoAvversoModifica</code> rappresenta un evento avverso da modificare.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      *
@@ -299,6 +299,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      * <code>startModificaPanel</code> &egrave; un metodo abilitare la modifica di un evento avverso.
      * <br>&Egrave; dichiarato <strong>protected</strong> in quanto metodo utilizzato all'interno del package
      *
+     * @param ea evento avverso
      * @throws RemoteException in caso di problemi con RMI
      */
     protected void startModificaPanel(EventoAvverso ea) throws RemoteException {
@@ -355,6 +356,7 @@ public class DashboardEventiAvversiElenco extends JFrame {
      *
      * @param message messaggio da mostrare nel Dialog message
      * @param title   titolo del Dialog message
+     * @return boolean yes/no
      */
     private boolean jOptionPanelYesOrNo(String message, String title) {
         return (JOptionPane.showOptionDialog(null, message,
