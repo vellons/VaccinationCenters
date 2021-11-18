@@ -187,7 +187,12 @@ public class Server {
             password = String.valueOf(tfPasswordDB.getPassword());
             username = tfUsernameDB.getText();
 
-            connectToDB();
+            if (username == null || username.length() < 3 || password == null || password.length() < 3 ||
+                    host == null || host.length() < 3) {
+                logMessage("Inserisci username, password e server host");
+            } else {
+                connectToDB();
+            }
         });
 
         btnDisconnetti.addActionListener(e -> disconnectToDB());
