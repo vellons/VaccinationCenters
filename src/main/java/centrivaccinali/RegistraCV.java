@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2021. University Of Insubria, Varese.
+ *
+ * Authors:
+ * - Vellone Alex 741527 VA
+ * - Macaj Manuel 741854 VA
+ * - Said Ibrahim Mahdi 741512 VA
+ * - Pazienza Silvio 741486 VA
+ */
+
 package centrivaccinali;
 
 import global.DatabaseCVInterface;
