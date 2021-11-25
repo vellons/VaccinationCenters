@@ -8,6 +8,7 @@ Se stai usando IntelliJ, esegui questi comandi nel terminale premendo CTRL+INVIO
 $ mvn clean compile package install
 
 Dopo la compilazione, nella cartella di destinazione troverai 3 file jar.
+Assicurati che la cartella media sia presente allo stesso livello degli eseguibili jar.
 
 Per eseguire il server con maven esegui il comando:
 $ mvn exec:java
