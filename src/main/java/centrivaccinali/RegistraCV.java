@@ -210,7 +210,7 @@ public class RegistraCV {
      * <code>tipologie</code> &egrave; un' arraylist che contiene i
      * possibili valori per la tipologia di centro vaccinale registrati sul database
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     private static List<TipologiaCentroVaccinale> tipologie = new ArrayList<>();

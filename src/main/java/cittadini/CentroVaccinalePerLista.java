@@ -63,7 +63,7 @@ public class CentroVaccinalePerLista extends JPanel {
      * <code>btnDettaglio</code> &egrave; un bottone Swing che attiva visualizzazione
      * delle informazioni dettagliate di un centro vaccinale a scelta.
      * <p>
-     * Cliccandolo si aprirà un box per visualizzare i dettagli del centro vaccinale.
+     * Cliccandolo si aprir&agrave; un box per visualizzare i dettagli del centro vaccinale.
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      */
     private JButton btnDettaglio;

@@ -235,7 +235,7 @@ public class RegistraVaccinato{
      * <code>nomi</code> &egrave; un' arraylist che contiene i
      * possibili valori dei nomi dei centri vaccinali registrati sul database.
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     private static List<CentroVaccinale> nomi = new ArrayList<>();
@@ -244,7 +244,7 @@ public class RegistraVaccinato{
      * <code>tipologie</code> &egrave; un' arraylist che contiene i
      * possibili valori per la tipologia di vaccino registrati sul database.
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
-     * &egrave; dichiarata <strong>static</strong> così da non doverla istanziare creando un oggetto
+     * &egrave; dichiarata <strong>static</strong> cos&igrave; da non doverla istanziare creando un oggetto
      */
 
     private static List<TipologiaVaccino> tipologie = new ArrayList<>();
@@ -454,6 +454,7 @@ public class RegistraVaccinato{
      *
      * @param stringa &egrave; una stringa rappresentante il contenuto della stringa da convertire
      * &egrave; dichiarata <strong>Timestamp</strong> in quanto il metodo restituisce un valore di una data e di un'ora
+     * @return Timestamp
      */
 
 

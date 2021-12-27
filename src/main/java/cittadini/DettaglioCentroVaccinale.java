@@ -73,7 +73,7 @@ public class DettaglioCentroVaccinale {
      */
     private JLabel lbTotaleVaccinati;
     /**
-     * <code>panelEventiAvversi</code> rappresenta un pannello in cui è raggruppato una label che mostra alcune informazioni sugli eventi avversi del centro vaccinale selezionato.
+     * <code>panelEventiAvversi</code> rappresenta un pannello in cui &egrave; raggruppato una label che mostra alcune informazioni sugli eventi avversi del centro vaccinale selezionato.
      * <p>
      * &egrave; dichiarato <strong>private</strong> in quanto l'attributo &egrave; utilizzabile all'interno della classe
      * </p>
