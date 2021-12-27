@@ -104,7 +104,7 @@ public class EventoSegnalatoPerLista {
         StringBuilder eventoAvversoNome = new StringBuilder();
         lbTipologiaEventoAvverso.setText(String.valueOf(eventoAvversoNome.append(nomeEvento.substring(0, 1).toUpperCase()).append(nomeEvento.substring(1))));
         lbSeverita.setText("Severità: " + eventoAvverso.getSeverita());
-        lblNote.setText(eventoAvverso.getNote());
+        lblNote.setText("<html>" + eventoAvverso.getNote() + "</html>");
 
         btnModificaEventoSegnalato.addActionListener(new ActionListener() {
             @Override

@@ -80,7 +80,6 @@ public class ListaSegnalaEventiAvversiPanel extends JPanel {
 
                     while (i.hasPrevious()) { // leggo al contrario la lista
                         TipologiaEvento obj = i.previous();
-                        System.out.println(obj.toString());
                         aggiungiEventoAvverso(obj);
                     }
                 } catch (Exception e) {
