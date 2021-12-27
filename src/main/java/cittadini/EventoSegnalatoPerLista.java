@@ -165,7 +165,7 @@ public class EventoSegnalatoPerLista {
         if (lblNoteFont != null) lblNote.setFont(lblNoteFont);
         lblNote.setForeground(new Color(-7368817));
         lblNote.setText("Note");
-        panel1.add(lblNote, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(lblNote, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(265, -1), new Dimension(265, 200), 1, false));
         lbTipologiaEventoAvverso = new JLabel();
         Font lbTipologiaEventoAvversoFont = this.$$$getFont$$$(null, Font.BOLD, 16, lbTipologiaEventoAvverso.getFont());
         if (lbTipologiaEventoAvversoFont != null) lbTipologiaEventoAvverso.setFont(lbTipologiaEventoAvversoFont);
