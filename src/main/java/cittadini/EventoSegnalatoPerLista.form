@@ -33,7 +33,10 @@
           </component>
           <component id="7d862" class="javax.swing.JLabel" binding="lblNote">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="1" use-parent-layout="false">
+                <preferred-size width="265" height="-1"/>
+                <maximum-size width="265" height="200"/>
+              </grid>
             </constraints>
             <properties>
               <background color="-723724"/>
